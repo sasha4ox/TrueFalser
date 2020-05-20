@@ -1,26 +1,47 @@
 import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { clickOnText } from "./actions/click";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 function App() {
   const codeString = `
-  if(dsdss){dsds} else{dsds}
-  let a = 1;
-  let b = 2
-  console.log(a + b = 3);`;
-  const codeString2 = `
-  if(abc){
-    console.log('hi there')
+  const trueFlase = typeof NaN === 'number'
+  let a;
+  if(trueFlase){
+    a =  10
+  } else{
+    a= 5
   }
-  
-  output: undefined`;
-  const codeString3 = `
-  if({}){
-    return 10
+  let b = 2;
+  console.log(a + b); //12`;
+  const codeString2 = `def say_hello():
+    print("Hello")
+     
+say_hello()
+say_hello()
+say_hello()
+
+
+def sum(*params):
+    result = 0
+    for n in params:
+        result += n
+    return result
+ 
+ 
+sumOfNumbers1 = sum(1, 2, 3, 4, 5)      # 15
+sumOfNumbers2 = sum(3, 4, 5, 6)         # 18
+print(sumOfNumbers1)
+print(sumOfNumbers2)
+`;
+  const codeString3 = `<?php
+  function recursion($a)
+  {
+      if ($a < 20) {
+          echo "$a";
+          recursion($a + 1);
+      }
   }
-  output: 10
- `;
+  ?>`;
   const dispatch = useDispatch();
   const [codeLanguages, setCodeLanguages] = useState("javascript");
   const changeCodeLanguages = useCallback((event) => {

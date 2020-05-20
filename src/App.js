@@ -3,7 +3,9 @@ import { useDispatch } from "react-redux";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import isEmpty from "lodash/isEmpty";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-
+import { Switch, Route } from "react-router-dom";
+import Main from "./components/main/Main";
+import Header from "./components/header/Header";
 function App() {
   const submitCode = (event) => {
     event.preventDefault();
@@ -96,6 +98,12 @@ function App() {
 
   return (
     <div>
+      <Header />
+      <Switch>
+        <Route path="/main">
+          <Main />
+        </Route>
+      </Switch>
       {convertedStrings.map((text) => {
         return text.map((item) => {
           return (
@@ -118,7 +126,6 @@ function App() {
           );
         });
       })}
-
       <div className="wrapper-forButton">
         <button name="javascript" onClick={changeCodeLanguages}>
           javascript

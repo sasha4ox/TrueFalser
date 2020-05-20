@@ -4,9 +4,9 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 function App() {
   const codeString = `
-  const trueFlase = typeof NaN === 'number'
+  const trueFalse = typeof NaN === 'number'
   let a;
-  if(trueFlase){
+  if(trueFalse){
     a =  10
   } else{
     a= 5

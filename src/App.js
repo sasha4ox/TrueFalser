@@ -6,21 +6,23 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Switch, Route } from "react-router-dom";
 import Main from "./components/main/Main";
 import Header from "./components/header/Header";
+import Quiz from "./components/Quiz/Quiz";
+import ChooseLanguage from "./components/ChooseLanguage/ChooseLanguage";
 function App() {
-  const submitCode = (event) => {
-    event.preventDefault();
-    if (textAreaText === "") {
-      return;
-    }
-    splitCode(textAreaText);
-    setTextAreaText("");
-  };
-  const [textAreaText, setTextAreaText] = useState("");
-  const changeTextCode = (event) => {
-    setTextAreaText(event.target.value);
-    console.log(textAreaText);
-  };
-  const [convertedStrings, setConvertedStrings] = useState([]);
+  // const submitCode = (event) => {
+  //   event.preventDefault();
+  //   if (textAreaText === "") {
+  //     return;
+  //   }
+  //   splitCode(textAreaText);
+  //   setTextAreaText("");
+  // };
+  // const [textAreaText, setTextAreaText] = useState("");
+  // const changeTextCode = (event) => {
+  //   setTextAreaText(event.target.value);
+  //   console.log(textAreaText);
+  // };
+  // const [convertedStrings, setConvertedStrings] = useState([]);
   //   const deffaultStrings = [
   //     {
   //       code: `*START* function noMatterWhat(item){
@@ -71,30 +73,30 @@ function App() {
   //     },
   //   ];
 
-  function splitCode(string) {
-    const arrayOfString = [];
-    const firstPartOfCode = string.split("*START*")[0];
-    const codeWithFinishMark = string.split("*START*")[1];
-    const codeWithBackground = codeWithFinishMark.split("*FINISH*")[0];
-    const thirdPartOfCode = codeWithFinishMark.split("*FINISH*")[1];
-    if (isEmpty(thirdPartOfCode)) {
-      arrayOfString.push(
-        { code: firstPartOfCode, marked: false },
-        { code: codeWithBackground, marked: true }
-      );
-    } else if (!isEmpty(thirdPartOfCode)) {
-      arrayOfString.push(
-        { code: firstPartOfCode, marked: false },
-        { code: codeWithBackground, marked: true },
-        { code: thirdPartOfCode, marked: false }
-      );
-    }
-    setConvertedStrings((prev) => [...prev, arrayOfString]);
-  }
-  const [codeLanguages, setCodeLanguages] = useState("javascript");
-  const changeCodeLanguages = useCallback((event) => {
-    setCodeLanguages(event.target.name);
-  });
+  // function splitCode(string) {
+  //   const arrayOfString = [];
+  //   const firstPartOfCode = string.split("*START*")[0];
+  //   const codeWithFinishMark = string.split("*START*")[1];
+  //   const codeWithBackground = codeWithFinishMark.split("*FINISH*")[0];
+  //   const thirdPartOfCode = codeWithFinishMark.split("*FINISH*")[1];
+  //   if (isEmpty(thirdPartOfCode)) {
+  //     arrayOfString.push(
+  //       { code: firstPartOfCode, marked: false },
+  //       { code: codeWithBackground, marked: true }
+  //     );
+  //   } else if (!isEmpty(thirdPartOfCode)) {
+  //     arrayOfString.push(
+  //       { code: firstPartOfCode, marked: false },
+  //       { code: codeWithBackground, marked: true },
+  //       { code: thirdPartOfCode, marked: false }
+  //     );
+  //   }
+  //   setConvertedStrings((prev) => [...prev, arrayOfString]);
+  // }
+  // const [codeLanguages, setCodeLanguages] = useState("javascript");
+  // const changeCodeLanguages = useCallback((event) => {
+  //   setCodeLanguages(event.target.name);
+  // });
 
   return (
     <div>
@@ -103,8 +105,15 @@ function App() {
         <Route path="/main">
           <Main />
         </Route>
+        <Route path="/select-language">
+          <ChooseLanguage />
+        </Route>
+        <Route path="/quiz">
+          <Quiz />
+        </Route>
       </Switch>
-      {convertedStrings.map((text) => {
+
+      {/* {convertedStrings.map((text) => {
         return text.map((item) => {
           return (
             <div className="wrapper">
@@ -161,7 +170,7 @@ function App() {
             Submit
           </button>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import click from "./click";
+import quiz from "./quiz";
 export default combineReducers({
-  click,
+  quiz,
 });

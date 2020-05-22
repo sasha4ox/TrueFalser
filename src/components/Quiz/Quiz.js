@@ -10,7 +10,6 @@ function Quiz() {
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   const dispatch = useDispatch();
   const [seconds, setSeconds] = useState(60);
-  console.log(seconds);
   const downTimer = () => {
     setSeconds(60);
     interval = setInterval(() => {

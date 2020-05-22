@@ -11,6 +11,9 @@ import {
   GET_LANGUAGES_START,
   GET_LANGUAGES_FAILURE,
   GET_LANGUAGES_SUCCESS,
+  ANSWER_QUIZ_START,
+  ANSWER_QUIZ_FAILURE,
+  ANSWER_QUIZ_SUCCESS,
 } from "../constants/index";
 import fetchAsync from "../utils/fetch";
 export function selectLanguage(language) {
@@ -86,7 +89,7 @@ export function createTestFailure(data) {
     payload: data,
   };
 }
-export function startQuiz(LanguageId, excludedquestions) {
+export function getQuestions(LanguageId, excludedquestions) {
   return async (dispatch) => {
     dispatch(getQuestionsStart());
     try {
@@ -121,7 +124,7 @@ export function createTest(UserId, LanguageId) {
         return dispatch(createTestFailure(payload.message));
       }
       dispatch(createTestSuccess(payload.data));
-      return dispatch(startQuiz(LanguageId));
+      return dispatch(getQuestions(LanguageId));
     } catch (error) {
       return dispatch(createTestFailure(error.message));
     }
@@ -137,5 +140,36 @@ export function nextQuestion(currentQuestion) {
   return {
     type: NEXT_QUESTION,
     currentQuestion,
+  };
+}
+
+// ANSWER
+export function answerStart() {
+  return {
+    type: ANSWER_QUIZ_START,
+  };
+}
+export function answerFailure() {
+  return {
+    type: ANSWER_QUIZ_FAILURE,
+  };
+}
+export function answerSuccess() {
+  return {
+    type: ANSWER_QUIZ_SUCCESS,
+  };
+}
+
+export function answer(answerData) {
+  return async (dispatch) => {
+    try {
+      dispatch(answerStart());
+      const payload = await fetchAsync(
+        "https://true-falser-server.herokuapp.com/api/answer",
+        "POST",
+        answerData
+      );
+      console.log(payload);
+    } catch (error) {}
   };
 }

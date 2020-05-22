@@ -6,6 +6,7 @@ import {
   GET_LANGUAGES_START,
   GET_LANGUAGES_SUCCESS,
   GET_LANGUAGES_FAILURE,
+  CREATE_QUIZ_QUESTIONS_SUCCESS,
 } from "../constants";
 import get from "lodash/get";
 import _filter from "lodash/filter";
@@ -145,12 +146,11 @@ export default function quiz(state = initialState, action) {
           selectedLanguage: action.language,
         },
       };
-    // case START_QUIZ:
-    //   return {
-    //     ...state,
-    //     isQuizStarted: true,
-    //     isQuizFinished: false,
-    //   };
+    case CREATE_QUIZ_QUESTIONS_SUCCESS:
+      return {
+        ...state,
+        test: action.payload,
+      };
     case GET_QUIZ_QUESTIONS_SUCCESS:
       return {
         ...state,
@@ -158,7 +158,6 @@ export default function quiz(state = initialState, action) {
           ...state.allQuestions,
           questions: [...state.allQuestions.questions, ...action.payload],
         },
-        test: action.payload,
         isQuizStarted: true,
         isQuizFinished: false,
       };
@@ -173,7 +172,6 @@ export default function quiz(state = initialState, action) {
         get(state, "allQuestions.questions"),
         (question) => get(question, "id") !== get(action, "currentQuestion.id")
       );
-      console.log(filteredQuestions);
       return {
         ...state,
         allQuestions: {

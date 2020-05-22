@@ -5,32 +5,72 @@ import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
 import "./Questions.scss";
 import splitCode from "../../utils/splitCode";
-import { nextQuestion } from "../../actions/quiz";
+import _map from "lodash/map";
+import get from "lodash/get";
+import { nextQuestion, answer, getQuestions } from "../../actions/quiz";
 function Questions() {
   useEffect(() => {
+    //for first getting question
     dispatch(nextQuestion({ id: 0 }));
   }, []);
   const dispatch = useDispatch();
+  const testInfo = useSelector(property("quiz.test"));
+  const questions = useSelector(property("quiz.allQuestions.questions"));
+  const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
   const selectedLanguage = useSelector(
     property("quiz.language.selectedLanguage")
   );
   const currentQuestion = useSelector(
     property("quiz.allQuestions.currentQuestion[0]")
   );
-  console.log(currentQuestion);
+  console.log(questions);
   const currentQuestionText = useSelector(
     property("quiz.allQuestions.currentQuestion[0].text")
   );
   const convertedStrings = splitCode(currentQuestionText);
-  const next = useCallback(() => {
-    dispatch(nextQuestion(currentQuestion));
-  }, [dispatch, currentQuestion]);
+  const next = useCallback(
+    (event) => {
+      const answerToServer = {
+        TestId: get(testInfo, "id"),
+        UserId: get(testInfo, "UserId"),
+        LanguageId: get(selectedLanguage, "id"),
+        QuestionId: get(currentQuestion, "id"),
+        answer: get(currentQuestion, "result"),
+        userAnswer: get(event, "target.name") === "true" ? true : false,
+      };
+
+      if (questions.length === 2) {
+        // get more questions
+        const answeredQuestionsId = _map(
+          answeredQuestions,
+          (answer) => answer.id
+        );
+        const questionsIsStateId = _map(questions, (question) => question.id);
+        const excludeId = [
+          ...answeredQuestionsId,
+          ...questionsIsStateId,
+        ].join();
+        dispatch(getQuestions(selectedLanguage.id, excludeId));
+      }
+      dispatch(answer(answerToServer));
+      dispatch(nextQuestion(currentQuestion));
+      console.log(questions.length);
+    },
+    [
+      dispatch,
+      currentQuestion,
+      questions,
+      testInfo,
+      selectedLanguage,
+      answeredQuestions,
+    ]
+  );
   return (
     <div>
       <div>
-        {convertedStrings.map((item) => {
+        {convertedStrings.map((item, index) => {
           return (
-            <div className="wrapper">
+            <div className="wrapper" key={index}>
               <SyntaxHighlighter
                 language={selectedLanguage.name}
                 style={docco}
@@ -50,10 +90,20 @@ function Questions() {
         })}
       </div>
       <div className="wrapper_for_Button">
-        <button name="false" className="button button_false">
+        <button
+          name="false"
+          type="button"
+          className="button button_false"
+          onClick={next}
+        >
           False
         </button>
-        <button name="true" className="button button_true" onClick={next}>
+        <button
+          name="true"
+          type="button"
+          className="button button_true"
+          onClick={next}
+        >
           True
         </button>
       </div>

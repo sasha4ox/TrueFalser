@@ -1,0 +1,22 @@
+.wrapperForAlert {
+  position: absolute;
+  width: 95%;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wrapperForAlert p {
+  text-align: center;
+  margin: 0;
+}
+
+.error {
+  background: #9b5146;
+  color: #fff;
+}
+
+.success {
+  background: #062746;
+  color: #fff;
+}

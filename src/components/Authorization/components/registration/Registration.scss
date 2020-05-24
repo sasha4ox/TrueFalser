@@ -1,0 +1,125 @@
+.containerRegistration {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.formContainerRegistration {
+  display: block;
+  position: relative;
+  min-height: 75vh;
+  background: #333333;
+  align-items: center;
+  justify-content: center;
+}
+
+.RegistrationForm {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin-top: 10vh;
+  padding: 30px;
+  border: 1px solid #dedfe4;
+}
+
+.RegistrationForm button {
+  margin: 10px 0 0;
+  color: white;
+  width: 50%;
+  align-self: center;
+  height: 65px;
+}
+
+.textRegistration {
+  color: #062746;
+  margin: 50px 0;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.wrapperForButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  color: #b3b4b4;
+}
+
+.link:hover {
+  color: white;
+}
+
+.wrapperForLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.containerRegistration .signInWithR {
+  display: grid;
+  justify-content: center;
+  width: 65%;
+  margin: auto;
+}
+
+.containerRegistration .signInWithR span {
+  display: flex;
+  justify-content: center;
+  color: white;
+  margin-bottom: 1vh;
+}
+
+.containerRegistration .signInWithR .item {
+  display: flex;
+  border: 1px solid #dedfe4;
+  border-radius: 12px 12px 12px 12px;
+}
+
+.containerRegistration .signInWithR .item img {
+  width: 25%;
+  margin: 5px;
+}
+
+.containerRegistration .signInWithR .item span {
+  margin-top: 1vh;
+  margin-left: 1vh;
+}
+
+@media screen and (max-width: 1750px) {
+  .RegistrationForm {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .RegistrationForm {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 905px) {
+  .RegistrationForm {
+    width: 95%;
+    padding: 0;
+  }
+
+  .wrapperForButton {
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .textRegistration {
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  .wrapperForLink {
+    width: 100%;
+    text-align: center;
+  }
+}

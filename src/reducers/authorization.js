@@ -7,11 +7,17 @@ import {
     REGISTRATION_FAILURE,
     GET_GOOGLE_URL,
     AUTHORIZATION_SUCCESS,
+    WITHOUT_REGISTRATION,
 } from '../constants';
 
 export default function authorization(state = {}, action) {
   switch (action.type) {
-    case LOGIN_START:
+      case WITHOUT_REGISTRATION:
+        return {
+          ...state,
+          userData: action.data  ,
+        };
+   case LOGIN_START:
         return {
             ...state,
             loading: true,

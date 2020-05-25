@@ -1,0 +1,130 @@
+.containerLogin {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.formContainerLogin {
+  display: block;
+  position: relative;
+  min-height: 75vh;
+  background: #333333;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin-top: 10vh;
+  padding: 30px;
+  border: 1px solid #dedfe4;
+}
+
+.loginForm button {
+  margin: 10px 0 0;
+  color: white;
+  width: 50%;
+  align-self: center;
+  height: 65px;
+}
+
+.loginForm input {
+  height: 50px;
+  padding-left: 15px;
+}
+
+.textLogin {
+  color: #062746;
+  margin: 50px 0;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.wrapperForButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  color: #b3b4b4;
+}
+
+.link:hover {
+  color: white;
+}
+
+.wrapperForLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.containerLogin .signInWith {
+  display: grid;
+  justify-content: center;
+  width: 65%;
+  margin: auto;
+}
+
+.containerLogin .signInWith span {
+  display: flex;
+  justify-content: center;
+  color: white;
+  margin-bottom: 1vh;
+}
+
+.containerLogin .signInWith .item {
+  display: flex;
+  border: 1px solid #dedfe4;
+  border-radius: 12px 12px 12px 12px;
+}
+
+.containerLogin .signInWith .item img {
+  width: 25%;
+  margin: 5px;
+}
+
+.containerLogin .signInWith .item span {
+  margin-top: 1vh;
+  margin-left: 1vh;
+}
+
+@media screen and (max-width: 1750px) {
+  .loginForm {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .loginForm {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 905px) {
+  .loginForm {
+    width: 95%;
+    padding: 0;
+  }
+
+  .wrapperForButton {
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .textLogin {
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  .wrapperForLink {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -14,6 +14,7 @@ function Questions() {
     dispatch(nextQuestion({ id: 0 }));
   }, []);
   const dispatch = useDispatch();
+  const UserId = useSelector(property('authorization.userData.id'));
   const testInfo = useSelector(property("quiz.test"));
   const questions = useSelector(property("quiz.allQuestions.questions"));
   const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
@@ -32,7 +33,8 @@ function Questions() {
     (event) => {
       const answerToServer = {
         TestId: get(testInfo, "id"),
-        UserId: get(testInfo, "UserId"),
+        // UserId: get(testInfo, "UserId"),
+        UserId,
         LanguageId: get(selectedLanguage, "id"),
         QuestionId: get(currentQuestion, "id"),
         answer: get(currentQuestion, "result"),

@@ -13,11 +13,21 @@
   justify-content: center;
 }
 
+.formContainerLogin .withoutRegistration {
+  display: grid;
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+.formContainerLogin .withoutRegistration button {
+  height: 6vh;
+}
+
 .loginForm {
   display: flex;
   flex-direction: column;
   width: 40%;
-  margin-top: 10vh;
+  margin-top: 3vh;
   padding: 30px;
   border: 1px solid #dedfe4;
 }

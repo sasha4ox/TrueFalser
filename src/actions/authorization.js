@@ -14,6 +14,7 @@ import {
     REGISTRATION_FAILURE,
     AUTHORIZATION_SUCCESS,
     GET_GOOGLE_URL,
+    WITHOUT_REGISTRATION,
 } from "../constants";
 
 let timeOut;
@@ -196,5 +197,16 @@ export function getUserDataFromGoogleCode(code) {
     } catch (error) {
       return dispatch(fetchDataFailure(error))
     }
+  }
+}
+
+export function withoutRegistration() {
+  const anonymousUser = {
+    id: 1000,
+    name: 'Anonymous'
+  };
+  return {
+    type: WITHOUT_REGISTRATION,
+    data: anonymousUser,
   }
 }

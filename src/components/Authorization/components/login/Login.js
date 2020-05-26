@@ -6,7 +6,11 @@ import property from 'lodash/property';
 
 import CustomFieldLogin from './components/CustomFieldLogin/CustomFieldLogin';
 import LoginRegistrationButton from './components/LoginRegistrationButton/LoginRegistrationButton';
-import { login, alertCreator } from '../../../../actions/authorization';
+import {
+  login,
+  alertCreator,
+  withoutRegistration,
+} from '../../../../actions/authorization';
 import Alert from './components/Alert/Alert';
 
 import './Login.scss';
@@ -48,6 +52,9 @@ function Login({ googleUrl }) {
     },
     [dispatch, formLoginValue, formLoginState],
   );
+  const anonymousPass = useCallback(() => {
+    dispatch(withoutRegistration());
+  }, [dispatch]);
   return (
     <div className="containerLogin">
       {loginState.alert && (
@@ -55,6 +62,14 @@ function Login({ googleUrl }) {
       )}
       <h1 className="textLogin">Welcome to TrueFalser!</h1>
       <div className="formContainerLogin">
+        <div className="withoutRegistration">
+          <button
+              className="btn btn-light"
+              onClick={anonymousPass}
+          >
+            Without registration
+          </button>
+        </div>
         <form className="loginForm" onSubmit={loginHandler}>
           <Field
             component={CustomFieldLogin}

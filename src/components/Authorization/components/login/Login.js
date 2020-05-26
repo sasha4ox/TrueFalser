@@ -6,8 +6,13 @@ import property from 'lodash/property';
 
 import CustomFieldLogin from './components/CustomFieldLogin/CustomFieldLogin';
 import LoginRegistrationButton from './components/LoginRegistrationButton/LoginRegistrationButton';
-import { login, alertCreator } from '../../../../actions/authorization';
+import {
+  login,
+  alertCreator,
+  withoutRegistration,
+} from '../../../../actions/authorization';
 import Alert from './components/Alert/Alert';
+import AuthorizationWith from '../AuthorizationWith';
 
 import './Login.scss';
 
@@ -32,7 +37,7 @@ const validate = value => {
   return errors;
 };
 
-function Login({ googleUrl }) {
+function Login({ googleUrl, facebookUrl }) {
   const formLoginState = useSelector(property('form.Login'));
   const formLoginValue = useSelector(property('form.Login.values'));
   const loginState = useSelector(property('authorization'));
@@ -48,6 +53,9 @@ function Login({ googleUrl }) {
     },
     [dispatch, formLoginValue, formLoginState],
   );
+  const anonymousPass = useCallback(() => {
+    dispatch(withoutRegistration());
+  }, [dispatch]);
   return (
     <div className="containerLogin">
       {loginState.alert && (
@@ -55,6 +63,14 @@ function Login({ googleUrl }) {
       )}
       <h1 className="textLogin">Welcome to TrueFalser!</h1>
       <div className="formContainerLogin">
+        <div className="withoutRegistration">
+          <button
+              className="btn btn-light"
+              onClick={anonymousPass}
+          >
+            Without registration
+          </button>
+        </div>
         <form className="loginForm" onSubmit={loginHandler}>
           <Field
             component={CustomFieldLogin}
@@ -81,13 +97,17 @@ function Login({ googleUrl }) {
             </div>
           </div>
         </form>
-        <div className="signInWith">
-          <span>Sign in with</span>
-          <a href={googleUrl} className="item">
-          <img alt="Google" src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"/>
-          <span>Google</span>
-          </a>
-        </div>
+        <AuthorizationWith
+            googleUrl={googleUrl}
+            facebookUrl={facebookUrl}
+        />
+        {/*<div className="signInWith">*/}
+        {/*  <span>Sign in with</span>*/}
+        {/*  <a href={googleUrl} className="item">*/}
+        {/*  <img alt="Google" src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"/>*/}
+        {/*  <span>Google</span>*/}
+        {/*  </a>*/}
+        {/*</div>*/}
       </div>
     </div>
   );

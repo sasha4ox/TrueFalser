@@ -5,8 +5,16 @@
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
-.logo {
+
+.header span {
+  display: flex;
+  margin-right: 5px;
+  color: white;
+}
+
+.header .logo {
   color: white;
   padding: 10px;
 }

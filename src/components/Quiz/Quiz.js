@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import property from "lodash/property";
 import Questions from "./Questions";
 import { endQuiz, createTest } from "../../actions/quiz";
@@ -9,9 +10,9 @@ function Quiz() {
   const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   const dispatch = useDispatch();
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(0);
   const downTimer = () => {
-    setSeconds(60);
+    setSeconds(5);
     interval = setInterval(() => {
       setSeconds((prev) => {
         if (prev - 1 === 0) {
@@ -29,7 +30,7 @@ function Quiz() {
   }, [dispatch]);
   return (
     <div className="quiz">
-      {/* {isQuizFinished && <Redirect to="result" />} */}
+      {isQuizFinished && <Redirect to="result" />}
       {isQuizStarted && <div className="timer">{seconds}</div>}
       {isQuizStarted ? (
         <Questions />

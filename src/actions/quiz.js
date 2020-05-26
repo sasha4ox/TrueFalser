@@ -1,6 +1,7 @@
 import {
   SELECT_LANGUAGE_FOR_QUIZ,
   END_QUIZ,
+  START_QUIZ_AGAIN,
   NEXT_QUESTION,
   GET_QUIZ_QUESTIONS_START,
   GET_QUIZ_QUESTIONS_SUCCESS,
@@ -14,6 +15,9 @@ import {
   ANSWER_QUIZ_START,
   ANSWER_QUIZ_FAILURE,
   ANSWER_QUIZ_SUCCESS,
+  GET_QUIZ_RESULT_START,
+  GET_QUIZ_RESULT_FAILURE,
+  GET_QUIZ_RESULT_SUCCESS,
 } from "../constants/index";
 import fetchAsync from "../utils/fetch";
 export function selectLanguage(language) {
@@ -130,7 +134,11 @@ export function createTest(UserId, LanguageId) {
     }
   };
 }
-
+export function startQuizAgain() {
+  return {
+    type: START_QUIZ_AGAIN,
+  };
+}
 export function endQuiz() {
   return {
     type: END_QUIZ,
@@ -171,5 +179,43 @@ export function answer(answerData) {
       );
       console.log(payload);
     } catch (error) {}
+  };
+}
+
+export function getQuizResultStart() {
+  return {
+    type: GET_QUIZ_RESULT_START,
+  };
+}
+
+export function getQuizResultFailure(data) {
+  return {
+    type: GET_QUIZ_RESULT_FAILURE,
+    payload: data,
+  };
+}
+
+export function getQuizResultSuccess(data) {
+  return {
+    type: GET_QUIZ_RESULT_SUCCESS,
+    payload: data,
+  };
+}
+
+export function getResult(testId) {
+  return async (dispatch) => {
+    try {
+      dispatch(getQuizResultStart());
+      const payload = await fetchAsync(
+        `https://true-falser-server.herokuapp.com/api/test/result/${testId}`
+      );
+      console.log(payload.data);
+      if (payload.status === "error") {
+        return dispatch(getQuizResultFailure(payload.message));
+      }
+      return dispatch(getQuizResultSuccess(payload.data));
+    } catch (error) {
+      return dispatch(getQuizResultFailure(error.message));
+    }
   };
 }

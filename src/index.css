@@ -2,9 +2,9 @@
   margin: 0;
   padding: 0;
 }
-pre {
+/* pre {
   padding: 0 0.5rem !important;
-}
+} */
 body {
   margin: 0px;
   padding: 0px;
@@ -15,10 +15,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
+} */
 .wrapper-forButton {
   width: 90%;
   margin: 0 auto;

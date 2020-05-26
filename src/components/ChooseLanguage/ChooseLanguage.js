@@ -5,12 +5,13 @@ import get from "lodash/get";
 import { selectLanguage, getLanguages } from "../../actions/quiz";
 import property from "lodash/property";
 import _map from "lodash/map";
-import isEmpty from "lodash/isEmpty";
 import _filter from "lodash/filter";
 import "./ChooseLanguage.scss";
+import Spinner from "../Spinner";
 function ChooseLanguage() {
   const dispatch = useDispatch();
   const languages = useSelector(property("quiz.language.languages"));
+  const isLanguageLoading = useSelector(property("quiz.language.loading"));
   console.log(languages);
   const selectedLanguage = useCallback(
     (event) => {
@@ -28,7 +29,8 @@ function ChooseLanguage() {
   return (
     <main className="choose_main">
       <h1>Select language for Quiz</h1>
-      {!isEmpty(languages) &&
+      {isLanguageLoading && <Spinner />}
+      {!isLanguageLoading &&
         _map(languages, (language) => {
           return (
             <div key={language.id} className="choose_lang">

@@ -7,6 +7,10 @@ import {
   GET_LANGUAGES_SUCCESS,
   GET_LANGUAGES_FAILURE,
   CREATE_QUIZ_QUESTIONS_SUCCESS,
+  GET_QUIZ_RESULT_START,
+  GET_QUIZ_RESULT_FAILURE,
+  GET_QUIZ_RESULT_SUCCESS,
+  START_QUIZ_AGAIN,
 } from "../constants";
 import get from "lodash/get";
 import _filter from "lodash/filter";
@@ -112,6 +116,20 @@ const initialState = {
 };
 export default function quiz(state = initialState, action) {
   switch (action.type) {
+    case GET_QUIZ_RESULT_START:
+      return {
+        ...state,
+      };
+    case GET_QUIZ_RESULT_FAILURE:
+      return {
+        ...state,
+        result: action.payload,
+      };
+    case GET_QUIZ_RESULT_SUCCESS:
+      return {
+        ...state,
+        result: action.payload,
+      };
     case GET_LANGUAGES_START:
       return {
         ...state,
@@ -160,6 +178,10 @@ export default function quiz(state = initialState, action) {
         },
         isQuizStarted: true,
         isQuizFinished: false,
+      };
+    case START_QUIZ_AGAIN:
+      return {
+        ...initialState,
       };
     case END_QUIZ:
       return {

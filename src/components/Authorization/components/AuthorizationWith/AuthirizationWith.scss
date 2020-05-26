@@ -1,0 +1,35 @@
+.signInWith {
+  display: grid;
+  justify-content: center;
+  width: 65%;
+  margin: auto;
+}
+
+.signInWith .withItemContainer {
+  display: flex;
+}
+
+.signInWith span {
+  display: flex;
+  justify-content: center;
+  color: white;
+  margin-bottom: 1vh;
+}
+
+.signInWith .item {
+  display: flex;
+  width: 14vh;
+  margin-right: 5px;
+  border: 1px solid #dedfe4;
+  border-radius: 12px 12px 12px 12px;
+}
+
+.signInWith .item img {
+  width: 25%;
+  margin: 5px;
+}
+
+.signInWith .item span {
+  margin-top: 1vh;
+  margin-left: 1vh;
+}

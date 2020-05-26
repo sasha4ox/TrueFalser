@@ -10,6 +10,7 @@ import CustomFieldRegistration from './components/CustomFieldRegistration/Custom
 import { alertCreator, registration } from '../../../../actions/authorization';
 import Alert from '../login/components/Alert/Alert';
 import LoginRegistrationButton from '../login/components/LoginRegistrationButton/LoginRegistrationButton';
+import AuthorizationWith from '../AuthorizationWith';
 
 import'./Registration.scss';
 
@@ -94,13 +95,14 @@ function Registration({ googleUrl }) {
             </div>
           </div>
         </form>
-        <div className="signInWithR">
-          <span>Sign in with</span>
-          <a href={googleUrl} className="item">
-            <img alt="Google" src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"/>
-            <span>Google</span>
-          </a>
-        </div>
+        <AuthorizationWith />
+        {/*<div className="signInWithR">*/}
+        {/*  <span>Sign in with</span>*/}
+        {/*  <a href={googleUrl} className="item">*/}
+        {/*    <img alt="Google" src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"/>*/}
+        {/*    <span>Google</span>*/}
+        {/*  </a>*/}
+        {/*</div>*/}
       </div>
     </div>
   );

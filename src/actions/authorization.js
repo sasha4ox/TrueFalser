@@ -15,6 +15,8 @@ import {
     AUTHORIZATION_SUCCESS,
     GET_GOOGLE_URL,
     WITHOUT_REGISTRATION,
+    GET_FACEBOOK_URL,
+    CHOSEN_AUTHORIZATION_URL,
 } from "../constants";
 
 let timeOut;
@@ -111,11 +113,27 @@ export function registration(registrationValue) {
     };
 }
 
+export function chosenAuthorizationUrl(url) {
+    return {
+        type: CHOSEN_AUTHORIZATION_URL,
+        chosenAuthorizationUrl: url,
+    }
+}
+
 function getGoogleUrl(data) {
     console.info('getGoogleUrl!!!', data);
   // history.push(`${data}`);
     return {
         type: GET_GOOGLE_URL,
+        url: data,
+    }
+}
+
+function getFacebookUrl(data) {
+    console.info('getFacebookUrl!!!', data);
+    // history.push(`${data}`);
+    return {
+        type: GET_FACEBOOK_URL,
         url: data,
     }
 }
@@ -209,4 +227,38 @@ export function withoutRegistration() {
     type: WITHOUT_REGISTRATION,
     data: anonymousUser,
   }
+}
+
+export function getFacebookAuthorizationUrl() {
+    return async dispatch => {
+        dispatch(fetchDataStart());
+        try {
+            const response = await nodeFetch(`${apiUrl}/user/facebook`, {
+                method: 'get'
+            });
+            const data = await response.json();
+            console.info('facebookAuthorizationUrl!!', data);
+            return dispatch(getFacebookUrl(data.data));
+        } catch (error) {
+            console.info('facebookAuthorization ERRR!!', error);
+            return dispatch(fetchDataFailure(error));
+        }
+    }
+}
+
+export function getUserDataFromFacebookCode(code) {
+    return async dispatch => {
+        dispatch(fetchDataStart());
+        try {
+            const response = await nodeFetch(
+                `${apiUrl}/user/facebook/code?code=${code}`, {
+                    method: 'get',
+                });
+            const data = await response.json();
+            console.info('getUserDataFromFacebookCode!!', data);
+            return dispatch(getUserData(data.data));
+        } catch (error) {
+            return dispatch(fetchDataFailure(error))
+        }
+    }
 }

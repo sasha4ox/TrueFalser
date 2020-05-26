@@ -74,35 +74,35 @@
   justify-content: space-between;
 }
 
-.containerLogin .signInWith {
-  display: grid;
-  justify-content: center;
-  width: 65%;
-  margin: auto;
-}
-
-.containerLogin .signInWith span {
-  display: flex;
-  justify-content: center;
-  color: white;
-  margin-bottom: 1vh;
-}
-
-.containerLogin .signInWith .item {
-  display: flex;
-  border: 1px solid #dedfe4;
-  border-radius: 12px 12px 12px 12px;
-}
-
-.containerLogin .signInWith .item img {
-  width: 25%;
-  margin: 5px;
-}
-
-.containerLogin .signInWith .item span {
-  margin-top: 1vh;
-  margin-left: 1vh;
-}
+//.containerLogin .signInWith {
+//  display: grid;
+//  justify-content: center;
+//  width: 65%;
+//  margin: auto;
+//}
+//
+//.containerLogin .signInWith span {
+//  display: flex;
+//  justify-content: center;
+//  color: white;
+//  margin-bottom: 1vh;
+//}
+//
+//.containerLogin .signInWith .item {
+//  display: flex;
+//  border: 1px solid #dedfe4;
+//  border-radius: 12px 12px 12px 12px;
+//}
+//
+//.containerLogin .signInWith .item img {
+//  width: 25%;
+//  margin: 5px;
+//}
+//
+//.containerLogin .signInWith .item span {
+//  margin-top: 1vh;
+//  margin-left: 1vh;
+//}
 
 @media screen and (max-width: 1750px) {
   .loginForm {

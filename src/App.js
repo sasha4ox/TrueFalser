@@ -111,8 +111,11 @@ function App() {
     <div>
       <Header />
       <Switch>
-        <Route path="/callback">
-          <ParseUrlPage />
+        <Route path="/callback/google">
+          <ParseUrlPage chosenAuthorizationUrl="google"/>
+        </Route>
+        <Route path="/callback/facebook">
+          <ParseUrlPage chosenAuthorizationUrl="facebook" />
         </Route>
         <Route
             path={["/login", "/registration"]}

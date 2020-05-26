@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from "react";
+import React, { memo, useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import isEmpty from "lodash/isEmpty";
@@ -14,9 +14,25 @@ import Authorization from "./components/Authorization";
 import ParseUrlPage from "./components/ParseUrlPage";
 import Registration from "./components/Authorization/components/registration/Registration";
 
+import Prism from "prismjs";
+// import "prismjs/prism-themes/themes/prism-vsc-dark-plus.css";
+// import "prismjs/themes/prism-vsc-dark-plus.css";
+// import "prismjs/plugins/line-numbers/prism-line-numbers";
+// import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+
 function App() {
-  const userData = useSelector(property('authorization.userData'));
-  const googleUrl = useSelector(property('authorization.googleUrl'));
+  const userData = useSelector(property("authorization.userData"));
+  const googleUrl = useSelector(property("authorization.googleUrl"));
+
+  useEffect(() => {
+    setTimeout(() => Prism.highlightAll(), 0);
+  }, []);
+
+  const code = `
+  const foo = 'foo';
+  const bar = 'bar';
+  console.log(foo + bar);
+  `.trim();
 
   const submitCode = (event) => {
     event.preventDefault();
@@ -32,9 +48,9 @@ function App() {
     console.log(textAreaText);
   };
   const [convertedStrings, setConvertedStrings] = useState([]);
-    const defaultStrings = [
-      {
-        code: `*START* function noMatterWhat(item){
+  const defaultStrings = [
+    {
+      code: `*START* function noMatterWhat(item){
     return item*2
   }
   const trueFalse = typeof NaN === 'number'
@@ -46,9 +62,9 @@ function App() {
   }
   let b = 2;
   console.log(a + b); //12 *FINISH*`,
-      },
-      {
-        code: `def say_hello():
+    },
+    {
+      code: `def say_hello():
   print("Hello")
 
   say_hello()
@@ -66,9 +82,9 @@ function App() {
   print(sumOfNumbers1)
   print(sumOfNumbers2)
   `,
-      },
-      {
-        code: `<?php
+    },
+    {
+      code: `<?php
         *START*
   function recursion($a)
   {
@@ -79,8 +95,8 @@ function App() {
 
   }
   ?> *FINISH*`,
-      },
-    ];
+    },
+  ];
 
   function splitCode(string) {
     const arrayOfString = [];
@@ -114,82 +130,24 @@ function App() {
         <Route path="/callback">
           <ParseUrlPage />
         </Route>
-        <Route
+        {/* <Route
             path={["/login", "/registration"]}
             component={Authorization}
-        />
+        /> */}
         <Route
-            path={["/select-language", "/quiz"]}
-            // render={() => <Main/>}
-            component={Main}
+          path={["/select-language", "/quiz"]}
+          // render={() => <Main/>}
+          component={Main}
         />
-        <Route
+        {/* <Route
           path="/"
           render={() => (!isEmpty(userData) ? <Redirect to="/select-language" /> : <Redirect to="/login"/>)}
-        />
-        {/*<Route path="/quiz">*/}
-        {/*  <Quiz />*/}
-        {/*</Route>*/}
+        /> */}
       </Switch>
 
-      {/* {convertedStrings.map((text) => {*/}
-      {/*  return text.map((item) => {*/}
-      {/*    return (*/}
-      {/*      <div className="wrapper">*/}
-      {/*        <SyntaxHighlighter*/}
-      {/*          language={codeLanguages}*/}
-      {/*          style={docco}*/}
-      {/*          wrapLines={true}*/}
-      {/*          customStyle={{*/}
-      {/*            width: "90%",*/}
-      {/*            margin: "0px auto",*/}
-      {/*            background: item.marked*/}
-      {/*              ? "rgb(219, 255, 219)"*/}
-      {/*              : "rgb(248, 248, 255)",*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          {item.code}*/}
-      {/*        </SyntaxHighlighter>*/}
-      {/*      </div>*/}
-      {/*    );*/}
-      {/*  });*/}
-      {/*})}*/}
-      {/*<div className="wrapper-forButton">*/}
-      {/*  <button name="javascript" onClick={changeCodeLanguages}>*/}
-      {/*    javascript*/}
-      {/*  </button>*/}
-      {/*  <button name="php" onClick={changeCodeLanguages}>*/}
-      {/*    php*/}
-      {/*  </button>*/}
-      {/*  <button name="python" onClick={changeCodeLanguages}>*/}
-      {/*    python*/}
-      {/*  </button>*/}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*  <form onSubmit={submitCode}>*/}
-      {/*    <textarea*/}
-      {/*      placeholder="split code with *START*  *FINISH* example:  */}
-      {/*      const c = 1 */}
-      {/*      *START**/}
-      {/*      const trueFalse = typeof NaN === 'number'*/}
-      {/*      *FINISH**/}
-      {/*      let a;*/}
-      {/*      if(trueFalse){*/}
-      {/*        a =  10*/}
-      {/*      } else{*/}
-      {/*        a= 5*/}
-      {/*      }*/}
-      {/*      let b = 2;*/}
-      {/*      console.log(a + b); //12"*/}
-      {/*      name="code"*/}
-      {/*      value={textAreaText}*/}
-      {/*      onChange={changeTextCode}*/}
-      {/*    ></textarea>*/}
-      {/*    <button type="submit" className="btn-submit">*/}
-      {/*      Submit*/}
-      {/*    </button>*/}
-      {/*  </form>*/}
-      {/*</div>*/}
+      <pre className="line-numbers">
+        <code className="language-js">{code}</code>
+      </pre>
     </div>
   );
 }

@@ -9,10 +9,12 @@ let interval;
 function Quiz() {
   const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
+  const userId = useSelector(property("authorization.userData.id"));
+  const languageId = useSelector(property("quiz.language.selectedLanguage.id"));
   const dispatch = useDispatch();
   const [seconds, setSeconds] = useState(0);
   const downTimer = () => {
-    setSeconds(5);
+    setSeconds(60);
     interval = setInterval(() => {
       setSeconds((prev) => {
         if (prev - 1 === 0) {
@@ -26,19 +28,21 @@ function Quiz() {
 
   const startGame = useCallback(() => {
     downTimer();
-    dispatch(createTest(1, 1));
-  }, [dispatch]);
+    dispatch(createTest(userId, languageId));
+  }, [dispatch, userId]);
   return (
     <div className="quiz">
       {isQuizFinished && <Redirect to="result" />}
       {isQuizStarted && <div className="timer">{seconds}</div>}
-      {isQuizStarted ? (
-        <Questions />
-      ) : (
-        <button type="button" className="start_button" onClick={startGame}>
-          START QUIZ
-        </button>
-      )}
+      <div className="wrapper_question_arrows">
+        {isQuizStarted ? (
+          <Questions />
+        ) : (
+          <button type="button" className="start_button" onClick={startGame}>
+            START QUIZ
+          </button>
+        )}
+      </div>
     </div>
   );
 }

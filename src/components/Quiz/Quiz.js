@@ -1,9 +1,9 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import property from "lodash/property";
 import Questions from "./Questions";
-import { endQuiz, createTest } from "../../actions/quiz";
+import { endQuiz, createTest, screenOrientation } from "../../actions/quiz";
 import "./Quiz.scss";
 let interval;
 function Quiz() {
@@ -11,8 +11,10 @@ function Quiz() {
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   const userId = useSelector(property("authorization.userData.id"));
   const languageId = useSelector(property("quiz.language.selectedLanguage.id"));
+  const isNeedToRotate = useSelector(property("quiz.isNeedToRotate"));
   const dispatch = useDispatch();
   const [seconds, setSeconds] = useState(0);
+
   const downTimer = () => {
     setSeconds(60);
     interval = setInterval(() => {
@@ -30,19 +32,45 @@ function Quiz() {
     downTimer();
     dispatch(createTest(userId, languageId));
   }, [dispatch, userId]);
+
+  const checkWidth = () => {
+    const orientation = window.matchMedia("(orientation: portrait)");
+    const maxWidth665px = window.matchMedia("(max-width: 665px)");
+    if (orientation.matches && maxWidth665px.matches) {
+      dispatch(screenOrientation(true));
+    } else {
+      dispatch(screenOrientation(false));
+    }
+  };
+
+  useEffect(() => {
+    checkWidth();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", checkWidth);
+    return () => {
+      window.removeEventListener("resize", checkWidth);
+    };
+  });
   return (
     <div className="quiz">
       {isQuizFinished && <Redirect to="result" />}
       {isQuizStarted && <div className="timer">{seconds}</div>}
-      <div className="wrapper_question_arrows">
-        {isQuizStarted ? (
-          <Questions />
-        ) : (
+      {isQuizStarted ? (
+        <Questions />
+      ) : (
+        <div className="wrapper_start_quiz">
           <button type="button" className="start_button" onClick={startGame}>
             START QUIZ
           </button>
-        )}
-      </div>
+          {isNeedToRotate && (
+            <p>
+              Please rotate the screen to horizontal for a more comfortable game
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

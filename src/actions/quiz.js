@@ -18,8 +18,17 @@ import {
   GET_QUIZ_RESULT_START,
   GET_QUIZ_RESULT_FAILURE,
   GET_QUIZ_RESULT_SUCCESS,
+  SCREEN_ORIENTATION,
 } from "../constants/index";
 import fetchAsync from "../utils/fetch";
+
+export function screenOrientation(isNeedToRotate) {
+  return {
+    type: SCREEN_ORIENTATION,
+    payload: isNeedToRotate,
+  };
+}
+
 export function selectLanguage(language) {
   return {
     type: SELECT_LANGUAGE_FOR_QUIZ,

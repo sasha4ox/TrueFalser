@@ -11,12 +11,11 @@ import { nextQuestion, answer, getQuestions } from "../../actions/quiz";
 
 function Questions() {
   useEffect(() => {
-    checkWidth();
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
   }, []);
   const dispatch = useDispatch();
-  // const UserId = useSelector(property("authorization.userData.id"));
+  const UserId = useSelector(property("authorization.userData.id"));
   const testInfo = useSelector(property("quiz.test"));
   const questions = useSelector(property("quiz.allQuestions.questions"));
   const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
@@ -26,7 +25,6 @@ function Questions() {
   const currentQuestion = useSelector(
     property("quiz.allQuestions.currentQuestion[0]")
   );
-  // console.log(UserId);
   const currentQuestionText = useSelector(
     property("quiz.allQuestions.currentQuestion[0].text")
   );
@@ -44,8 +42,7 @@ function Questions() {
 
       const answerToServer = {
         TestId: get(testInfo, "id"),
-        UserId: get(testInfo, "UserId"),
-        // UserId,
+        UserId,
         LanguageId: get(selectedLanguage, "id"),
         QuestionId: get(currentQuestion, "id"),
         answer: get(currentQuestion, "result"),
@@ -77,39 +74,6 @@ function Questions() {
       answeredQuestions,
     ]
   );
-  const checkWidth = () => {
-    const orientation = window.matchMedia("(orientation: portrait)");
-    const maxWidth665px = window.matchMedia("(max-width: 665px)");
-    if (orientation.matches && maxWidth665px.matches) {
-      // window.screen.orientation
-      //   .lock("portrait")
-      //   .then(function () {
-      //     alert("Locked");
-      //   })
-      //   .catch(function (error) {
-      //     alert(error);
-      //   });
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-        window.screen.orientation.lock("portrait").then(null, function (error) {
-          document.exitFullscreen();
-        });
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        }
-      }
-      console.log("ПОРТРЕТНАЯ");
-    } else {
-      console.log("ГОРИЗОТНАТЛЬНЯ");
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("resize", checkWidth);
-    return () => {
-      window.removeEventListener("resize", checkWidth);
-    };
-  });
 
   //arrow anser
   const keyDown = (event) => {

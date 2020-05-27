@@ -1,20 +1,28 @@
-import React, { memo, useCallback, useEffect } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import "./Questions.scss";
 import splitCode from "../../utils/splitCode";
 import _map from "lodash/map";
 import get from "lodash/get";
 import { nextQuestion, answer, getQuestions } from "../../actions/quiz";
+import Prism from "prismjs";
+import Code from "./code";
 function Questions() {
+  const history = useHistory();
+
   useEffect(() => {
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
   }, []);
+  const params = useParams();
+  const location = useLocation();
+
   const dispatch = useDispatch();
-  const UserId = useSelector(property('authorization.userData.id'));
+  const UserId = useSelector(property("authorization.userData.id"));
   const testInfo = useSelector(property("quiz.test"));
   const questions = useSelector(property("quiz.allQuestions.questions"));
   const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
@@ -24,11 +32,16 @@ function Questions() {
   const currentQuestion = useSelector(
     property("quiz.allQuestions.currentQuestion[0]")
   );
-  console.log(questions);
   const currentQuestionText = useSelector(
     property("quiz.allQuestions.currentQuestion[0].text")
   );
-  const convertedStrings = splitCode(currentQuestionText);
+  const convertedStrings =
+    currentQuestionText && splitCode(currentQuestionText);
+
+  // useEffect(() => {
+  //   setTimeout(() => Prism.highlightAll(), 0);
+  // }, []);
+  const codeEl = useRef(null);
   const next = useCallback(
     (event) => {
       const answerToServer = {
@@ -56,7 +69,11 @@ function Questions() {
       }
       dispatch(answer(answerToServer));
       dispatch(nextQuestion(currentQuestion));
-      console.log(questions.length);
+      history.push(`/quiz/${Number(params.id) + 1}`);
+      // if (codeEl && codeEl.current) {
+      //   Prism.highlightElement(codeEl.current);
+      //   console.log(codeEl.current);
+      // }
     },
     [
       dispatch,
@@ -65,32 +82,102 @@ function Questions() {
       testInfo,
       selectedLanguage,
       answeredQuestions,
+      history,
+      params,
     ]
   );
   return (
     <div>
       <div>
-        {convertedStrings.map((item, index) => {
-          return (
-            <div className="wrapper" key={index}>
-              <SyntaxHighlighter
-                language={selectedLanguage.name}
-                style={docco}
-                wrapLines={true}
-                customStyle={{
-                  width: "90%",
-                  margin: "0px auto",
-                  background: item.marked
-                    ? "rgb(219, 255, 219)"
-                    : "rgb(248, 248, 255)",
-                }}
-              >
-                {item.code}
-              </SyntaxHighlighter>
-            </div>
-          );
-        })}
+        {/* <pre className="keep-markup">
+          <code
+            ref={codeEl}
+            className={`language-${selectedLanguage.name.toLowerCase()}`}
+          >
+            {convertedStrings &&
+              convertedStrings.map((item, index) => {
+                if (item.isStartWithNewString) {
+                  return (
+                    <div key={index}>
+                      {item.code} <br />
+                    </div>
+                  );
+                }
+                if (item.isFinishMarkLAst) {
+                  return (
+                    <div key={index}>
+                      <br />
+                      {item.code}
+                    </div>
+                  );
+                }
+                if (item.marked) {
+                  return <mark key={index}>{item.code}</mark>;
+                }
+                return item.code;
+              })}
+          </code>
+        </pre> */}
+        {/* <pre className="keep-markup">
+          <code className={`language-${selectedLanguage.name.toLowerCase()}`}>
+            {convertedStrings &&
+              convertedStrings.map((item, index) => {
+                if (item.isStartWithNewString) {
+                  return (
+                    <div key={index}>
+                      {item.code} <br />
+                    </div>
+                  );
+                }
+                if (item.isFinishMarkLAst) {
+                  return (
+                    <div key={index}>
+                      <br />
+                      {item.code}
+                    </div>
+                  );
+                }
+                if (item.marked) {
+                  return <mark key={index}>{item.code}</mark>;
+                }
+                return item.code;
+              })}
+          </code>
+        </pre> */}
+        {convertedStrings && (
+          <Code
+            lang={selectedLanguage.name.toLowerCase()}
+            code={convertedStrings}
+          />
+        )}
+
+        {/* {convertedStrings && (
+          <SyntaxHighlighter language="javascript" style={docco}>
+            {convertedStrings.map((item, index) => {
+              if (item.isStartWithNewString) {
+                return (
+                  <div key={index}>
+                    {item.code} <br />
+                  </div>
+                );
+              }
+              if (item.isFinishMarkLAst) {
+                return (
+                  <div key={index}>
+                    <br />
+                    {item.code}
+                  </div>
+                );
+              }
+              if (item.marked) {
+                return <mark key={index}>{item.code}</mark>;
+              }
+              return item.code;
+            })}
+          </SyntaxHighlighter>
+        )} */}
       </div>
+
       <div className="wrapper_for_Button">
         <button
           name="false"

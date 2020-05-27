@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import property from "lodash/property";
 import Questions from "./Questions";
 import { endQuiz, createTest } from "../../actions/quiz";
+import { Switch, Route, Redirect } from "react-router-dom";
 import "./Quiz.scss";
 let interval;
 function Quiz() {
@@ -12,15 +13,15 @@ function Quiz() {
   const [seconds, setSeconds] = useState(60);
   const downTimer = () => {
     setSeconds(60);
-    interval = setInterval(() => {
-      setSeconds((prev) => {
-        if (prev - 1 === 0) {
-          clearInterval(interval);
-          dispatch(endQuiz());
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    // interval = setInterval(() => {
+    //   setSeconds((prev) => {
+    //     if (prev - 1 === 0) {
+    //       clearInterval(interval);
+    //       dispatch(endQuiz());
+    //     }
+    //     return prev - 1;
+    //   });
+    // }, 1000);
   };
 
   const startGame = useCallback(() => {
@@ -29,10 +30,14 @@ function Quiz() {
   }, [dispatch]);
   return (
     <div className="quiz">
+      <Route path="/quiz/:id">
+        <Questions />
+      </Route>
       {/* {isQuizFinished && <Redirect to="result" />} */}
       {isQuizStarted && <div className="timer">{seconds}</div>}
       {isQuizStarted ? (
-        <Questions />
+        //
+        <Redirect to="/quiz/1" />
       ) : (
         <button type="button" className="start_button" onClick={startGame}>
           START QUIZ

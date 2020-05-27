@@ -2,9 +2,7 @@
   margin: 0;
   padding: 0;
 }
-pre {
-  padding: 0 0.5rem !important;
-}
+
 body {
   margin: 0px;
   padding: 0px;
@@ -14,10 +12,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+code[class*="language-"] mark,
+pre[class*="language-"] mark {
+  background: rgba(221, 219, 219, 0.5);
 }
 .wrapper-forButton {
   width: 90%;

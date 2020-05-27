@@ -18,9 +18,7 @@ function Main() {
         {/* {!isEmpty(userData) ? <ChooseLanguage /> : <Redirect to="/" />} */}
         <ChooseLanguage />
       </Route>
-      <Route path="/quiz">
-        <Quiz />
-      </Route>
+      <Route path={["/quiz", "/quiz/:id"]} component={Quiz} />
       {/*<ChooseLanguage/>*/}
     </div>
   );

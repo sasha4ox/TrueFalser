@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map';
 import property from 'lodash/property';
 import get from 'lodash/get';
+import isNan from 'lodash/isNaN';
 
 import './AllLanguagesAnswersStatistic.scss'
 
@@ -21,6 +22,10 @@ function AllLanguagesAnswersStatistic() {
                          / Number(get(item, 'totalAnswers'))
                          * 100
                      );
+                     console.info('correctAnswersInPercent!!', correctAnswersInPercent);
+                     const answersValue = !isNan(correctAnswersInPercent)
+                         ? correctAnswersInPercent
+                         : 0;
                      const textColorStyle =
                          correctAnswersInPercent >= 70
                           ? "#28a745"
@@ -32,7 +37,7 @@ function AllLanguagesAnswersStatistic() {
                                  animate={true}
                                  animationDuration="1s"
                                  size={150}
-                                 progress={correctAnswersInPercent}
+                                 progress={answersValue}
                                  progressColor="cornflowerblue"
                                  bgColor="whitesmoke"
                                  textColor={textColorStyle}

@@ -8,8 +8,10 @@ import splitCode from "../../utils/splitCode";
 import _map from "lodash/map";
 import get from "lodash/get";
 import { nextQuestion, answer, getQuestions } from "../../actions/quiz";
+
 function Questions() {
   useEffect(() => {
+    checkWidth();
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
   }, []);
@@ -29,8 +31,17 @@ function Questions() {
     property("quiz.allQuestions.currentQuestion[0].text")
   );
   const convertedStrings = splitCode(currentQuestionText);
+
   const next = useCallback(
     (event) => {
+      console.log(event);
+      let userAnswer;
+      if (!get(event, "target.name")) {
+        userAnswer = get(event, "code") === "ArrowRight" ? true : false;
+      } else {
+        userAnswer = get(event, "target.name") === "true" ? true : false;
+      }
+
       const answerToServer = {
         TestId: get(testInfo, "id"),
         UserId: get(testInfo, "UserId"),
@@ -38,9 +49,9 @@ function Questions() {
         LanguageId: get(selectedLanguage, "id"),
         QuestionId: get(currentQuestion, "id"),
         answer: get(currentQuestion, "result"),
-        userAnswer: get(event, "target.name") === "true" ? true : false,
+        userAnswer,
       };
-
+      console.log(currentQuestion);
       if (questions.length === 2) {
         // get more questions
         const answeredQuestionsId = _map(
@@ -56,7 +67,6 @@ function Questions() {
       }
       dispatch(answer(answerToServer));
       dispatch(nextQuestion(currentQuestion));
-      console.log(questions.length);
     },
     [
       dispatch,
@@ -67,8 +77,44 @@ function Questions() {
       answeredQuestions,
     ]
   );
+  const checkWidth = () => {
+    const orientation = window.matchMedia("(orientation: portrait)");
+    const maxWidth665px = window.matchMedia("(max-width: 665px)");
+    if (orientation.matches && maxWidth665px.matches) {
+      window.screen.orientation
+        .lock("portrait")
+        .then(function () {
+          alert("Locked");
+        })
+        .catch(function (error) {
+          alert(error);
+        });
+      console.log("ПОРТРЕТНАЯ");
+    } else {
+      console.log("ГОРИЗОТНАТЛЬНЯ");
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("resize", checkWidth);
+    return () => {
+      window.removeEventListener("resize", checkWidth);
+    };
+  });
+
+  //arrow anser
+  const keyDown = (event) => {
+    if (event.code === "ArrowRight") return next(event);
+    if (event.code === "ArrowLeft") return next(event);
+  };
+  useEffect(() => {
+    window.addEventListener("keydown", keyDown);
+    return () => {
+      window.removeEventListener("keydown", keyDown);
+    };
+  });
+
   return (
-    <div>
+    <div className="quiz_questions">
       <div>
         {convertedStrings.map((item, index) => {
           return (

@@ -6,6 +6,7 @@ import property from "lodash/property";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import { getAllLanguagesStatistic } from "./actions/statistic";
 import Main from "./components/main/Main";
 import Header from "./components/header/Header";
 import Quiz from "./components/Quiz/Quiz";
@@ -17,8 +18,19 @@ import Registration from "./components/Authorization/components/registration/Reg
 import './App.scss';
 
 function App() {
+  const dispatch = useDispatch();
   const userData = useSelector(property("authorization.userData"));
   const googleUrl = useSelector(property("authorization.googleUrl"));
+  const allLanguagesStatistic = useSelector(
+      property(
+          "statistic.allLanguagesAnswersStatistic"
+      )
+  );
+  useEffect(() => {
+    if(isEmpty(allLanguagesStatistic)) {
+      dispatch(getAllLanguagesStatistic());
+    }
+  }, [allLanguagesStatistic, dispatch]);
   const submitCode = (event) => {
     event.preventDefault();
     if (textAreaText === "") {
@@ -120,7 +132,12 @@ function App() {
         </Route>
         <Route path={["/login", "/registration"]} component={Authorization} />
         <Route
-          path={["/select-language", "/quiz", "/result"]}
+          path={[
+            "/select-language",
+            "/quiz",
+            "/result",
+            "/statistic/all-languages-answers"
+          ]}
           // render={() => <Main/>}
           component={Main}
         />

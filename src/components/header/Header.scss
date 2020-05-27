@@ -8,6 +8,19 @@
   justify-content: space-between;
 }
 
+.header .headerLinks {
+  display: flex;
+}
+
+.header .statistic {
+  color: white;
+  margin-top: 22px;
+}
+
+.header .statistic a {
+  color: white;
+}
+
 .header span {
   display: flex;
   margin-right: 5px;
@@ -15,6 +28,11 @@
 }
 
 .header .logo {
+  color: white;
+  padding: 10px;
+}
+
+.header .logo a {
   color: white;
   padding: 10px;
 }

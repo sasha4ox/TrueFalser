@@ -81,14 +81,24 @@ function Questions() {
     const orientation = window.matchMedia("(orientation: portrait)");
     const maxWidth665px = window.matchMedia("(max-width: 665px)");
     if (orientation.matches && maxWidth665px.matches) {
-      window.screen.orientation
-        .lock("portrait")
-        .then(function () {
-          alert("Locked");
-        })
-        .catch(function (error) {
-          alert(error);
+      // window.screen.orientation
+      //   .lock("portrait")
+      //   .then(function () {
+      //     alert("Locked");
+      //   })
+      //   .catch(function (error) {
+      //     alert(error);
+      //   });
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        window.screen.orientation.lock("portrait").then(null, function (error) {
+          document.exitFullscreen();
         });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
       console.log("ПОРТРЕТНАЯ");
     } else {
       console.log("ГОРИЗОТНАТЛЬНЯ");

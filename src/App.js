@@ -14,6 +14,8 @@ import Authorization from "./components/Authorization";
 import ParseUrlPage from "./components/ParseUrlPage";
 import Registration from "./components/Authorization/components/registration/Registration";
 
+import './App.scss';
+
 function App() {
   const userData = useSelector(property("authorization.userData"));
   const googleUrl = useSelector(property("authorization.googleUrl"));
@@ -107,7 +109,7 @@ function App() {
     setCodeLanguages(event.target.name);
   });
   return (
-    <div>
+    <div className="app">
       <Header />
       <Switch>
         <Route path="/callback/google">

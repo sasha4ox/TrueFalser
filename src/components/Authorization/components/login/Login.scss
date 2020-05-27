@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 88vh;
 }
 
 .formContainerLogin {
   display: block;
   position: relative;
-  min-height: 75vh;
+  min-height: 74vh;
   background: #333333;
   align-items: center;
   justify-content: center;
@@ -35,9 +36,9 @@
 .loginForm button {
   margin: 10px 0 0;
   color: white;
-  width: 50%;
+  width: 40%;
   align-self: center;
-  height: 65px;
+  height: 6vh;
 }
 
 .loginForm input {
@@ -47,7 +48,7 @@
 
 .textLogin {
   color: #062746;
-  margin: 50px 0;
+  margin: 49px 0;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -57,6 +58,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 5px;
 }
 
 .link {
@@ -106,7 +108,7 @@
 
 @media screen and (max-width: 1750px) {
   .loginForm {
-    width: 60%;
+    width: 50%;
   }
 }
 
@@ -119,7 +121,7 @@
 @media screen and (max-width: 905px) {
   .loginForm {
     width: 95%;
-    padding: 0;
+    padding: 5px;
   }
 
   .wrapperForButton {
@@ -131,6 +133,7 @@
   .textLogin {
     font-size: 1.5em;
     text-align: center;
+    height: 0vh;
   }
 
   .wrapperForLink {

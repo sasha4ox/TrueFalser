@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 88vh;
 }
 
 .formContainerRegistration {
   display: block;
   position: relative;
-  min-height: 75vh;
+  min-height: 74vh;
   background: #333333;
   align-items: center;
   justify-content: center;
@@ -17,7 +18,7 @@
   display: flex;
   flex-direction: column;
   width: 40%;
-  margin-top: 10vh;
+  margin-top: 3vh;
   padding: 30px;
   border: 1px solid #dedfe4;
 }
@@ -25,14 +26,14 @@
 .RegistrationForm button {
   margin: 10px 0 0;
   color: white;
-  width: 50%;
+  width: 40%;
   align-self: center;
-  height: 65px;
+  height: 6vh;
 }
 
 .textRegistration {
   color: #062746;
-  margin: 50px 0;
+  margin: 49px 0;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -93,18 +94,40 @@
   .RegistrationForm {
     width: 60%;
   }
+  .textRegistration {
+    color: #062746;
+    margin: 49px 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 1250px) {
   .RegistrationForm {
     width: 80%;
   }
+  .textRegistration {
+    color: #062746;
+    margin: 39px 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 905px) {
   .RegistrationForm {
     width: 95%;
-    padding: 0;
+    padding: 5px;
+  }
+
+  .textRegistration {
+    color: #062746;
+    margin: 29px 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
   }
 
   .wrapperForButton {
@@ -118,8 +141,17 @@
     text-align: center;
   }
 
-  .wrapperForLink {
+  .textRegistration {
+    color: #062746;
+    margin: 20px 0;
+    display: flex;
     width: 100%;
+    justify-content: center;
+  }
+
+  .wrapperForLink {
+    width: 88%;
     text-align: center;
+    margin-right: auto;
   }
 }

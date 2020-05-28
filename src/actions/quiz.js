@@ -20,6 +20,7 @@ import {
   GET_QUIZ_RESULT_SUCCESS,
   SCREEN_ORIENTATION,
 } from "../constants/index";
+import { apiUrl } from "../client-config";
 import fetchAsync from "../utils/fetch";
 
 export function screenOrientation(isNeedToRotate) {
@@ -57,7 +58,7 @@ export function getLanguages() {
     try {
       dispatch(getLanguagesStart());
       const payload = await fetchAsync(
-        "https://true-falser-server.herokuapp.com/api/language/list"
+        `${apiUrl}/language/list`
       );
       if (payload.status === "error") {
         return dispatch(getLanguagesFailure(payload.message));
@@ -107,7 +108,7 @@ export function getQuestions(LanguageId, excludedquestions) {
     dispatch(getQuestionsStart());
     try {
       const payload = await fetchAsync(
-        `https://true-falser-server.herokuapp.com/api/questions/?id=${LanguageId}&excludedquestions=${
+        `${apiUrl}/questions/?id=${LanguageId}&excludedquestions=${
           excludedquestions ? excludedquestions : 0
         }`
       );
@@ -126,7 +127,7 @@ export function createTest(UserId, LanguageId) {
     // dispatch(getQuestionsStart());
     try {
       const payload = await fetchAsync(
-        "https://true-falser-server.herokuapp.com/api/test",
+        `${apiUrl}/test`,
         "POST",
         {
           UserId,
@@ -182,7 +183,7 @@ export function answer(answerData) {
     try {
       dispatch(answerStart());
       const payload = await fetchAsync(
-        "https://true-falser-server.herokuapp.com/api/answer",
+        `${apiUrl}/answer`,
         "POST",
         answerData
       );
@@ -215,7 +216,7 @@ export function getResult(testId) {
     try {
       dispatch(getQuizResultStart());
       const payload = await fetchAsync(
-        `https://true-falser-server.herokuapp.com/api/test/result/${testId}`
+        `${apiUrl}/test/result/${testId}`
       );
       if (payload.status === "error") {
         return dispatch(getQuizResultFailure(payload.message));

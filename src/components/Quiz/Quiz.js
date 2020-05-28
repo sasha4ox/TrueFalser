@@ -5,6 +5,7 @@ import Questions from "./Questions";
 import { endQuiz, createTest } from "../../actions/quiz";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "./Quiz.scss";
+
 let interval;
 function Quiz() {
   const isQuizFinished = useSelector(property("quiz.isQuizFinished"));

@@ -1,58 +1,40 @@
-import React, { useEffect, useRef } from "react";
-import Prism from "prismjs";
+import React from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import isArray from "lodash/isArray";
 import _map from "lodash/map";
-function Code({ lang, code }) {
-  const codeEl = useRef();
-  const highligh = () => {
-    if (codeEl && codeEl.current) {
-      Prism.highlightElement(codeEl.current);
-    }
-  };
-
-  useEffect(() => {
-    // highligh();
-
-    setTimeout(() => {
-      Prism.highlightAll();
-    }, 0);
-
-    // return () => {
-    //   document.removeEventListener(
-    //     "DOMContentLoaded",
-    //     Prism.highlightElement(codeEl.current)
-    //   );
-    // };
-  }, [code]);
-  console.log(code);
+function Code({ code }) {
   return (
-    <pre className="keep-markup">
-      <code ref={codeEl} className="language-javascript">
-        {_map(code, (item, index) => {
-          if (item.isStartWithNewString) {
-            return (
-              <div key={index}>
-                {item.code} <br />
-              </div>
-            );
-          }
-          if (item.isFinishMarkLAst) {
-            return (
-              <div key={index}>
-                <br />
-                {item.code}
-              </div>
-            );
-          }
-          if (item.marked) {
-            return <mark key={index}>{item.code}</mark>;
-          }
-          return item.code;
-        })}
-        {/* {code[0].code} */}
-      </code>
-    </pre>
+    <>
+      {_map(code, (itemCode) => {
+        if (isArray(itemCode.code)) {
+          return (
+            <div
+              className={
+                itemCode.isStartSeparated ? "string_start" : "string_finish"
+              }
+            >
+              {_map(itemCode.code, (item) => {
+                return (
+                  <SyntaxHighlighter language="javascri" style={docco}>
+                    {item}
+                  </SyntaxHighlighter>
+                );
+              })}
+            </div>
+          );
+        } else {
+          return (
+            <div className={itemCode.marked && "marked_string"}>
+              <SyntaxHighlighter language="javascript" style={docco}>
+                {itemCode.code}
+              </SyntaxHighlighter>
+            </div>
+          );
+        }
+      })}
+    </>
   );
 }
 export default Code;

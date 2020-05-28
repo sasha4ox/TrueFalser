@@ -145,21 +145,6 @@ function App() {
     }
     return arrayOfString;
   }
-  console.log(
-    splitCode(`function  noMatterWhat (item){
-      return *START* item*2
-    }
-    const trueFalse = typeof NaN === 'number'
-    let a;
-    if(trueFalse){
-      a =  10
-    } else{
-      *FINISH*
-      a= 5
-    }
-    let b = 2;
-    console.log(a + b); //12`)
-  );
   const [codeLanguages, setCodeLanguages] = useState("javascript");
   const changeCodeLanguages = useCallback((event) => {
     setCodeLanguages(event.target.name);
@@ -185,6 +170,7 @@ function App() {
           path="/"
           render={() => (!isEmpty(userData) ? <Redirect to="/select-language" /> : <Redirect to="/login"/>)}
         /> */}
+        <Redirect to="/select-language" />
       </Switch>
 
       {/* I thought code below works as we want, but no */}

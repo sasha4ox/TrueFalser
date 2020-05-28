@@ -153,27 +153,7 @@ function Questions() {
 
         {/* {convertedStrings && (
           <SyntaxHighlighter language="javascript" style={docco}>
-            {convertedStrings.map((item, index) => {
-              if (item.isStartWithNewString) {
-                return (
-                  <div key={index}>
-                    {item.code} <br />
-                  </div>
-                );
-              }
-              if (item.isFinishMarkLAst) {
-                return (
-                  <div key={index}>
-                    <br />
-                    {item.code}
-                  </div>
-                );
-              }
-              if (item.marked) {
-                return <mark key={index}>{item.code}</mark>;
-              }
-              return item.code;
-            })}
+            {`dsds`}
           </SyntaxHighlighter>
         )} */}
       </div>

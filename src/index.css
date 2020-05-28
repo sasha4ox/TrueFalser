@@ -16,6 +16,35 @@ code[class*="language-"] mark,
 pre[class*="language-"] mark {
   background: rgba(221, 219, 219, 0.5);
 }
+
+/* FOR CODE */
+.string_start {
+  display: flex;
+  width: 100%;
+}
+.string_start pre:last-child {
+  flex: 1;
+  background: rgba(24, 204, 144, 0.5) !important;
+}
+.string_finish {
+  display: flex;
+  width: 100%;
+}
+.string_finish pre:first-child {
+  background: rgba(24, 204, 144, 0.5) !important;
+}
+.string_finish pre:last-child {
+  flex: 1;
+}
+.marked_string pre {
+  background: rgba(24, 204, 144, 0.5) !important;
+}
+pre {
+  margin: 0;
+  padding: 0 !important;
+}
+
+/* FOR CODE */
 .wrapper-forButton {
   width: 90%;
   margin: 0 auto;

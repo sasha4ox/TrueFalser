@@ -2,15 +2,20 @@ import React, { memo, useCallback, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import property from "lodash/property";
-import Questions from "./Questions";
+import Questions from "./components/Questions/Questions";
 import { endQuiz, createTest, screenOrientation } from "../../actions/quiz";
 import "./Quiz.scss";
+import LanguageTimer from "./components/LanguageTimer/LanguageTimer";
 let interval;
+
 function Quiz() {
   const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   const userId = useSelector(property("authorization.userData.id"));
   const languageId = useSelector(property("quiz.language.selectedLanguage.id"));
+  // const currentQuestionLanguage = useSelector(
+  //   property("quiz.allQuestions.currentQuestion[0].Language.name")
+  // );
   const isNeedToRotate = useSelector(property("quiz.isNeedToRotate"));
   const dispatch = useDispatch();
   const [seconds, setSeconds] = useState(0);
@@ -56,12 +61,17 @@ function Quiz() {
   return (
     <div className="quiz">
       {isQuizFinished && <Redirect to="result" />}
-      {isQuizStarted && <div className="timer">{seconds}</div>}
+      {isQuizStarted && <LanguageTimer seconds={seconds} />}
       {isQuizStarted ? (
         <Questions />
       ) : (
         <div className="wrapper_start_quiz">
-          <button type="button" className="start_button" onClick={startGame}>
+          <button
+            type="button"
+            className="start_button"
+            onClick={startGame}
+            disabled={isNeedToRotate}
+          >
             START QUIZ
           </button>
           {isNeedToRotate && (

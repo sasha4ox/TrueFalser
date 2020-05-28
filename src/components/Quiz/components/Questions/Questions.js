@@ -4,10 +4,10 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
 import "./Questions.scss";
-import splitCode from "../../utils/splitCode";
+import splitCode from "../../../../utils/splitCode";
 import _map from "lodash/map";
 import get from "lodash/get";
-import { nextQuestion, answer, getQuestions } from "../../actions/quiz";
+import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
   useEffect(() => {
@@ -75,7 +75,7 @@ function Questions() {
     ]
   );
 
-  //arrow anser
+  //arrow answer
   const keyDown = (event) => {
     if (event.code === "ArrowRight") return next(event);
     if (event.code === "ArrowLeft") return next(event);

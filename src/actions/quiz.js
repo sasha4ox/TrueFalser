@@ -18,8 +18,17 @@ import {
   GET_QUIZ_RESULT_START,
   GET_QUIZ_RESULT_FAILURE,
   GET_QUIZ_RESULT_SUCCESS,
+  SCREEN_ORIENTATION,
 } from "../constants/index";
 import fetchAsync from "../utils/fetch";
+
+export function screenOrientation(isNeedToRotate) {
+  return {
+    type: SCREEN_ORIENTATION,
+    payload: isNeedToRotate,
+  };
+}
+
 export function selectLanguage(language) {
   return {
     type: SELECT_LANGUAGE_FOR_QUIZ,
@@ -177,7 +186,6 @@ export function answer(answerData) {
         "POST",
         answerData
       );
-      console.log(payload);
     } catch (error) {}
   };
 }
@@ -209,7 +217,6 @@ export function getResult(testId) {
       const payload = await fetchAsync(
         `https://true-falser-server.herokuapp.com/api/test/result/${testId}`
       );
-      console.log(payload.data);
       if (payload.status === "error") {
         return dispatch(getQuizResultFailure(payload.message));
       }

@@ -1,33 +1,26 @@
-import React, { memo, useState, useCallback, useEffect } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SyntaxHighlighter from "react-syntax-highlighter";
 import isEmpty from "lodash/isEmpty";
 import property from "lodash/property";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import { getAllLanguagesStatistic } from "./actions/statistic";
 import Main from "./components/main/Main";
 import Header from "./components/header/Header";
-import Quiz from "./components/Quiz/Quiz";
-import ChooseLanguage from "./components/ChooseLanguage/ChooseLanguage";
 import Authorization from "./components/Authorization";
 import ParseUrlPage from "./components/ParseUrlPage";
-import Registration from "./components/Authorization/components/registration/Registration";
 
-import './App.scss';
+import "./App.scss";
 
 function App() {
   const dispatch = useDispatch();
   const userData = useSelector(property("authorization.userData"));
-  const googleUrl = useSelector(property("authorization.googleUrl"));
+  // const googleUrl = useSelector(property("authorization.googleUrl"));
   const allLanguagesStatistic = useSelector(
-      property(
-          "statistic.allLanguagesAnswersStatistic"
-      )
+    property("statistic.allLanguagesAnswersStatistic")
   );
   useEffect(() => {
-    if(isEmpty(allLanguagesStatistic)) {
+    if (isEmpty(allLanguagesStatistic)) {
       dispatch(getAllLanguagesStatistic());
     }
   }, [allLanguagesStatistic, dispatch]);
@@ -45,57 +38,57 @@ function App() {
     console.log(textAreaText);
   };
   const [convertedStrings, setConvertedStrings] = useState([]);
-  const defaultStrings = [
-    {
-      code: ` function noMatterWhat(item){
-    return item*2
-  }
-  const trueFalse <mark>text</mark>= typeof NaN === 'number'
-  let a;
-  if(trueFalse){
-    echo()
-    def()
-    a =  10
-  } else{
-    a= 5
-  }
-  let b = 2;
-  console.log(a + b); //12`,
-    },
-    {
-      code: `def say_hello():
-  print("Hello")
+  // const defaultStrings = [
+  //   {
+  //     code: ` function noMatterWhat(item){
+  //   return item*2
+  // }
+  // const trueFalse <mark>text</mark>= typeof NaN === 'number'
+  // let a;
+  // if(trueFalse){
+  //   echo()
+  //   def()
+  //   a =  10
+  // } else{
+  //   a= 5
+  // }
+  // let b = 2;
+  // console.log(a + b); //12`,
+  //   },
+  //   {
+  //     code: `def say_hello():
+  // print("Hello")
 
-  say_hello()
-  say_hello()
-  say_hello()
-  *START*
-  def sum(*params):
-  result = 0
-  for n in params:
-      result += n
-  return result
-  *FINISH*
-  sumOfNumbers1 = sum(1, 2, 3, 4, 5)      # 15
-  sumOfNumbers2 = sum(3, 4, 5, 6)         # 18
-  print(sumOfNumbers1)
-  print(sumOfNumbers2)
-  `,
-    },
-    {
-      code: `<?php
-        *START*
-  function recursion($a)
-  {
-      if ($a < 20) {
-          echo "$a";
-          recursion($a + 1);
-      }
+  // say_hello()
+  // say_hello()
+  // say_hello()
+  // *START*
+  // def sum(*params):
+  // result = 0
+  // for n in params:
+  //     result += n
+  // return result
+  // *FINISH*
+  // sumOfNumbers1 = sum(1, 2, 3, 4, 5)      # 15
+  // sumOfNumbers2 = sum(3, 4, 5, 6)         # 18
+  // print(sumOfNumbers1)
+  // print(sumOfNumbers2)
+  // `,
+  //   },
+  //   {
+  //     code: `<?php
+  //       *START*
+  // function recursion($a)
+  // {
+  //     if ($a < 20) {
+  //         echo "$a";
+  //         recursion($a + 1);
+  //     }
 
-  }
-  ?> *FINISH*`,
-    },
-  ];
+  // }
+  // ?> *FINISH*`,
+  //   },
+  // ];
   function splitCode(string) {
     const arrayOfString = [];
     const firstPartOfCode = string.split("*START*")[0];
@@ -117,15 +110,12 @@ function App() {
     setConvertedStrings((prev) => [...prev, arrayOfString]);
   }
   const [codeLanguages, setCodeLanguages] = useState("php");
-  const changeCodeLanguages = useCallback((event) => {
-    setCodeLanguages(event.target.name);
-  });
   return (
     <div className="app">
       <Header />
       <Switch>
         <Route path="/callback/google">
-          <ParseUrlPage chosenAuthorizationUrl="google"/>
+          <ParseUrlPage chosenAuthorizationUrl="google" />
         </Route>
         <Route path="/callback/facebook">
           <ParseUrlPage chosenAuthorizationUrl="facebook" />
@@ -136,9 +126,8 @@ function App() {
             "/select-language",
             "/quiz",
             "/result",
-            "/statistic/all-languages-answers"
+            "/statistic/all-languages-answers",
           ]}
-          // render={() => <Main/>}
           component={Main}
         />
         <Route

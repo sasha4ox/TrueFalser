@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import property from "lodash/property";
@@ -26,7 +26,7 @@ function Main() {
         <Result />
       </Route>
       <Route path="/statistic/all-languages-answers">
-         <AllLanguagesAnswersStatistic />
+        <AllLanguagesAnswersStatistic />
       </Route>
     </div>
   );

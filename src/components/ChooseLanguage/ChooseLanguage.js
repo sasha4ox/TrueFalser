@@ -2,17 +2,25 @@ import React, { memo, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import get from "lodash/get";
-import { selectLanguage, getLanguages } from "../../actions/quiz";
+import {
+  selectLanguage,
+  getLanguages,
+  startQuizAgain,
+} from "../../actions/quiz";
 import property from "lodash/property";
 import _map from "lodash/map";
 import _filter from "lodash/filter";
+import _isNull from "lodash/isNull";
 import "./ChooseLanguage.scss";
 import Spinner from "../Spinner";
 function ChooseLanguage() {
   const dispatch = useDispatch();
   const languages = useSelector(property("quiz.language.languages"));
   const isLanguageLoading = useSelector(property("quiz.language.loading"));
-  console.log(languages);
+  const isLanguageSelected = useSelector(
+    property("quiz.language.selectedLanguage")
+  );
+  console.log("isLanguageSelected", _isNull(isLanguageSelected));
   const selectedLanguage = useCallback(
     (event) => {
       const selectedLanguge = _filter(
@@ -24,6 +32,7 @@ function ChooseLanguage() {
     [dispatch, languages]
   );
   useEffect(() => {
+    if (!_isNull(isLanguageSelected)) dispatch(startQuizAgain());
     dispatch(getLanguages());
   }, [dispatch]);
   return (

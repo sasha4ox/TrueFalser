@@ -11,6 +11,7 @@ import {
   GET_QUIZ_RESULT_FAILURE,
   GET_QUIZ_RESULT_SUCCESS,
   START_QUIZ_AGAIN,
+  SCREEN_ORIENTATION,
 } from "../constants";
 import get from "lodash/get";
 import _filter from "lodash/filter";
@@ -24,98 +25,18 @@ const initialState = {
   isQuizFinished: false,
   allQuestions: {
     answered: [],
-    currentQuestion: [
-      // {
-      //   id: 1,
-      //   text: `def say_hello():
-      // print("Hello")
-      // say_hello()
-      // say_hello()
-      // say_hello()
-      // *START*
-      // def sum(*params):
-      // result = 0
-      // for n in params:
-      //     result += n
-      // return result
-      // *FINISH*
-      // sumOfNumbers1 = sum(1, 2, 3, 4, 5)      # 15
-      // sumOfNumbers2 = sum(3, 4, 5, 6)         # 18
-      // print(sumOfNumbers1)
-      // print(sumOfNumbers2)`,
-      //   highlightedText: "???",
-      //   result: 111,
-      //   LanguageId: 111,
-      // },
-    ],
-    questions: [
-      // {
-      //   id: 1,
-      //   text: `def say_hello():
-      //   print("Hello")
-      //   say_hello()
-      //   say_hello()
-      //   say_hello()
-      //   *START*
-      //   def sum(*params):
-      //   result = 0
-      //   for n in params:
-      //       result += n
-      //   return result
-      //   *FINISH*
-      //   sumOfNumbers1 = sum(1, 2, 3, 4, 5)      # 15
-      //   sumOfNumbers2 = sum(3, 4, 5, 6)         # 18
-      //   print(sumOfNumbers1)
-      //   print(sumOfNumbers2)`,
-      //   highlightedText: "???",
-      //   result: 111,
-      //   LanguageId: 111,
-      // },
-      // {
-      //   id: 2,
-      //   text: `*START* function noMatterWhat(item){
-      //     return item*2
-      //   }
-      //   const trueFalse = typeof NaN === 'number'
-      //   let a;
-      //   if(trueFalse){
-      //     a =  10
-      //   } else{
-      //     a= 5
-      //   }
-      //   let b = 2;
-      //   console.log(a + b); //12 *FINISH*`,
-      //   highlightedText: "???",
-      //   result: 111,
-      //   LanguageId: 111,
-      // },
-      // {
-      //   id: 3,
-      //   text: `def say_hello():
-      //   print("Hello")
-      //   say_hello()
-      //   say_hello()
-      //   say_hello()
-      //   *START*
-      //   def sum(*params):
-      //   result = 0
-      //   for n in params:
-      //       result += n
-      //   return result
-      //   *FINISH*
-      //   sumOfNumbers1 = sum(1, 2, 3, 4, 5)      # 15
-      //   sumOfNumbers2 = sum(3, 4, 5, 6)         # 18
-      //   print(sumOfNumbers1)
-      //   print(sumOfNumbers2)`,
-      //   highlightedText: "???",
-      //   result: 111,
-      //   LanguageId: 111,
-      // },
-    ],
+    currentQuestion: [],
+    questions: [],
   },
+  isNeedToRotate: false,
 };
 export default function quiz(state = initialState, action) {
   switch (action.type) {
+    case SCREEN_ORIENTATION:
+      return {
+        ...state,
+        isNeedToRotate: action.payload,
+      };
     case GET_QUIZ_RESULT_START:
       return {
         ...state,

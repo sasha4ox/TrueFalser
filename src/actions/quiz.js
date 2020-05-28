@@ -186,7 +186,6 @@ export function answer(answerData) {
         "POST",
         answerData
       );
-      console.log(payload);
     } catch (error) {}
   };
 }
@@ -218,7 +217,6 @@ export function getResult(testId) {
       const payload = await fetchAsync(
         `https://true-falser-server.herokuapp.com/api/test/result/${testId}`
       );
-      console.log(payload.data);
       if (payload.status === "error") {
         return dispatch(getQuizResultFailure(payload.message));
       }

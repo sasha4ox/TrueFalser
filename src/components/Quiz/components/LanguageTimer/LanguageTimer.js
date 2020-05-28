@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import property from "lodash/property";
 function LanguageTimer({ seconds }) {
-  console.log(typeof seconds);
   const currentQuestionLanguage = useSelector(
     property("quiz.allQuestions.currentQuestion[0].Language.name")
   );

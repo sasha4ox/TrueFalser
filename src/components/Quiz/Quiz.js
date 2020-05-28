@@ -13,9 +13,6 @@ function Quiz() {
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   const userId = useSelector(property("authorization.userData.id"));
   const languageId = useSelector(property("quiz.language.selectedLanguage.id"));
-  // const currentQuestionLanguage = useSelector(
-  //   property("quiz.allQuestions.currentQuestion[0].Language.name")
-  // );
   const isNeedToRotate = useSelector(property("quiz.isNeedToRotate"));
   const dispatch = useDispatch();
   const [seconds, setSeconds] = useState(0);

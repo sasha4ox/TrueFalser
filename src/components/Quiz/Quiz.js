@@ -39,10 +39,14 @@ function Quiz() {
 
   useEffect(() => {
     if (secondsToEndQuiz === 0) {
-      clearInterval(interval);
       dispatch(endQuiz());
     }
   }, [secondsToEndQuiz]);
+  useEffect(() => {
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   // countdown timer    ---- END
 
   const startGame = useCallback(() => {

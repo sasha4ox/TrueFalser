@@ -2,9 +2,11 @@ import React, { memo, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import property from "lodash/property";
-import { getResult, startQuizAgain } from "../../actions/quiz";
-import "./Result.scss";
 import get from "lodash/get";
+
+import { getResult, startQuizAgain } from "../../actions/quiz";
+
+import "./Result.scss";
 
 function Result() {
   const dispatch = useDispatch();

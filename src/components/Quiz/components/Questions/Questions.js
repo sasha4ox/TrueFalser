@@ -4,10 +4,14 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
 import _map from "lodash/map";
+import _toLower from "lodash/toLower";
 import get from "lodash/get";
+import isArray from "lodash/isArray";
 
 import "./Questions.scss";
+
 import splitCode from "../../../../utils/splitCode";
+import generateUniqueKey from "../../../../utils/generateUniqueKey";
 import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
@@ -30,6 +34,9 @@ function Questions() {
     property("quiz.allQuestions.currentQuestion[0].text")
   );
   const convertedStrings = splitCode(currentQuestionText);
+  const currentQuestionLanguage = _toLower(
+    useSelector(property("quiz.allQuestions.currentQuestion[0].Language.name"))
+  );
 
   const next = useCallback(
     (event) => {
@@ -88,29 +95,45 @@ function Questions() {
   });
 
   return (
-    <div className="quiz_questions">
-      <div>
-        {convertedStrings.map((item, index) => {
+    <div className="wrapper_questions">
+      {_map(convertedStrings, (itemCode, index) => {
+        if (isArray(itemCode.code)) {
           return (
-            <div className="wrapper" key={index}>
+            <div
+              key={generateUniqueKey(index)}
+              className={
+                itemCode.isStartSeparated ? "string_start" : "string_finish"
+              }
+            >
+              {_map(itemCode.code, (item, index) => {
+                return (
+                  <SyntaxHighlighter
+                    key={generateUniqueKey(index)}
+                    language={currentQuestionLanguage}
+                    style={docco}
+                  >
+                    {item}
+                  </SyntaxHighlighter>
+                );
+              })}
+            </div>
+          );
+        } else {
+          return (
+            <div
+              className={itemCode.marked && "marked_string"}
+              key={generateUniqueKey(index)}
+            >
               <SyntaxHighlighter
-                language={selectedLanguage.name}
+                language={currentQuestionLanguage}
                 style={docco}
-                wrapLines={true}
-                customStyle={{
-                  width: "90%",
-                  margin: "0px auto",
-                  background: item.marked
-                    ? "rgb(219, 255, 219)"
-                    : "rgb(248, 248, 255)",
-                }}
               >
-                {item.code}
+                {itemCode.code}
               </SyntaxHighlighter>
             </div>
           );
-        })}
-      </div>
+        }
+      })}
       <div className="wrapper_for_Button">
         <button
           name="false"

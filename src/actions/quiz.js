@@ -19,10 +19,24 @@ import {
   GET_QUIZ_RESULT_FAILURE,
   GET_QUIZ_RESULT_SUCCESS,
   SCREEN_ORIENTATION,
+  COUNTDOWN_TIMER_START,
+  COUNTDOWN_TIMER_TICK,
 } from "../constants/index";
 
 import fetchAsync from "../utils/fetch";
 import { apiUrl } from "../client-config";
+
+export function countdownTimerStart(secondsToEnd) {
+  return {
+    type: COUNTDOWN_TIMER_START,
+    secondsToEnd,
+  };
+}
+export function countdownTimerTick() {
+  return {
+    type: COUNTDOWN_TIMER_TICK,
+  };
+}
 
 export function screenOrientation(isNeedToRotate) {
   return {

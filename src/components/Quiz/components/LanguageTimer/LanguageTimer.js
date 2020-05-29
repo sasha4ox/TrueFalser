@@ -9,7 +9,7 @@ function LanguageTimer({ seconds }) {
   return (
     <div className="wrapperFor_timer_language">
       <div className="question_language"> {currentQuestionLanguage}</div>
-      <div>{seconds}</div>
+      <div className="question_timer">{seconds}</div>
     </div>
   );
 }

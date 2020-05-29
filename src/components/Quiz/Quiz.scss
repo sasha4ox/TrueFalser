@@ -1,6 +1,7 @@
 .quiz {
   position: relative;
   height: 90vh;
+  background: #202020;
 }
 .wrapperFor_timer_language {
   max-width: 670px;
@@ -12,6 +13,11 @@
 .question_language {
   color: gray;
 }
+
+.question_timer {
+  color: gray;
+}
+
 .wrapper_start_quiz {
   display: flex;
   flex-direction: column;

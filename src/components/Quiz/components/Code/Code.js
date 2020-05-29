@@ -9,8 +9,18 @@ import _map from "lodash/map";
 import {useDispatch, useSelector} from "react-redux";
 import property from "lodash/property";
 
+import "./Code.scss";
+
 function Code({ lang, code }) {
     const codeEl = useRef();
+    const codePre = useRef();
+    // console.info('codePre!!!', codePre);
+    setTimeout(
+    () => {
+            console.info('Prism.highlightAll() update!!!');
+            Prism.highlightAll();
+            }, 0);
+    // codePre.style.overflow = "hidden";
     // const dispatch = useDispatch;
     // const currentQuestionId = useSelector(
     //     property("quiz.allQuestions.currentQuestion[0].id")
@@ -26,10 +36,11 @@ function Code({ lang, code }) {
 
     useEffect(() => {
         if (code) {
-            setTimeout(() => {
-                console.info('Prism.highlightAll() in useEffect!!!');
-                Prism.highlightAll();
-            }, 0);
+            Prism.highlightAll();
+            // setTimeout(() => {
+            //     console.info('Prism.highlightAll() in useEffect!!!');
+            //     Prism.highlightAll();
+            // }, 0);
         }
     }, [code]);
 
@@ -57,10 +68,11 @@ function Code({ lang, code }) {
   // `;
     return (
       <>
-       <Pre className="keep-markup">
-          <code ref={codeEl} className="language-javascript">
-            {_map(code, (item, index) => {
-                    if (item.isStartWithNewString) {
+        <div className="codeRoot">
+            <Pre ref={codePre} className="keep-markup">
+                <code ref={codeEl} className="language-javascript">
+                    {_map(code, (item, index) => {
+                        if (item.isStartWithNewString) {
                             // const currentElement = Prism.highlight(item.code, Prism.languages.javascript, `${lang}`);
                             return `${item.code}`
                         }
@@ -80,6 +92,7 @@ function Code({ lang, code }) {
                     })}
                 </code>
             </Pre>
+        </div>
      </>
     );
 }

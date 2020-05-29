@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, useEffect } from "react";
+import React, { memo, useCallback, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import property from "lodash/property";
@@ -10,6 +10,7 @@ import LanguageTimer from "./components/LanguageTimer/LanguageTimer";
 import "./Quiz.scss";
 
 let interval;
+
 function Quiz() {
   const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
@@ -31,7 +32,7 @@ function Quiz() {
       });
     }, 1000);
   };
-
+  const quizElement = useRef(null); //for fullscreen
   const startGame = useCallback(() => {
     downTimer();
     dispatch(createTest(userId, languageId));
@@ -40,8 +41,13 @@ function Quiz() {
   const checkWidth = () => {
     const orientation = window.matchMedia("(orientation: portrait)");
     const maxWidth665px = window.matchMedia("(max-width: 665px)");
+    const maxHeigth = window.matchMedia("(max-height: 425px)");
+    console.log("maxHeigth", maxHeigth.matches);
     if (orientation.matches && maxWidth665px.matches) {
       dispatch(screenOrientation(true));
+    } else if (maxHeigth.matches) {
+      quizElement.current.requestFullscreen(); //for fullscreen
+      dispatch(screenOrientation(false));
     } else {
       dispatch(screenOrientation(false));
     }
@@ -58,7 +64,8 @@ function Quiz() {
   });
 
   return (
-    <div className="quiz">
+    <div className="quiz" ref={quizElement}>
+      {/* ref for fullscreen */}
       {isQuizFinished && <Redirect to="result" />}
       {isQuizStarted && <LanguageTimer seconds={seconds} />}
       {isQuizStarted ? (

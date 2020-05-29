@@ -20,7 +20,9 @@ import {
   GET_QUIZ_RESULT_SUCCESS,
   SCREEN_ORIENTATION,
 } from "../constants/index";
+
 import fetchAsync from "../utils/fetch";
+import { apiUrl } from "../client-config";
 
 export function screenOrientation(isNeedToRotate) {
   return {
@@ -56,9 +58,7 @@ export function getLanguages() {
   return async (dispatch) => {
     try {
       dispatch(getLanguagesStart());
-      const payload = await fetchAsync(
-        "https://true-falser-server.herokuapp.com/api/language/list"
-      );
+      const payload = await fetchAsync(`${apiUrl}/language/list`);
       if (payload.status === "error") {
         return dispatch(getLanguagesFailure(payload.message));
       }
@@ -107,7 +107,7 @@ export function getQuestions(LanguageId, excludedquestions) {
     dispatch(getQuestionsStart());
     try {
       const payload = await fetchAsync(
-        `https://true-falser-server.herokuapp.com/api/questions/?id=${LanguageId}&excludedquestions=${
+        `${apiUrl}/questions/?id=${LanguageId}&excludedquestions=${
           excludedquestions ? excludedquestions : 0
         }`
       );
@@ -125,14 +125,10 @@ export function createTest(UserId, LanguageId) {
     dispatch(createTestStat());
     // dispatch(getQuestionsStart());
     try {
-      const payload = await fetchAsync(
-        "https://true-falser-server.herokuapp.com/api/test",
-        "POST",
-        {
-          UserId,
-          LanguageId,
-        }
-      );
+      const payload = await fetchAsync(`${apiUrl}/test`, "POST", {
+        UserId,
+        LanguageId,
+      });
       if (payload.status === "error") {
         return dispatch(createTestFailure(payload.message));
       }
@@ -181,12 +177,13 @@ export function answer(answerData) {
   return async (dispatch) => {
     try {
       dispatch(answerStart());
-      const payload = await fetchAsync(
-        "https://true-falser-server.herokuapp.com/api/answer",
-        "POST",
-        answerData
-      );
-    } catch (error) {}
+      const payload = await fetchAsync(`${apiUrl}/answer`, "POST", answerData);
+      if (payload.status === "error") {
+        return dispatch(endQuiz());
+      }
+    } catch (error) {
+      return dispatch(endQuiz());
+    }
   };
 }
 
@@ -214,9 +211,7 @@ export function getResult(testId) {
   return async (dispatch) => {
     try {
       dispatch(getQuizResultStart());
-      const payload = await fetchAsync(
-        `https://true-falser-server.herokuapp.com/api/test/result/${testId}`
-      );
+      const payload = await fetchAsync(`${apiUrl}/test/result/${testId}`);
       if (payload.status === "error") {
         return dispatch(getQuizResultFailure(payload.message));
       }

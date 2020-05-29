@@ -3,10 +3,11 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
-import "./Questions.scss";
-import splitCode from "../../../../utils/splitCode";
 import _map from "lodash/map";
 import get from "lodash/get";
+
+import "./Questions.scss";
+import splitCode from "../../../../utils/splitCode";
 import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
@@ -32,7 +33,6 @@ function Questions() {
 
   const next = useCallback(
     (event) => {
-      console.log(event);
       let userAnswer;
       if (!get(event, "target.name")) {
         userAnswer = get(event, "code") === "ArrowRight" ? true : false;
@@ -48,7 +48,7 @@ function Questions() {
         answer: get(currentQuestion, "result"),
         userAnswer,
       };
-      console.log(currentQuestion);
+
       if (questions.length === 2) {
         // get more questions
         const answeredQuestionsId = _map(

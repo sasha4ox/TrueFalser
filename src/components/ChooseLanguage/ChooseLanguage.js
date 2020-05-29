@@ -1,18 +1,21 @@
 import React, { memo, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import property from "lodash/property";
+import _map from "lodash/map";
+import _filter from "lodash/filter";
+import _isNull from "lodash/isNull";
 import get from "lodash/get";
+
 import {
   selectLanguage,
   getLanguages,
   startQuizAgain,
 } from "../../actions/quiz";
-import property from "lodash/property";
-import _map from "lodash/map";
-import _filter from "lodash/filter";
-import _isNull from "lodash/isNull";
-import "./ChooseLanguage.scss";
 import Spinner from "../Spinner";
+
+import "./ChooseLanguage.scss";
+
 function ChooseLanguage() {
   const dispatch = useDispatch();
   const languages = useSelector(property("quiz.language.languages"));

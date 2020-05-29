@@ -1,11 +1,14 @@
-import React, { memo, useCallback, useState, useEffect } from "react";
+import React, { memo, useCallback, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import property from "lodash/property";
+
 import Questions from "./components/Questions/Questions";
 import { endQuiz, createTest, screenOrientation } from "../../actions/quiz";
-import "./Quiz.scss";
 import LanguageTimer from "./components/LanguageTimer/LanguageTimer";
+
+import "./Quiz.scss";
+
 let interval;
 
 function Quiz() {
@@ -18,7 +21,7 @@ function Quiz() {
   const [seconds, setSeconds] = useState(0);
 
   const downTimer = () => {
-    setSeconds(60);
+    setSeconds(85);
     interval = setInterval(() => {
       setSeconds((prev) => {
         if (prev - 1 === 0) {
@@ -29,7 +32,6 @@ function Quiz() {
       });
     }, 1000);
   };
-
   const startGame = useCallback(() => {
     downTimer();
     dispatch(createTest(userId, languageId));
@@ -48,13 +50,13 @@ function Quiz() {
   useEffect(() => {
     checkWidth();
   }, []);
-
   useEffect(() => {
     window.addEventListener("resize", checkWidth);
     return () => {
       window.removeEventListener("resize", checkWidth);
     };
   });
+
   return (
     <div className="quiz">
       {isQuizFinished && <Redirect to="result" />}

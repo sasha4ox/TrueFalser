@@ -13,8 +13,10 @@ import {
   START_QUIZ_AGAIN,
   SCREEN_ORIENTATION,
 } from "../constants";
+
 import get from "lodash/get";
 import _filter from "lodash/filter";
+import _head from "lodash/head";
 const initialState = {
   language: {
     selectedLanguage: null,
@@ -121,7 +123,7 @@ export default function quiz(state = initialState, action) {
           ...state.allQuestions,
           answered: [...state.allQuestions.answered, action.currentQuestion],
           questions: [...filteredQuestions],
-          currentQuestion: [filteredQuestions[0]],
+          currentQuestion: [_head(filteredQuestions)],
         },
       };
     default:

@@ -40,13 +40,18 @@ function Questions() {
     );
     const convertedStrings =
         currentQuestionText && splitCode(currentQuestionText);
-
-    // useEffect(() => {
-    //   setTimeout(() => Prism.highlightAll(), 0);
-    // }, []);
     const codeEl = useRef(null);
     const next = useCallback(
         (event) => {
+
+            console.info(event);
+            let userAnswer;
+            if (!get(event, "target.name")) {
+                userAnswer = get(event, "code") === "ArrowRight" ? true : false;
+            } else {
+                userAnswer = get(event, "target.name") === "true" ? true : false;
+            }
+
             const answerToServer = {
                 TestId: get(testInfo, "id"),
                 // UserId: get(testInfo, "UserId"),
@@ -90,8 +95,21 @@ function Questions() {
             UserId,
         ]
     );
+
+    //arrow answer
+    const keyDown = (event) => {
+        if (event.code === "ArrowRight") return next(event);
+        if (event.code === "ArrowLeft") return next(event);
+    };
+    useEffect(() => {
+        window.addEventListener("keydown", keyDown);
+        return () => {
+            window.removeEventListener("keydown", keyDown);
+        };
+    });
+
     return (
-        <div>
+        <div className="code_container">
             <div>
                 {convertedStrings && (
                     <Code

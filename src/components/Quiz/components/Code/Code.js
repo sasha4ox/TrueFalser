@@ -27,6 +27,7 @@ function Code({ lang, code }) {
     useEffect(() => {
         if (code) {
             setTimeout(() => {
+                console.info('Prism.highlightAll() in useEffect!!!');
                 Prism.highlightAll();
             }, 0);
         }
@@ -39,21 +40,21 @@ function Code({ lang, code }) {
     overflow: scroll;
   `;
 
-    const Line = styled.div`
-    display: table-row;
-  `;
-
-    const LineNo = styled.span`
-    display: table-cell;
-    text-align: right;
-    padding-right: 1em;
-    user-select: none;
-    opacity: 0.5;
-  `;
-
-    const LineContent = styled.span`
-    display: table-cell;
-  `;
+  //   const Line = styled.div`
+  //   display: table-row;
+  // `;
+  //
+  //   const LineNo = styled.span`
+  //   display: table-cell;
+  //   text-align: right;
+  //   padding-right: 1em;
+  //   user-select: none;
+  //   opacity: 0.5;
+  // `;
+  //
+  //   const LineContent = styled.span`
+  //   display: table-cell;
+  // `;
     return (
       <>
        <Pre className="keep-markup">

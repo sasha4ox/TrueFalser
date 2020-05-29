@@ -7,13 +7,13 @@
   text-align: end;
 }
 
-.group {
+.groupRegistration {
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
   height: 40px;
 }
 
-.group input {
+.groupRegistration input {
   font-size: 18px;
   padding: 10px 10px 10px 15px;
   display: block;
@@ -23,12 +23,12 @@
   border-bottom: 1px solid #757575;
 }
 
-.group input:focus {
+.groupRegistration input:focus {
   outline: none;
 }
 
 /* LABEL ======================================= */
-.group label {
+.groupRegistration label {
   color: grey;
   font-size: 20px;
   font-weight: normal;
@@ -42,8 +42,8 @@
 }
 
 /* active state */
-.group input:focus ~ label,
-.group input:valid ~ label {
+.groupRegistration input:focus ~ label,
+.groupRegistration input:valid ~ label {
   top: -30px;
   font-size: 18px;
   color: #fff;

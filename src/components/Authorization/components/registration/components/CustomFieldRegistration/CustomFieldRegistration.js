@@ -9,7 +9,7 @@ export default function CustomFieldRegistration({
   meta: { touched, error },
 }) {
   return (
-    <div className="group">
+    <div className="groupRegistration">
       <input
         id={name}
         name={name}

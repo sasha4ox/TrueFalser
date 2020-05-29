@@ -11,6 +11,7 @@ import { alertCreator, registration } from '../../../../actions/authorization';
 import Alert from '../login/components/Alert/Alert';
 import LoginRegistrationButton from '../login/components/LoginRegistrationButton/LoginRegistrationButton';
 import AuthorizationWith from '../AuthorizationWith';
+import Footer from '../../../footer/Footer';
 
 import'./Registration.scss';
 
@@ -42,7 +43,7 @@ const validate = value => {
 
   return errors;
 };
-function Registration({ googleUrl }) {
+function Registration({ googleUrl, facebookUrl }) {
   const dispatch = useDispatch();
   const registrationForm = useSelector(property('form.Registration'));
   const loginState = useSelector(property('authorization'));
@@ -95,15 +96,12 @@ function Registration({ googleUrl }) {
             </div>
           </div>
         </form>
-        <AuthorizationWith />
-        {/*<div className="signInWithR">*/}
-        {/*  <span>Sign in with</span>*/}
-        {/*  <a href={googleUrl} className="item">*/}
-        {/*    <img alt="Google" src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"/>*/}
-        {/*    <span>Google</span>*/}
-        {/*  </a>*/}
-        {/*</div>*/}
+        <AuthorizationWith
+            googleUrl={googleUrl}
+            facebookUrl={facebookUrl}
+        />
       </div>
+      <Footer/>
     </div>
   );
 }

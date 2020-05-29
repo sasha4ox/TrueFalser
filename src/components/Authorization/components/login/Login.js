@@ -13,6 +13,7 @@ import {
 } from '../../../../actions/authorization';
 import Alert from './components/Alert/Alert';
 import AuthorizationWith from '../AuthorizationWith';
+import Footer from '../../../footer/Footer';
 
 import './Login.scss';
 
@@ -61,7 +62,7 @@ function Login({ googleUrl, facebookUrl }) {
       {loginState.alert && (
         <Alert message={loginState.alert} view={loginState.view} />
       )}
-      <h1 className="textLogin">Welcome to TrueFalser!</h1>
+      <h1 className="textLogin">Code Readability Quiz</h1>
       <div className="formContainerLogin">
         <div className="withoutRegistration">
           <button
@@ -101,14 +102,8 @@ function Login({ googleUrl, facebookUrl }) {
             googleUrl={googleUrl}
             facebookUrl={facebookUrl}
         />
-        {/*<div className="signInWith">*/}
-        {/*  <span>Sign in with</span>*/}
-        {/*  <a href={googleUrl} className="item">*/}
-        {/*  <img alt="Google" src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"/>*/}
-        {/*  <span>Google</span>*/}
-        {/*  </a>*/}
-        {/*</div>*/}
       </div>
+      <Footer/>
     </div>
   );
 }

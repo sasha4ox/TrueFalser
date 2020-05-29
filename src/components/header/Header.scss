@@ -17,19 +17,33 @@
   margin-top: 22px;
 }
 
+.header .userDataContainer {
+  display: flex;
+}
+
+.header .userDataContainer img {
+  height: 2.5rem;
+  margin-right: 10px;
+}
+
 .header .statistic a {
   color: white;
 }
 
 .header span {
   display: flex;
-  margin-right: 5px;
+  margin-right: 10px;
+  margin-top: 6px;
   color: white;
 }
 
 .header .logo {
   color: white;
   padding: 10px;
+}
+
+.header .logo img {
+  height: 2.5rem;
 }
 
 .header .logo a {

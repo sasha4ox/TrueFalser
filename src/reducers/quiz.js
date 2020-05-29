@@ -12,6 +12,8 @@ import {
   GET_QUIZ_RESULT_SUCCESS,
   START_QUIZ_AGAIN,
   SCREEN_ORIENTATION,
+  COUNTDOWN_TIMER_TICK,
+  COUNTDOWN_TIMER_START,
 } from "../constants";
 
 import get from "lodash/get";
@@ -31,9 +33,29 @@ const initialState = {
     questions: [],
   },
   isNeedToRotate: false,
+  timer: {
+    isTimerStart: false,
+    secondsToEnd: null,
+  },
 };
 export default function quiz(state = initialState, action) {
   switch (action.type) {
+    case COUNTDOWN_TIMER_START:
+      return {
+        ...state,
+        timer: {
+          isTimerStart: true,
+          secondsToEnd: action.secondsToEnd,
+        },
+      };
+    case COUNTDOWN_TIMER_TICK:
+      return {
+        ...state,
+        timer: {
+          ...state.timer,
+          secondsToEnd: state.timer.secondsToEnd - 1,
+        },
+      };
     case SCREEN_ORIENTATION:
       return {
         ...state,
@@ -109,6 +131,10 @@ export default function quiz(state = initialState, action) {
     case END_QUIZ:
       return {
         ...state,
+        timer: {
+          isTimerStart: false,
+          secondsToEnd: 0,
+        },
         isQuizStarted: false,
         isQuizFinished: true,
       };

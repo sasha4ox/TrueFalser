@@ -4,8 +4,14 @@ import { Redirect } from "react-router-dom";
 import property from "lodash/property";
 
 import Questions from "./components/Questions/Questions";
-import { endQuiz, createTest, screenOrientation } from "../../actions/quiz";
-import LanguageTimer from "./components/LanguageTimer/LanguageTimer";
+import {
+  endQuiz,
+  createTest,
+  screenOrientation,
+  countdownTimerStart,
+  countdownTimerTick,
+} from "../../actions/quiz";
+import CountdownTimer from "./components/CountdownTimer/CountdownTimer";
 
 import "./Quiz.scss";
 
@@ -17,25 +23,32 @@ function Quiz() {
   const userId = useSelector(property("authorization.userData.id"));
   const languageId = useSelector(property("quiz.language.selectedLanguage.id"));
   const isNeedToRotate = useSelector(property("quiz.isNeedToRotate"));
-  const dispatch = useDispatch();
-  const [seconds, setSeconds] = useState(0);
+  const secondsToEndQuiz = useSelector(property("quiz.timer.secondsToEnd"));
+  const isTimerStart = useSelector(property("quiz.timer.isTimerStart"));
 
-  const downTimer = () => {
-    setSeconds(85);
-    interval = setInterval(() => {
-      setSeconds((prev) => {
-        if (prev - 1 === 0) {
-          clearInterval(interval);
-          dispatch(endQuiz());
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
+  const dispatch = useDispatch();
+
+  // countdown timer    ---- START
+  useEffect(() => {
+    if (isTimerStart) {
+      interval = setInterval(() => {
+        dispatch(countdownTimerTick());
+      }, 1000);
+    }
+  }, [isTimerStart]);
+
+  useEffect(() => {
+    if (secondsToEndQuiz === 0) {
+      clearInterval(interval);
+      dispatch(endQuiz());
+    }
+  }, [secondsToEndQuiz]);
+  // countdown timer    ---- END
+
   const startGame = useCallback(() => {
-    downTimer();
     dispatch(createTest(userId, languageId));
-  }, [dispatch, userId]);
+    dispatch(countdownTimerStart(60));
+  }, [dispatch, userId, languageId]);
 
   const checkWidth = () => {
     const orientation = window.matchMedia("(orientation: portrait)");
@@ -60,7 +73,12 @@ function Quiz() {
   return (
     <div className="quiz">
       {isQuizFinished && <Redirect to="result" />}
-      {isQuizStarted && <LanguageTimer seconds={seconds} />}
+      {isQuizStarted && (
+        <div>
+          <CountdownTimer />
+        </div>
+      )}
+      {/* <LanguageTimer seconds={secondsToEndQuiz/> */}
       {isQuizStarted ? (
         <Questions />
       ) : (

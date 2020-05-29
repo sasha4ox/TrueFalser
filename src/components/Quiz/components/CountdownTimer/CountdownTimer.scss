@@ -1,0 +1,13 @@
+.wrapper_timer {
+  position: relative;
+  height: 50px;
+  width: 700px;
+  margin: 10px auto;
+}
+.timer_seconds {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Chelsea Market", cursive;
+}

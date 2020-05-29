@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import { Link } from "react-router-dom";
-import property from "lodash/property";
-import isEmpty from "lodash/isEmpty";
 
 import userSvg from "../../assets/user.svg";
 import trueFalserLogo from "../../assets/true_falser_logo.png";

@@ -9,9 +9,13 @@ function CountdownTimer() {
   const secondsToEndQuiz = useSelector(property("quiz.timer.secondsToEnd"));
   const startSeconds = 60;
   const percentage = Math.floor(secondsToEndQuiz / (startSeconds / 100));
+  const currentQuestionLanguage = useSelector(
+    property("quiz.allQuestions.currentQuestion[0].Language.name")
+  );
 
   return (
     <div className="wrapper_timer">
+      <div className="question_language"> {currentQuestionLanguage}</div>
       <p className="timer_seconds">{secondsToEndQuiz}</p>
       <Circle
         animate={true}

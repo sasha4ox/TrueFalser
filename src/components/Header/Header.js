@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import { Link } from "react-router-dom";
@@ -9,7 +9,6 @@ import trueFalserLogo from "../../assets/true_falser_logo.png";
 import "./Header.scss";
 
 function Header() {
-  const dispatch = useDispatch();
   const currentUserName = useSelector(property("authorization.userData.name"));
   const headerWidth = useRef();
   const initialWidth = null;

@@ -14,6 +14,7 @@ import {
   SCREEN_ORIENTATION,
   COUNTDOWN_TIMER_TICK,
   COUNTDOWN_TIMER_START,
+  SHOW_HEADER_IN_QUIZ,
 } from "../constants";
 
 import get from "lodash/get";
@@ -33,6 +34,7 @@ const initialState = {
     questions: [],
   },
   isNeedToRotate: false,
+  isShowHeader: true,
   timer: {
     isTimerStart: false,
     secondsToEnd: null,
@@ -40,6 +42,11 @@ const initialState = {
 };
 export default function quiz(state = initialState, action) {
   switch (action.type) {
+    case SHOW_HEADER_IN_QUIZ:
+      return {
+        ...state,
+        isShowHeader: action.isShowHeader,
+      };
     case COUNTDOWN_TIMER_START:
       return {
         ...state,

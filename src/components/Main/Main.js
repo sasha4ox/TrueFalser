@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import property from "lodash/property";
 
@@ -12,7 +12,6 @@ import AllLanguagesAnswersStatistic from "../AllLanguagesAnswersStatistic";
 import "./Main.scss";
 
 function Main() {
-  const dispatch = useDispatch();
   const userData = useSelector(property("authorization.userData"));
   return (
     <div>

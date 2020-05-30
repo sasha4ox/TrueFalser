@@ -1,27 +1,27 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { Link }  from 'react-router-dom';
-import property from 'lodash/property';
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
+import property from "lodash/property";
 
-import CustomFieldLogin from './components/CustomFieldLogin/CustomFieldLogin';
-import LoginRegistrationButton from './components/LoginRegistrationButton/LoginRegistrationButton';
+import CustomFieldLogin from "./components/CustomFieldLogin/CustomFieldLogin";
+import LoginRegistrationButton from "./components/LoginRegistrationButton/LoginRegistrationButton";
 import {
   login,
   alertCreator,
   withoutRegistration,
-} from '../../../../actions/authorization';
-import Alert from './components/Alert/Alert';
-import AuthorizationWith from '../AuthorizationWith';
-import Footer from '../../../footer/Footer';
+} from "../../../../actions/authorization";
+import Alert from "./components/Alert/Alert";
+import AuthorizationWith from "../AuthorizationWith";
+import Footer from "../../../Footer/Footer";
 
-import './Login.scss';
+import "./Login.scss";
 
-const validate = value => {
+const validate = (value) => {
   const errors = {};
   // const minLengthPassword = 5;
   if (!value.login) {
-    errors.login = 'Required';
+    errors.login = "Required";
   }
   // else if (value.email.length < minLengthPassword) {
   //   errors.email = `Bro, not enough characters for a valid email`;
@@ -29,7 +29,7 @@ const validate = value => {
   //   errors.email = 'Please, check your email, it looks invalid ';
   // }
   if (!value.password) {
-    errors.password = 'Required';
+    errors.password = "Required";
   }
   // else if (value.password.length < minLengthPassword) {
   //   errors.password = `Password must have at least 5 characters, you typed only ${value.password.length}`;
@@ -39,20 +39,20 @@ const validate = value => {
 };
 
 function Login({ googleUrl, facebookUrl }) {
-  const formLoginState = useSelector(property('form.Login'));
-  const formLoginValue = useSelector(property('form.Login.values'));
-  const loginState = useSelector(property('authorization'));
+  const formLoginState = useSelector(property("form.Login"));
+  const formLoginValue = useSelector(property("form.Login.values"));
+  const loginState = useSelector(property("authorization"));
   const dispatch = useDispatch();
   const loginHandler = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       if (formLoginState.syncErrors) {
-        return dispatch(alertCreator('All fields have to be filled.', 'error'));
+        return dispatch(alertCreator("All fields have to be filled.", "error"));
       }
 
       return dispatch(login(formLoginValue));
     },
-    [dispatch, formLoginValue, formLoginState],
+    [dispatch, formLoginValue, formLoginState]
   );
   const anonymousPass = useCallback(() => {
     dispatch(withoutRegistration());
@@ -65,10 +65,7 @@ function Login({ googleUrl, facebookUrl }) {
       <h1 className="textLogin">Code Readability Quiz</h1>
       <div className="formContainerLogin">
         <div className="withoutRegistration">
-          <button
-              className="btn btn-light"
-              onClick={anonymousPass}
-          >
+          <button className="btn btn-light" onClick={anonymousPass}>
             Without registration
           </button>
         </div>
@@ -93,23 +90,20 @@ function Login({ googleUrl, facebookUrl }) {
                 Don&apos;t have an account? Click for create.
               </Link>
               {/* <Link className={s.link} to="/password_reset"> */
-                /*  Forgot your password? */
-                /* </Link> */}
+              /*  Forgot your password? */
+              /* </Link> */}
             </div>
           </div>
         </form>
-        <AuthorizationWith
-            googleUrl={googleUrl}
-            facebookUrl={facebookUrl}
-        />
+        <AuthorizationWith googleUrl={googleUrl} facebookUrl={facebookUrl} />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
 
 Login.whyDidYouRender = true;
 export default reduxForm({
-  form: 'Login',
+  form: "Login",
   validate,
 })(Login);

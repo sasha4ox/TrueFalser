@@ -7,6 +7,7 @@ import get from "lodash/get";
 import { getResult, startQuizAgain } from "../../actions/quiz";
 
 import "./Result.scss";
+import Header from "../Header/Header";
 
 function Result() {
   const dispatch = useDispatch();
@@ -21,18 +22,21 @@ function Result() {
     dispatch(startQuizAgain());
   }, [dispatch]);
   return (
-    <div className="result_wrapper">
-      <h1>Your result :</h1>
-      <p className="result_questions">
-        Questions: {get(testResult, "totalAnswersInTest")}
-      </p>
-      <p className="result_questions_rigth">
-        Rigth answers: {get(testResult, "correctAnswersInTest")}
-      </p>
-      <NavLink to="/select-language" onClick={tryTestAgain}>
-        try agian
-      </NavLink>
-    </div>
+    <>
+      <Header />
+      <div className="result_wrapper">
+        <h1>Your result :</h1>
+        <p className="result_questions">
+          Questions: {get(testResult, "totalAnswersInTest")}
+        </p>
+        <p className="result_questions_rigth">
+          Rigth answers: {get(testResult, "correctAnswersInTest")}
+        </p>
+        <NavLink to="/select-language" onClick={tryTestAgain}>
+          try agian
+        </NavLink>
+      </div>
+    </>
   );
 }
 export default memo(Result);

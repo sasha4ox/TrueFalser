@@ -79,6 +79,7 @@ function Questions() {
       testInfo,
       selectedLanguage,
       answeredQuestions,
+      UserId,
     ]
   );
 
@@ -96,44 +97,48 @@ function Questions() {
 
   return (
     <div className="wrapper_questions">
-      {_map(convertedStrings, (itemCode, index) => {
-        if (isArray(itemCode.code)) {
-          return (
-            <div
-              key={generateUniqueKey(index)}
-              className={
-                itemCode.isStartSeparated ? "string_start" : "string_finish"
-              }
-            >
-              {_map(itemCode.code, (item, index) => {
-                return (
+      <div className="wrapper_question">
+        <div className="question">
+          {_map(convertedStrings, (itemCode, index) => {
+            if (isArray(itemCode.code)) {
+              return (
+                <div
+                  key={generateUniqueKey(index)}
+                  className={
+                    itemCode.isStartSeparated ? "string_start" : "string_finish"
+                  }
+                >
+                  {_map(itemCode.code, (item, index) => {
+                    return (
+                      <SyntaxHighlighter
+                        key={generateUniqueKey(index)}
+                        language={currentQuestionLanguage}
+                        style={docco}
+                      >
+                        {item}
+                      </SyntaxHighlighter>
+                    );
+                  })}
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  className={itemCode.marked && "marked_string"}
+                  key={generateUniqueKey(index)}
+                >
                   <SyntaxHighlighter
-                    key={generateUniqueKey(index)}
                     language={currentQuestionLanguage}
                     style={docco}
                   >
-                    {item}
+                    {itemCode.code}
                   </SyntaxHighlighter>
-                );
-              })}
-            </div>
-          );
-        } else {
-          return (
-            <div
-              className={itemCode.marked && "marked_string"}
-              key={generateUniqueKey(index)}
-            >
-              <SyntaxHighlighter
-                language={currentQuestionLanguage}
-                style={docco}
-              >
-                {itemCode.code}
-              </SyntaxHighlighter>
-            </div>
-          );
-        }
-      })}
+                </div>
+              );
+            }
+          })}
+        </div>
+      </div>
       <div className="wrapper_for_Button">
         <button
           name="false"

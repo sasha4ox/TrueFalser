@@ -5,8 +5,7 @@ import property from "lodash/property";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import { getAllLanguagesStatistic } from "./actions/statistic";
-import Main from "./components/main/Main";
-import Header from "./components/header/Header";
+import Main from "./components/Main/Main";
 import Authorization from "./components/Authorization";
 import ParseUrlPage from "./components/ParseUrlPage";
 
@@ -26,7 +25,6 @@ function App() {
   }, [allLanguagesStatistic, dispatch]);
   return (
     <div className="app">
-      <Header />
       <Switch>
         <Route path="/callback/google">
           <ParseUrlPage chosenAuthorizationUrl="google" />

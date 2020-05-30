@@ -21,10 +21,18 @@ import {
   SCREEN_ORIENTATION,
   COUNTDOWN_TIMER_START,
   COUNTDOWN_TIMER_TICK,
+  SHOW_HEADER_IN_QUIZ,
 } from "../constants/index";
 
 import fetchAsync from "../utils/fetch";
 import { apiUrl } from "../client-config";
+
+export function isShowingHeaderInQuiz(isShowHeader) {
+  return {
+    type: SHOW_HEADER_IN_QUIZ,
+    isShowHeader,
+  };
+}
 
 export function countdownTimerStart(secondsToEnd) {
   return {

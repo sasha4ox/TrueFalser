@@ -13,6 +13,7 @@ import {
   startQuizAgain,
 } from "../../actions/quiz";
 import Spinner from "../Spinner";
+import Header from "../Header/Header";
 
 import "./ChooseLanguage.scss";
 
@@ -23,7 +24,6 @@ function ChooseLanguage() {
   const isLanguageSelected = useSelector(
     property("quiz.language.selectedLanguage")
   );
-  console.log("isLanguageSelected", _isNull(isLanguageSelected));
   const selectedLanguage = useCallback(
     (event) => {
       const selectedLanguge = _filter(
@@ -37,22 +37,25 @@ function ChooseLanguage() {
   useEffect(() => {
     if (!_isNull(isLanguageSelected)) dispatch(startQuizAgain());
     dispatch(getLanguages());
-  }, [dispatch]);
+  }, [dispatch, isLanguageSelected]);
   return (
-    <main className="choose_main">
-      <h1>Select language for Quiz</h1>
-      {isLanguageLoading && <Spinner />}
-      {!isLanguageLoading &&
-        _map(languages, (language) => {
-          return (
-            <div key={language.id} className="choose_lang">
-              <Link to="/quiz" name={language.id} onClick={selectedLanguage}>
-                {language.name}
-              </Link>
-            </div>
-          );
-        })}
-    </main>
+    <>
+      <Header />
+      <main className="choose_main">
+        <h1>Select language for Quiz</h1>
+        {isLanguageLoading && <Spinner />}
+        {!isLanguageLoading &&
+          _map(languages, (language) => {
+            return (
+              <div key={language.id} className="choose_lang">
+                <Link to="/quiz" name={language.id} onClick={selectedLanguage}>
+                  {language.name}
+                </Link>
+              </div>
+            );
+          })}
+      </main>
+    </>
   );
 }
 export default memo(ChooseLanguage);

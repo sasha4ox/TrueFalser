@@ -28,6 +28,53 @@ function splitCode(string) {
   let beforeFinish = [];
   let stringAfterFinish = [];
 
+  const isStartFinishInOneLine = _last(stringsSeparatedByStart).includes(
+    "*FINISH*"
+  ); // is START and FINISH on one line?
+  //IF NEED TO MARKED ON ONE LINE ----------------------------------------
+  if (isStartFinishInOneLine) {
+    const wholeStringDivideBySart = _split(string, "*START*");
+    const separatedStringByEnterBeforeStart = _split(
+      //strings before START NOTE MARKED
+      _head(wholeStringDivideBySart),
+      "\n"
+    );
+    const separatedStringByEnterAfterStart = _split(
+      //strings after START  MARKED
+      _last(wholeStringDivideBySart),
+      "\n"
+    );
+    const stringWhereWasStartMarkBefore = separatedStringByEnterBeforeStart.pop(); // string before START
+    const stringWhereWasStartMarkAfter = separatedStringByEnterAfterStart.shift(); // string after START
+
+    const stringAfterAStartWithFinish = stringWhereWasStartMarkAfter.split(
+      "*FINISH*"
+    );
+    const stringWithFinishMarkWithoutStart = _last(stringsSeparatedByStart);
+    const stringAfterFinishWithoutFinish = _split(
+      _last(_split(string, stringWithFinishMarkWithoutStart)).trim(),
+      "\n"
+    );
+    beforeStart = _map(separatedStringByEnterBeforeStart, (item) => {
+      // completed array of code before start
+      return {
+        code: item,
+      };
+    });
+    markedStrings = {
+      code: [stringWhereWasStartMarkBefore, ...stringAfterAStartWithFinish],
+      isBetweenStartFinish: true,
+      isStartSeparated: 25,
+    };
+    stringAfterFinish = _map(stringAfterFinishWithoutFinish, (item) => {
+      return {
+        code: item,
+      };
+    });
+    return [...beforeStart, markedStrings, ...stringAfterFinish];
+  }
+  //IF NEED TO MARKED ON ONE LINE END----------------------------------------
+
   //SEPARATED BY START -------------------------------------------------------------------------------------------------
   if (!isSoloStart) {
     const wholeStringDivideBySart = _split(string, "*START*");

@@ -19,7 +19,9 @@ function Questions() {
   useEffect(() => {
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
-    window.scrollTo(0, 1);
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+    }, 0);
   }, []);
   const dispatch = useDispatch();
   const UserId = useSelector(property("authorization.userData.id"));

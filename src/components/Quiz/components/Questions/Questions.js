@@ -8,6 +8,7 @@ import _toLower from "lodash/toLower";
 import get from "lodash/get";
 import isArray from "lodash/isArray";
 import classnames from "classnames";
+import screenfull from "screenfull";
 
 import "./Questions.scss";
 
@@ -17,11 +18,14 @@ import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
   useEffect(() => {
+    if (screenfull.isEnabled) {
+      screenfull.request();
+    }
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
-    setTimeout(() => {
-      window.scrollTo(0, 25);
-    }, 0);
+    return () => {
+      screenfull.exit();
+    };
   }, []);
   const dispatch = useDispatch();
   const UserId = useSelector(property("authorization.userData.id"));

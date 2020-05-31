@@ -7,6 +7,7 @@ import _map from "lodash/map";
 import _toLower from "lodash/toLower";
 import get from "lodash/get";
 import isArray from "lodash/isArray";
+import classnames from "classnames";
 
 import "./Questions.scss";
 
@@ -104,9 +105,15 @@ function Questions() {
               return (
                 <div
                   key={generateUniqueKey(index)}
-                  className={
-                    itemCode.isStartSeparated ? "string_start" : "string_finish"
-                  }
+                  className={classnames({
+                    string_start: itemCode.isStartSeparated === true,
+                    string_finish: itemCode.isStartSeparated === false,
+                    divededOnOneline: itemCode.isBetweenStartFinish,
+                  })}
+
+                  // {
+                  //   itemCode.isStartSeparated ? "string_start" : "string_finish"
+                  // }
                 >
                   {_map(itemCode.code, (item, index) => {
                     return (

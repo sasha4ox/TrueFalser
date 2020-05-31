@@ -80,3 +80,16 @@ textarea {
   background-color: rgb(7, 7, 182);
   margin-right: 15px;
 }
+
+.divededOnOneline {
+  display: flex;
+  width: 100%;
+}
+.divededOnOneline pre:nth-child(2) {
+  /* flex: 1; */
+  background: rgba(24, 204, 144, 0.5) !important;
+}
+.divededOnOneline pre:last-child {
+  flex: 1;
+  /* background: rgba(24, 204, 144, 0.5) !important; */
+}

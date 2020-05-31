@@ -4,6 +4,7 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import isArray from "lodash/isArray";
 import _map from "lodash/map";
+import classnames from "classnames";
 function Code({ code }) {
   return (
     <>
@@ -11,13 +12,19 @@ function Code({ code }) {
         if (isArray(itemCode.code)) {
           return (
             <div
-              className={
-                itemCode.isStartSeparated ? "string_start" : "string_finish"
-              }
+              className={classnames({
+                string_start: itemCode.isStartSeparated === true,
+                string_finish: itemCode.isStartSeparated === false,
+                divededOnOneline: itemCode.isBetweenStartFinish,
+              })}
+
+              // {
+              //   itemCode.isStartSeparated ? "string_start" : "string_finish"
+              // }
             >
               {_map(itemCode.code, (item) => {
                 return (
-                  <SyntaxHighlighter language="javascri" style={docco}>
+                  <SyntaxHighlighter language="javascript" style={docco}>
                     {item}
                   </SyntaxHighlighter>
                 );

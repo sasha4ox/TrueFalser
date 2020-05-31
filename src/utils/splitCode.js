@@ -22,14 +22,60 @@ function splitCode(string) {
   );
   const isSoloStart = isEmpty(_head(stringsSeparatedByStart).trim()); //HERE ANSWER
   // isStartOnOneStringWithAnotherCode DONE
-
+  const isStartFinishInOneLine = _last(stringsSeparatedByStart).includes(
+    "*FINISH*"
+  );
+  console.log("isStartFinishInOneLine", isStartFinishInOneLine);
   let beforeStart = [];
   let markedStrings = [];
   let markedStrings2 = [];
   let stringAfterStart = [];
   let beforeFinish = [];
   let stringAfterFinish = [];
+  //IF NEED TO MARKED ON ONE LINE ----------------------------------------
+  if (isStartFinishInOneLine) {
+    const wholeStringDivideBySart = _split(string, "*START*");
+    const separatedStringByEnterBeforeStart = _split(
+      //strings before START NOTE MARKED
+      _head(wholeStringDivideBySart),
+      "\n"
+    );
+    const separatedStringByEnterAfterStart = _split(
+      //strings after START  MARKED
+      _last(wholeStringDivideBySart),
+      "\n"
+    );
+    const stringWhereWasStartMarkBefore = separatedStringByEnterBeforeStart.pop(); // string before START
+    const stringWhereWasStartMarkAfter = separatedStringByEnterAfterStart.shift(); // string after START
 
+    const stringAfterAStartWithFinish = stringWhereWasStartMarkAfter.split(
+      "*FINISH*"
+    );
+    const stringWithFinishMarkWithoutStart = _last(stringsSeparatedByStart);
+    const stringAfterFinishWithoutFinish = _split(
+      _last(_split(string, stringWithFinishMarkWithoutStart)).trim(),
+      "\n"
+    );
+    console.log("dsdsdsdsdsds", stringAfterFinishWithoutFinish);
+    beforeStart = _map(separatedStringByEnterBeforeStart, (item) => {
+      // completed array of code before start
+      return {
+        code: item,
+      };
+    });
+    markedStrings = {
+      code: [stringWhereWasStartMarkBefore, ...stringAfterAStartWithFinish],
+      isBetweenStartFinish: true,
+      isStartSeparated: 25,
+    };
+    stringAfterFinish = _map(stringAfterFinishWithoutFinish, (item) => {
+      return {
+        code: item,
+      };
+    });
+    return [...beforeStart, markedStrings, ...stringAfterFinish];
+  }
+  //IF NEED TO MARKED ON ONE LINE END----------------------------------------
   //SEPARATED BY START -------------------------------------------------------------------------------------------------
   if (!isSoloStart) {
     const wholeStringDivideBySart = _split(string, "*START*");
@@ -46,17 +92,19 @@ function splitCode(string) {
     const stringWhereWasStartMarkBefore = separatedStringByEnterBeforeStart.pop(); // string before START
     const stringWhereWasStartMarkAfter = separatedStringByEnterAfterStart.shift(); // string after START
 
+    markedStrings = {
+      code: [stringWhereWasStartMarkBefore, stringWhereWasStartMarkAfter],
+      isStartSeparated: true,
+    };
     beforeStart = _map(separatedStringByEnterBeforeStart, (item) => {
       // completed array of code before start
       return {
         code: item,
       };
     });
-    markedStrings = {
-      code: [stringWhereWasStartMarkBefore, stringWhereWasStartMarkAfter],
-      isStartSeparated: true,
-    };
+
     stringAfterStart = [...separatedStringByEnterAfterStart];
+    console.log("stringAfterStart", stringAfterStart);
   } else {
     beforeStart = _map(
       _split(_head(_split(string, "*START*")).trim(), "\n"),
@@ -100,6 +148,17 @@ function splitCode(string) {
     const stringWhereWasFinishMarkBefore = separatedStringByEnterBeforeFinish.pop(); // string before FINISH
     const stringWhereWasFinishMarkAfter = separatedStringByEnterAfterFinish.shift(); // string after FINISH
 
+    // if (stringWhereWasFinishMarkBefore.includes("FINISH")) {
+    //   beforeFinish = _map(separatedStringByEnterBeforeFinish, (item) => {
+    //     // completed array of code before FINISH
+    //     return {
+    //       code: item,
+    //       marked: false,
+    //     };
+    //   });
+    // } else {
+
+    // }
     beforeFinish = _map(separatedStringByEnterBeforeFinish, (item) => {
       // completed array of code before FINISH
       return {
@@ -173,7 +232,7 @@ function splitCode(string) {
       ...stringAfterFinish,
     ];
   }
-
+  console.log("wholeObj", everyStringToObject);
   return everyStringToObject;
 }
 

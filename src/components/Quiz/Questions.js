@@ -36,7 +36,12 @@ function Questions() {
     property("quiz.allQuestions.currentQuestion[0].text")
   );
   const convertedStrings =
-    currentQuestionText && splitCode(currentQuestionText);
+    currentQuestionText &&
+    splitCode(`const isActive = *START* true
+    if(isActive){
+      
+      return *FINISH* isActive
+    }`);
 
   // useEffect(() => {
   //   setTimeout(() => Prism.highlightAll(), 0);

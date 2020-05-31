@@ -20,7 +20,7 @@ function Questions() {
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
     setTimeout(() => {
-      window.scrollTo(0, 1);
+      window.scrollTo(0, 25);
     }, 0);
   }, []);
   const dispatch = useDispatch();
@@ -113,10 +113,6 @@ function Questions() {
                     string_finish: itemCode.isStartSeparated === false,
                     divededOnOneline: itemCode.isBetweenStartFinish,
                   })}
-
-                  // {
-                  //   itemCode.isStartSeparated ? "string_start" : "string_finish"
-                  // }
                 >
                   {_map(itemCode.code, (item, index) => {
                     return (

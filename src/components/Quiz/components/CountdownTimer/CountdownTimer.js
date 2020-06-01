@@ -6,7 +6,8 @@ import property from "lodash/property";
 import "./CountdownTimer.scss";
 
 function CountdownTimer() {
-  const secondsToEndQuiz = useSelector(property("quiz.timer.secondsToEnd"));
+  const secondsToEndQuiz =
+    useSelector(property("quiz.timer.secondsToEnd")) || 60;
   const startSeconds = 60;
   const percentage = Math.floor(secondsToEndQuiz / (startSeconds / 100));
   const currentQuestionLanguage = useSelector(

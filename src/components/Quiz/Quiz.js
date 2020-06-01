@@ -90,26 +90,28 @@ function Quiz() {
             <CountdownTimer />
           </div>
         )}
-        {/* <LanguageTimer seconds={secondsToEndQuiz/> */}
         {isQuizStarted ? (
           <Questions />
         ) : (
-          <div className="wrapper_start_quiz">
-            <button
-              type="button"
-              className="start_button"
-              onClick={startGame}
-              disabled={isNeedToRotate}
-            >
-              START QUIZ
-            </button>
-            {isNeedToRotate && (
-              <p>
-                Please rotate the screen to horizontal for a more comfortable
-                game
-              </p>
-            )}
-          </div>
+          <>
+            <div className="wrapper_start_quiz">
+              <button
+                type="button"
+                className="start_button"
+                onClick={startGame}
+                disabled={isNeedToRotate}
+              >
+                START QUIZ
+              </button>
+              {isNeedToRotate && (
+                <p>
+                  Please rotate the screen to horizontal for a more comfortable
+                  game
+                </p>
+              )}
+            </div>
+            <Questions />
+          </>
         )}
       </div>
     </>

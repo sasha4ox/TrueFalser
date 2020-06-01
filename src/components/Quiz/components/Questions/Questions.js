@@ -17,16 +17,20 @@ import generateUniqueKey from "../../../../utils/generateUniqueKey";
 import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
+  const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
+  const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   useEffect(() => {
-    if (screenfull.isEnabled) {
+    if (screenfull.isEnabled && isQuizStarted) {
       screenfull.request();
     }
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
-    return () => {
-      screenfull.exit();
-    };
-  }, []);
+    if (isQuizFinished) {
+      return () => {
+        screenfull.exit();
+      };
+    }
+  }, [isQuizFinished, isQuizStarted]);
   const dispatch = useDispatch();
   const UserId = useSelector(property("authorization.userData.id"));
   const testInfo = useSelector(property("quiz.test"));
@@ -104,7 +108,14 @@ function Questions() {
   });
 
   return (
-    <div className="wrapper_questions">
+    <div
+      className={classnames({
+        wrapper_questions: isQuizStarted,
+        wrapper_questions_before_start: !isQuizStarted,
+      })}
+
+      // "wrapper_questions"
+    >
       <div className="wrapper_question">
         <div className="question">
           {_map(convertedStrings, (itemCode, index) => {

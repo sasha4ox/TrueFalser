@@ -1,6 +1,6 @@
 .wrapper_questions {
   max-width: 700px;
-  min-height: 330px;
+  min-height: 350px;
   margin: 0 auto;
   border: 2px solid #f5f7f8;
   box-shadow: 2px 0px 25px 1px #f5f7f8;
@@ -33,40 +33,40 @@
   padding: 15px 0;
   background: #f5f7f8;
   width: 100%;
-  .button {
-    width: 150px;
-    height: 50px;
-    border-radius: 5px;
-    background: #2977c9;
-    color: white;
-    border: none;
-    outline: none;
+}
+.button {
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  background: #2977c9;
+  color: white;
+  border: none;
+  outline: none;
+}
+.button_false {
+  background-color: red;
+  position: relative;
+  &::before {
+    position: absolute;
+    top: 4px;
+    left: -47px;
+    display: block;
+    content: "\2190";
+    color: #7e919f;
+    font-size: 28px;
   }
-  .button_false {
-    background-color: red;
-    position: relative;
-    &::before {
-      position: absolute;
-      top: 4px;
-      left: -47px;
-      display: block;
-      content: "\2190";
-      color: #7e919f;
-      font-size: 28px;
-    }
-  }
-  .button_true {
-    background-color: green;
-    position: relative;
-    &::after {
-      position: absolute;
-      top: 4px;
-      right: -47px;
-      display: block;
-      content: "\2192";
-      color: #7e919f;
-      font-size: 28px;
-    }
+}
+.button_true {
+  background-color: green;
+  position: relative;
+  &::after {
+    position: absolute;
+    top: 4px;
+    right: -47px;
+    display: block;
+    content: "\2192";
+    color: #7e919f;
+    font-size: 28px;
   }
 }
 @media screen and (max-width: 500px) {
@@ -130,14 +130,17 @@ pre {
 @media screen and(max-height:375px) {
   .wrapper_for_Button {
     padding: 5px 0px;
-    .button_false,
-    .button_true {
-      height: 40px;
-      width: 100px;
-      &::after,
-      &::before {
-        top: -2px;
-      }
+  }
+  .button_false,
+  .button_true {
+    height: 40px;
+    width: 100px;
+    &::after,
+    &::before {
+      top: -2px;
     }
+  }
+  .wrapper_questions {
+    min-height: 315px;
   }
 }

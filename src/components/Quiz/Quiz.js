@@ -55,7 +55,6 @@ function Quiz() {
 
   const startGame = useCallback(() => {
     dispatch(createTest(userId, languageId));
-    dispatch(countdownTimerStart(60));
   }, [dispatch, userId, languageId]);
 
   const checkWidth = () => {

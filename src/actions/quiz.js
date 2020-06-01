@@ -145,7 +145,6 @@ export function getQuestions(LanguageId, excludedquestions) {
 export function createTest(UserId, LanguageId) {
   return async (dispatch) => {
     dispatch(createTestStat());
-    // dispatch(getQuestionsStart());
     try {
       const payload = await fetchAsync(`${apiUrl}/test`, "POST", {
         UserId,
@@ -155,6 +154,7 @@ export function createTest(UserId, LanguageId) {
         return dispatch(createTestFailure(payload.message));
       }
       dispatch(createTestSuccess(payload.data));
+      dispatch(countdownTimerStart(60));
       return dispatch(getQuestions(LanguageId));
     } catch (error) {
       return dispatch(createTestFailure(error.message));

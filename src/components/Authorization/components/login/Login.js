@@ -13,7 +13,7 @@ import {
 } from "../../../../actions/authorization";
 import Alert from "./components/Alert/Alert";
 import AuthorizationWith from "../AuthorizationWith";
-import Footer from "../../../Footer/Footer";
+// import Footer from "../../../Footer/Footer";
 
 import "./Login.scss";
 
@@ -97,7 +97,7 @@ function Login({ googleUrl, facebookUrl }) {
         </form>
         <AuthorizationWith googleUrl={googleUrl} facebookUrl={facebookUrl} />
       </div>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 }

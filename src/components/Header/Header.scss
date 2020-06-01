@@ -1,15 +1,59 @@
 .header {
   background-color: #2977c9;
-  height: 7vh;
-  min-height: 49px;
+  height: 8vh;
+  min-height: 70px;
   margin-bottom: 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.header .headerLinks {
+.header .appInfo {
+  display: block;
+}
+
+.appInfo .headerLinks {
   display: flex;
+}
+
+.appInfo .headerLinks h2 {
+  margin-top: 4px;
+  margin-bottom: 0px;
+}
+
+//.appInfo .sloganDeveloperContainer {
+//  display: flex;
+//  margin-left: 10px;
+//}
+
+.descriptionContainerDiv {
+  display: flex;
+  margin-left: 10px;
+}
+
+.descriptionContainer {
+  display: flex;
+}
+
+.descriptionContainer span {
+  display: flex;
+  margin-right: 10px;
+  margin-top: 6px;
+  color: #d2caca;
+  font-size: 1rem;
+}
+
+//.descriptionContainer span {
+//  font-size: 14px;
+//}
+
+.descriptionContainer a {
+  display: flex;
+}
+
+.descriptionContainer img{
+  height: 1.5rem;
+  margin-bottom: 1vh;
 }
 
 .header .statistic {
@@ -37,16 +81,37 @@
   color: white;
 }
 
-.header .logo {
+.appInfo .headerLinks .logo {
   color: white;
-  padding: 10px;
+  //padding: 10px;
 }
 
-.header .logo img {
+.appInfo .headerLinks .logoText a {
+  color: white;
+  padding: 10px;
+  font-size: 1.5rem;
+}
+
+.appInfo .headerLinks .logoText h2 {
+  padding-top: 1vh;
+  font-size: 1.5rem;
+}
+
+.appInfo .headerLinks .logo img {
   height: 2.5rem;
 }
 
-.header .logo a {
+.appInfo .headerLinks .logo a {
   color: white;
   padding: 10px;
+}
+
+@media screen and (max-width: 400px){
+  .header span {
+    display: flex;
+    margin-right: 10px;
+    margin-top: 6px;
+    color: white;
+    font-size: small;
+  }
 }

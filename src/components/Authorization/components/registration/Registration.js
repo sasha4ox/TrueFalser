@@ -10,7 +10,7 @@ import { alertCreator, registration } from "../../../../actions/authorization";
 import Alert from "../login/components/Alert/Alert";
 import LoginRegistrationButton from "../login/components/LoginRegistrationButton/LoginRegistrationButton";
 import AuthorizationWith from "../AuthorizationWith";
-import Footer from "../../../Footer/Footer";
+// import Footer from "../../../Footer/Footer";
 
 import "./Registration.scss";
 
@@ -95,7 +95,7 @@ function Registration({ googleUrl, facebookUrl }) {
         </form>
         <AuthorizationWith googleUrl={googleUrl} facebookUrl={facebookUrl} />
       </div>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 }

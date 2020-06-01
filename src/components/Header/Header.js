@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import userSvg from "../../assets/user.svg";
 import trueFalserLogo from "../../assets/true_falser_logo.png";
 import "./Header.scss";
+import elifechLogo from "../../assets/eliftech.ico";
 
 function Header() {
   const currentUserName = useSelector(property("authorization.userData.name"));
@@ -34,15 +35,33 @@ function Header() {
 
   return (
     <header ref={headerWidth} className="header">
-      <div className="headerLinks">
-        <h2 className="logo">
-          <Link to="/">
-            <img alt="Logo" src={trueFalserLogo} />
-          </Link>
-        </h2>
-        <div className="statistic">
-          <Link to="/statistic/all-languages-answers">Statistic</Link>
+      <div className="appInfo">
+        <div className="headerLinks">
+          <h2 className="logo">
+            <Link to="/">
+              <img alt="Logo" src={trueFalserLogo} />
+            </Link>
+          </h2>
+          <h2 className="logoText">
+            <Link to="/">TrueFalsr</Link>
+          </h2>
+          {/*<div className="statistic">*/}
+          {/*  <Link to="/statistic/all-languages-answers">Statistic</Link>*/}
+          {/*</div>*/}
         </div>
+            <div className="descriptionContainerDiv">
+              <span>Code Readability Quiz</span>
+              {(isEmpty(currentUserName) && currentWidth <= mobileWidth)
+              || (currentWidth >= mobileWidth) ? (
+                  <div className="descriptionContainer">
+                    <span>made by  </span>
+                    <a href="https://www.eliftech.com/" target="_blank">
+                      <span>Eliftech  </span>
+                      <img alt="Eliftech" src={elifechLogo}/>
+                    </a>
+                  </div>
+              ) : <span />}
+            </div>
       </div>
       <div className="userDataContainer">
         {!isEmpty(currentUserName) && currentWidth >= mobileWidth && (

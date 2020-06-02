@@ -1,18 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "jquery/src/jquery";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { BrowserRouter as Router } from "react-router-dom";
-import history from "./history";
-import thunk from "redux-thunk";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import 'jquery/src/jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { BrowserRouter as Router } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import history from './history';
 
-import App from "./App";
-import reducer from "./reducers";
+import App from './App';
+import reducer from './reducers';
 
-import "./index.css";
+import './index.css';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -27,5 +27,5 @@ ReactDOM.render(
       <App />
     </Router>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

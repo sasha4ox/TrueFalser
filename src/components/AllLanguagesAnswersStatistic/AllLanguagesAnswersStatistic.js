@@ -1,19 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import Circle from "react-circle";
-import isEmpty from "lodash/isEmpty";
-import map from "lodash/map";
-import property from "lodash/property";
-import get from "lodash/get";
-import isNan from "lodash/isNaN";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Circle from 'react-circle';
+import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
+import property from 'lodash/property';
+import get from 'lodash/get';
+import isNan from 'lodash/isNaN';
 
-import Header from "../Header/Header";
+import Header from '../Header/Header';
 
-import "./AllLanguagesAnswersStatistic.scss";
+import './AllLanguagesAnswersStatistic.scss';
 
 function AllLanguagesAnswersStatistic() {
   const allLanguagesAnswersStatistic = useSelector(
-    property("statistic.allLanguagesAnswersStatistic")
+    property('statistic.allLanguagesAnswersStatistic'),
   );
   return (
     <>
@@ -24,37 +24,36 @@ function AllLanguagesAnswersStatistic() {
           {!isEmpty(allLanguagesAnswersStatistic) ? (
             map(allLanguagesAnswersStatistic, (item) => {
               const correctAnswersInPercent = Math.round(
-                (Number(get(item, "correctAnswers")) /
-                  Number(get(item, "totalAnswers"))) *
-                  100
+                (Number(get(item, 'correctAnswers'))
+                  / Number(get(item, 'totalAnswers')))
+                  * 100,
               );
               console.info(
-                "correctAnswersInPercent!!",
-                correctAnswersInPercent
+                'correctAnswersInPercent!!',
+                correctAnswersInPercent,
               );
               const answersValue = !isNan(correctAnswersInPercent)
                 ? correctAnswersInPercent
                 : 0;
-              const textColorStyle =
-                correctAnswersInPercent >= 70 ? "#28a745" : "#e3b713";
+              const textColorStyle = correctAnswersInPercent >= 70 ? '#28a745' : '#e3b713';
               return (
-                <div key={get(item, "id")}>
-                  <p>{get(item, "name")}</p>
+                <div key={get(item, 'id')}>
+                  <p>{get(item, 'name')}</p>
                   <Circle
-                    animate={true}
+                    animate
                     animationDuration="1s"
-                    size={150}
+                    bgColor="whitesmoke"
+                    percentSpacing={10}
                     progress={answersValue}
                     progressColor="cornflowerblue"
-                    bgColor="whitesmoke"
+                    roundedStroke
+                    showPercentage
+                    showPercentageSymbol
+                    size={150}
                     textColor={textColorStyle}
                     textStyle={{
-                      font: "bold 5rem Helvetica, Arial, sans-serif",
+                      font: 'bold 5rem Helvetica, Arial, sans-serif',
                     }}
-                    percentSpacing={10}
-                    roundedStroke={true}
-                    showPercentage={true}
-                    showPercentageSymbol={true}
                   />
                 </div>
               );

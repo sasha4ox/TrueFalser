@@ -1,27 +1,27 @@
-import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Field, reduxForm } from "redux-form";
-import { Link } from "react-router-dom";
-import property from "lodash/property";
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import property from 'lodash/property';
 
-import CustomFieldLogin from "./components/CustomFieldLogin/CustomFieldLogin";
-import LoginRegistrationButton from "./components/LoginRegistrationButton/LoginRegistrationButton";
+import CustomFieldLogin from './components/CustomFieldLogin/CustomFieldLogin';
+import LoginRegistrationButton from './components/LoginRegistrationButton/LoginRegistrationButton';
 import {
   login,
   alertCreator,
   withoutRegistration,
-} from "../../../../actions/authorization";
-import Alert from "./components/Alert/Alert";
-import AuthorizationWith from "../AuthorizationWith";
+} from '../../../../actions/authorization';
+import Alert from './components/Alert/Alert';
+import AuthorizationWith from '../AuthorizationWith';
 // import Footer from "../../../Footer/Footer";
 
-import "./Login.scss";
+import './Login.scss';
 
 const validate = (value) => {
   const errors = {};
   // const minLengthPassword = 5;
   if (!value.login) {
-    errors.login = "Required";
+    errors.login = 'Required';
   }
   // else if (value.email.length < minLengthPassword) {
   //   errors.email = `Bro, not enough characters for a valid email`;
@@ -29,7 +29,7 @@ const validate = (value) => {
   //   errors.email = 'Please, check your email, it looks invalid ';
   // }
   if (!value.password) {
-    errors.password = "Required";
+    errors.password = 'Required';
   }
   // else if (value.password.length < minLengthPassword) {
   //   errors.password = `Password must have at least 5 characters, you typed only ${value.password.length}`;
@@ -39,20 +39,20 @@ const validate = (value) => {
 };
 
 function Login({ googleUrl, facebookUrl }) {
-  const formLoginState = useSelector(property("form.Login"));
-  const formLoginValue = useSelector(property("form.Login.values"));
-  const loginState = useSelector(property("authorization"));
+  const formLoginState = useSelector(property('form.Login'));
+  const formLoginValue = useSelector(property('form.Login.values'));
+  const loginState = useSelector(property('authorization'));
   const dispatch = useDispatch();
   const loginHandler = useCallback(
     (event) => {
       event.preventDefault();
       if (formLoginState.syncErrors) {
-        return dispatch(alertCreator("All fields have to be filled.", "error"));
+        return dispatch(alertCreator('All fields have to be filled.', 'error'));
       }
 
       return dispatch(login(formLoginValue));
     },
-    [dispatch, formLoginValue, formLoginState]
+    [dispatch, formLoginValue, formLoginState],
   );
   const anonymousPass = useCallback(() => {
     dispatch(withoutRegistration());
@@ -95,15 +95,15 @@ function Login({ googleUrl, facebookUrl }) {
             </div>
           </div>
         </form>
-        <AuthorizationWith googleUrl={googleUrl} facebookUrl={facebookUrl} />
+        <AuthorizationWith facebookUrl={facebookUrl} googleUrl={googleUrl} />
       </div>
-      {/*<Footer />*/}
+      {/* <Footer /> */}
     </div>
   );
 }
 
 Login.whyDidYouRender = true;
 export default reduxForm({
-  form: "Login",
+  form: 'Login',
   validate,
 })(Login);

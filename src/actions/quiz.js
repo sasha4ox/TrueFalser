@@ -22,10 +22,10 @@ import {
   COUNTDOWN_TIMER_START,
   COUNTDOWN_TIMER_TICK,
   SHOW_HEADER_IN_QUIZ,
-} from "../constants/index";
+} from '../constants';
 
-import fetchAsync from "../utils/fetch";
-import { apiUrl } from "../client-config";
+import fetchAsync from '../utils/fetch';
+import { apiUrl } from '../client-config';
 
 export function isShowingHeaderInQuiz(isShowHeader) {
   return {
@@ -81,7 +81,7 @@ export function getLanguages() {
     try {
       dispatch(getLanguagesStart());
       const payload = await fetchAsync(`${apiUrl}/language/list`);
-      if (payload.status === "error") {
+      if (payload.status === 'error') {
         return dispatch(getLanguagesFailure(payload.message));
       }
       return dispatch(getLanguagesSuccess(payload.data));
@@ -130,10 +130,10 @@ export function getQuestions(LanguageId, excludedquestions) {
     try {
       const payload = await fetchAsync(
         `${apiUrl}/questions/?id=${LanguageId}&excludedquestions=${
-          excludedquestions ? excludedquestions : 0
-        }`
+          excludedquestions || 0
+        }`,
       );
-      if (payload.status === "error") {
+      if (payload.status === 'error') {
         return dispatch(getQuestionsFailure(payload.message));
       }
       return dispatch(getQuestionsSuccess(payload.data));
@@ -146,11 +146,11 @@ export function createTest(UserId, LanguageId) {
   return async (dispatch) => {
     dispatch(createTestStat());
     try {
-      const payload = await fetchAsync(`${apiUrl}/test`, "POST", {
+      const payload = await fetchAsync(`${apiUrl}/test`, 'POST', {
         UserId,
         LanguageId,
       });
-      if (payload.status === "error") {
+      if (payload.status === 'error') {
         return dispatch(createTestFailure(payload.message));
       }
       dispatch(createTestSuccess(payload.data));
@@ -199,8 +199,8 @@ export function answer(answerData) {
   return async (dispatch) => {
     try {
       dispatch(answerStart());
-      const payload = await fetchAsync(`${apiUrl}/answer`, "POST", answerData);
-      if (payload.status === "error") {
+      const payload = await fetchAsync(`${apiUrl}/answer`, 'POST', answerData);
+      if (payload.status === 'error') {
         return dispatch(endQuiz());
       }
     } catch (error) {
@@ -234,7 +234,7 @@ export function getResult(testId) {
     try {
       dispatch(getQuizResultStart());
       const payload = await fetchAsync(`${apiUrl}/test/result/${testId}`);
-      if (payload.status === "error") {
+      if (payload.status === 'error') {
         return dispatch(getQuizResultFailure(payload.message));
       }
       return dispatch(getQuizResultSuccess(payload.data));

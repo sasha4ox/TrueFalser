@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect} from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import queryString from 'query-string';
 import isEmpty from 'lodash/isEmpty';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,11 +8,11 @@ import { Link, Redirect } from 'react-router-dom';
 
 import {
   getUserDataFromGoogleCode,
-    getUserDataFromFacebookCode,
+  getUserDataFromFacebookCode,
 } from '../../actions/authorization';
 import Spinner from '../Spinner';
 
-function ParseUrlPage( {chosenAuthorizationUrl} ) {
+function ParseUrlPage({ chosenAuthorizationUrl }) {
   const dispatch = useDispatch();
   const userData = useSelector(property('authorization.userData'));
   // const chosenAuthorizationUrl = useSelector(
@@ -29,23 +29,23 @@ function ParseUrlPage( {chosenAuthorizationUrl} ) {
       && isEmpty(userData)
       && chosenAuthorizationUrl === 'google'
     ) {
-      dispatch(getUserDataFromGoogleCode(get(parsedCode, 'code')))
+      dispatch(getUserDataFromGoogleCode(get(parsedCode, 'code')));
     }
     if (
-        !isEmpty(parsedCode)
+      !isEmpty(parsedCode)
         && isEmpty(userData)
         && chosenAuthorizationUrl === 'facebook'
     ) {
-      dispatch(getUserDataFromFacebookCode(get(parsedCode, 'code')))
+      dispatch(getUserDataFromFacebookCode(get(parsedCode, 'code')));
     }
   }, [
-      chosenAuthorizationUrl,
-      dispatch,
-      parsedCode,
-      userData
+    chosenAuthorizationUrl,
+    dispatch,
+    parsedCode,
+    userData,
   ]);
   return (
-      isEmpty(userData) ? <div><Spinner/></div> : <Redirect to="/select-language" />
+    isEmpty(userData) ? <div><Spinner /></div> : <Redirect to="/select-language" />
   );
 }
 

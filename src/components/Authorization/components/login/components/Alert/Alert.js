@@ -14,8 +14,8 @@ export default function AlertMessage({ message, view }) {
     <div className="wrapperForAlert">
       <div
         className={classNames(`alert alert-${errorView}`, {
-          "error": view === 'error',
-          "success": view === 'success',
+          error: view === 'error',
+          success: view === 'success',
         })}
         role="alert"
       >

@@ -1,25 +1,25 @@
-import React, { useCallback } from "react";
-import { Field, reduxForm } from "redux-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import property from "lodash/property";
-import get from "lodash/get";
+import React, { useCallback } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import property from 'lodash/property';
+import get from 'lodash/get';
 
-import CustomFieldRegistration from "./components/CustomFieldRegistration/CustomFieldRegistration";
-import { alertCreator, registration } from "../../../../actions/authorization";
-import Alert from "../login/components/Alert/Alert";
-import LoginRegistrationButton from "../login/components/LoginRegistrationButton/LoginRegistrationButton";
-import AuthorizationWith from "../AuthorizationWith";
+import CustomFieldRegistration from './components/CustomFieldRegistration/CustomFieldRegistration';
+import { alertCreator, registration } from '../../../../actions/authorization';
+import Alert from '../login/components/Alert/Alert';
+import LoginRegistrationButton from '../login/components/LoginRegistrationButton/LoginRegistrationButton';
+import AuthorizationWith from '../AuthorizationWith';
 // import Footer from "../../../Footer/Footer";
 
-import "./Registration.scss";
+import './Registration.scss';
 
 const validate = (value) => {
   const errors = {};
   // const minLengthPassword = 5;
   // const minLengthName = 1;
   if (!value.login) {
-    errors.login = "Required";
+    errors.login = 'Required';
   }
   // else if (value.email.length < minLengthPassword) {
   //   errors.email = `Bro, not enough characters for a valid email`;
@@ -27,14 +27,14 @@ const validate = (value) => {
   //   errors.email = 'Please, check your email, it looks invalid ';
   // }
   if (!value.name) {
-    errors.name = "Required";
+    errors.name = 'Required';
   }
   // else if (value.userName.length <= minLengthName) {
   //   errors.userName = `Bro, not enough characters for a name`;
   // }
 
   if (!value.password) {
-    errors.password = "Required";
+    errors.password = 'Required';
   }
   // else if (value.password.length < minLengthPassword) {
   //   errors.password = `Password must have at least 5 characters, you typed only ${value.password.length}`;
@@ -44,19 +44,19 @@ const validate = (value) => {
 };
 function Registration({ googleUrl, facebookUrl }) {
   const dispatch = useDispatch();
-  const registrationForm = useSelector(property("form.Registration"));
-  const loginState = useSelector(property("authorization"));
+  const registrationForm = useSelector(property('form.Registration'));
+  const loginState = useSelector(property('authorization'));
   const registrationHandler = useCallback(
     (event) => {
       event.preventDefault();
       if (registrationForm.syncErrors) {
         console.info(registrationForm.syncErrors);
-        return dispatch(alertCreator("All fields have to be filled.", "error"));
+        return dispatch(alertCreator('All fields have to be filled.', 'error'));
       }
 
-      return dispatch(registration(get(registrationForm, "values")));
+      return dispatch(registration(get(registrationForm, 'values')));
     },
-    [dispatch, registrationForm]
+    [dispatch, registrationForm],
   );
   return (
     <div className="containerRegistration">
@@ -93,15 +93,15 @@ function Registration({ googleUrl, facebookUrl }) {
             </div>
           </div>
         </form>
-        <AuthorizationWith googleUrl={googleUrl} facebookUrl={facebookUrl} />
+        <AuthorizationWith facebookUrl={facebookUrl} googleUrl={googleUrl} />
       </div>
-      {/*<Footer />*/}
+      {/* <Footer /> */}
     </div>
   );
 }
 
 Registration.whyDidYouRender = true;
 export default reduxForm({
-  form: "Registration",
+  form: 'Registration',
   validate,
 })(Registration);

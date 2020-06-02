@@ -1,58 +1,57 @@
-import React, { memo, useCallback, useEffect } from "react";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { useSelector, useDispatch } from "react-redux";
-import property from "lodash/property";
-import _map from "lodash/map";
-import _toLower from "lodash/toLower";
-import get from "lodash/get";
-import isArray from "lodash/isArray";
-import classnames from "classnames";
+import React, { memo, useCallback, useEffect } from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { useSelector, useDispatch } from 'react-redux';
+import property from 'lodash/property';
+import _map from 'lodash/map';
+import _toLower from 'lodash/toLower';
+import get from 'lodash/get';
+import isArray from 'lodash/isArray';
+import classnames from 'classnames';
 
-import "./Questions.scss";
+import './Questions.scss';
 
-import splitCode from "../../../../utils/splitCode";
-import generateUniqueKey from "../../../../utils/generateUniqueKey";
-import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
+import splitCode from '../../../../utils/splitCode';
+import generateUniqueKey from '../../../../utils/generateUniqueKey';
+import { nextQuestion, answer, getQuestions } from '../../../../actions/quiz';
 
 function Questions() {
-  const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
+  const isQuizStarted = useSelector(property('quiz.isQuizStarted'));
   const questionsLeftInState = 1;
 
   useEffect(() => {
-    //for first getting question
+    // for first getting question
     dispatch(nextQuestion());
   }, []);
 
   const dispatch = useDispatch();
-  const UserId = useSelector(property("authorization.userData.id"));
-  const testInfo = useSelector(property("quiz.test"));
-  const questions = useSelector(property("quiz.allQuestions.questions"));
-  const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
+  const UserId = useSelector(property('authorization.userData.id'));
+  const testInfo = useSelector(property('quiz.test'));
+  const questions = useSelector(property('quiz.allQuestions.questions'));
+  const answeredQuestions = useSelector(property('quiz.allQuestions.answered'));
   const selectedLanguage = useSelector(
-    property("quiz.language.selectedLanguage")
+    property('quiz.language.selectedLanguage'),
   );
   const currentQuestion = useSelector(
-    property("quiz.allQuestions.currentQuestion[0]")
+    property('quiz.allQuestions.currentQuestion[0]'),
   );
   const currentQuestionText = useSelector(
-    property("quiz.allQuestions.currentQuestion[0].text")
+    property('quiz.allQuestions.currentQuestion[0].text'),
   );
   const convertedStrings = splitCode(currentQuestionText);
   const currentQuestionLanguage = _toLower(
-    useSelector(property("quiz.allQuestions.currentQuestion[0].Language.name"))
+    useSelector(property('quiz.allQuestions.currentQuestion[0].Language.name')),
   );
 
   const next = useCallback(
     (event) => {
-      const targetName = get(event, "target.name");
-      const targetArrowCode = get(event, "code");
-      const userAnswer =
-        targetName === "true" || targetArrowCode === "ArrowRight";
-      const TestId = get(testInfo, "id");
-      const LanguageId = get(selectedLanguage, "id");
-      const QuestionId = get(currentQuestion, "id");
-      const rightAnswer = get(currentQuestion, "result");
+      const targetName = get(event, 'target.name');
+      const targetArrowCode = get(event, 'code');
+      const userAnswer = targetName === 'true' || targetArrowCode === 'ArrowRight';
+      const TestId = get(testInfo, 'id');
+      const LanguageId = get(selectedLanguage, 'id');
+      const QuestionId = get(currentQuestion, 'id');
+      const rightAnswer = get(currentQuestion, 'result');
 
       const answerToServer = {
         TestId,
@@ -62,12 +61,12 @@ function Questions() {
         answer: rightAnswer,
         userAnswer,
       };
-      console.log("before", questions.length);
+      console.log('before', questions.length);
       if (questions.length === questionsLeftInState) {
         // get more questions
         const answeredQuestionsId = _map(
           answeredQuestions,
-          (answer) => answer.id
+          (answer) => answer.id,
         );
         const questionsInStateId = _map(questions, (question) => question.id);
         const excludeQuestionsId = [
@@ -80,7 +79,7 @@ function Questions() {
       }
       dispatch(answer(answerToServer));
       dispatch(nextQuestion(currentQuestion));
-      console.log("after", questions.length);
+      console.log('after', questions.length);
     },
     [
       dispatch,
@@ -90,18 +89,18 @@ function Questions() {
       selectedLanguage,
       answeredQuestions,
       UserId,
-    ]
+    ],
   );
 
-  //arrow answer
+  // arrow answer
   const keyDown = (event) => {
-    if (event.code === "ArrowRight") return next(event);
-    if (event.code === "ArrowLeft") return next(event);
+    if (event.code === 'ArrowRight') return next(event);
+    if (event.code === 'ArrowLeft') return next(event);
   };
   useEffect(() => {
-    window.addEventListener("keydown", keyDown);
+    window.addEventListener('keydown', keyDown);
     return () => {
-      window.removeEventListener("keydown", keyDown);
+      window.removeEventListener('keydown', keyDown);
     };
   });
 
@@ -125,53 +124,50 @@ function Questions() {
                     divededOnOneline: itemCode.isBetweenStartFinish,
                   })}
                 >
-                  {_map(itemCode.code, (item, index) => {
-                    return (
-                      <SyntaxHighlighter
-                        key={generateUniqueKey(index)}
-                        language={currentQuestionLanguage}
-                        style={docco}
-                      >
-                        {item}
-                      </SyntaxHighlighter>
-                    );
-                  })}
-                </div>
-              );
-            } else {
-              return (
-                <div
-                  className={itemCode.marked && "marked_string"}
-                  key={generateUniqueKey(index)}
-                >
-                  <SyntaxHighlighter
-                    language={currentQuestionLanguage}
-                    style={docco}
-                  >
-                    {itemCode.code}
-                  </SyntaxHighlighter>
+                  {_map(itemCode.code, (item, index) => (
+                    <SyntaxHighlighter
+                      key={generateUniqueKey(index)}
+                      language={currentQuestionLanguage}
+                      style={docco}
+                    >
+                      {item}
+                    </SyntaxHighlighter>
+                  ))}
                 </div>
               );
             }
+            return (
+              <div
+                key={generateUniqueKey(index)}
+                className={itemCode.marked && 'marked_string'}
+              >
+                <SyntaxHighlighter
+                  language={currentQuestionLanguage}
+                  style={docco}
+                >
+                  {itemCode.code}
+                </SyntaxHighlighter>
+              </div>
+            );
           })}
         </div>
       </div>
       <div className="wrapper_for_Button">
         <button
-          name="false"
-          type="button"
           className="button button_false"
-          onClick={next}
           disabled={!isQuizStarted}
+          name="false"
+          onClick={next}
+          type="button"
         >
           False
         </button>
         <button
-          name="true"
-          type="button"
           className="button button_true"
-          onClick={next}
           disabled={!isQuizStarted}
+          name="true"
+          onClick={next}
+          type="button"
         >
           True
         </button>

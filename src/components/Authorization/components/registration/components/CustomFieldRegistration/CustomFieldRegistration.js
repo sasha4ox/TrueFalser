@@ -3,7 +3,9 @@ import React from 'react';
 import './CustomFieldRegistration.scss';
 
 export default function CustomFieldRegistration({
-  input: { name, onBlur, onChange, onFocus },
+  input: {
+    name, onBlur, onChange, onFocus,
+  },
   label,
   type,
   meta: { touched, error },

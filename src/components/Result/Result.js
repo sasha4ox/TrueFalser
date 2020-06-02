@@ -1,18 +1,18 @@
-import React, { memo, useEffect, useCallback } from "react";
-import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import property from "lodash/property";
-import get from "lodash/get";
+import React, { memo, useEffect, useCallback } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import property from 'lodash/property';
+import get from 'lodash/get';
 
-import { getResult, startQuizAgain } from "../../actions/quiz";
+import { getResult, startQuizAgain } from '../../actions/quiz';
 
-import "./Result.scss";
-import Header from "../Header/Header";
+import './Result.scss';
+import Header from '../Header/Header';
 
 function Result() {
   const dispatch = useDispatch();
-  const testId = useSelector(property("quiz.test.id"));
-  const testResult = useSelector(property("quiz.result"));
+  const testId = useSelector(property('quiz.test.id'));
+  const testResult = useSelector(property('quiz.result'));
 
   useEffect(() => {
     dispatch(getResult(testId));
@@ -27,12 +27,16 @@ function Result() {
       <div className="result_wrapper">
         <h1>Your result :</h1>
         <p className="result_questions">
-          Questions: {get(testResult, "totalAnswersInTest")}
+          Questions:
+          {' '}
+          {get(testResult, 'totalAnswersInTest')}
         </p>
         <p className="result_questions_rigth">
-          Rigth answers: {get(testResult, "correctAnswersInTest")}
+          Rigth answers:
+          {' '}
+          {get(testResult, 'correctAnswersInTest')}
         </p>
-        <NavLink to="/select-language" onClick={tryTestAgain}>
+        <NavLink onClick={tryTestAgain} to="/select-language">
           try agian
         </NavLink>
       </div>

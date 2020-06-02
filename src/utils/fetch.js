@@ -1,12 +1,12 @@
-import nodeFetch from "node-fetch";
+import nodeFetch from 'node-fetch';
 
 export default async function fetchAsync(
   url,
-  method = "GET",
+  method = 'GET',
   body = undefined,
   headers = {
-    "Content-Type": "application/json",
-  }
+    'Content-Type': 'application/json',
+  },
 ) {
   const fetchingData = await nodeFetch(url, {
     method,

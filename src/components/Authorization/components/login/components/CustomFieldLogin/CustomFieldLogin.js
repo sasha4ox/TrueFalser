@@ -3,7 +3,9 @@ import React from 'react';
 import './CustomFieldLogin.scss';
 
 export default function CustomFieldLogin({
-  input: { name, onBlur, onChange, onFocus },
+  input: {
+    name, onBlur, onChange, onFocus,
+  },
   label,
   type,
   meta: { touched, error },

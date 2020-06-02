@@ -20,6 +20,7 @@ import {
 import get from "lodash/get";
 import _filter from "lodash/filter";
 import _head from "lodash/head";
+import isEmpty from "lodash/isEmpty";
 const initialState = {
   language: {
     selectedLanguage: null,
@@ -146,17 +147,30 @@ export default function quiz(state = initialState, action) {
         isQuizFinished: true,
       };
     case NEXT_QUESTION:
-      const filteredQuestions = _filter(
-        get(state, "allQuestions.questions"),
+      const allQuestions = get(state, "allQuestions.questions");
+      if (isEmpty(action.currentQuestion)) {
+        const currentQuestion = [allQuestions.shift()];
+        return {
+          ...state,
+          allQuestions: {
+            ...state.allQuestions,
+            questions: [...allQuestions],
+            currentQuestion,
+          },
+        };
+      }
+      const questionsWithoutCurrentQuestion = _filter(
+        allQuestions,
         (question) => get(question, "id") !== get(action, "currentQuestion.id")
       );
+      const currentQuestion = [questionsWithoutCurrentQuestion.shift()];
       return {
         ...state,
         allQuestions: {
           ...state.allQuestions,
           answered: [...state.allQuestions.answered, action.currentQuestion],
-          questions: [...filteredQuestions],
-          currentQuestion: [_head(filteredQuestions)],
+          questions: [...questionsWithoutCurrentQuestion],
+          currentQuestion,
         },
       };
     default:

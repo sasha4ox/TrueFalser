@@ -17,10 +17,11 @@ import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
+  const questionsLeftInState = 1;
 
   useEffect(() => {
     //for first getting question
-    dispatch(nextQuestion({ id: 0 }));
+    dispatch(nextQuestion());
   }, []);
 
   const dispatch = useDispatch();
@@ -61,23 +62,25 @@ function Questions() {
         answer: rightAnswer,
         userAnswer,
       };
-
-      if (questions.length === 2) {
+      console.log("before", questions.length);
+      if (questions.length === questionsLeftInState) {
         // get more questions
         const answeredQuestionsId = _map(
           answeredQuestions,
           (answer) => answer.id
         );
-        const questionsIsStateId = _map(questions, (question) => question.id);
-        const excludeId = [
+        const questionsInStateId = _map(questions, (question) => question.id);
+        const excludeQuestionsId = [
           ...answeredQuestionsId,
-          ...questionsIsStateId,
+          ...questionsInStateId,
+          QuestionId,
         ].join();
 
-        dispatch(getQuestions(selectedLanguage.id, excludeId));
+        dispatch(getQuestions(selectedLanguage.id, excludeQuestionsId));
       }
       dispatch(answer(answerToServer));
       dispatch(nextQuestion(currentQuestion));
+      console.log("after", questions.length);
     },
     [
       dispatch,

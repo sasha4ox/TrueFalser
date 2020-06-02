@@ -31,6 +31,8 @@ function Quiz() {
   const isShowHeader = useSelector(property("quiz.isShowHeader"));
   const dispatch = useDispatch();
 
+  const secondsWhenQuizEnd = 0;
+
   // countdown timer    ---- START
   useEffect(() => {
     if (isTimerStart) {
@@ -41,7 +43,7 @@ function Quiz() {
   }, [isTimerStart, dispatch]);
 
   useEffect(() => {
-    if (secondsToEndQuiz === 0) {
+    if (secondsToEndQuiz === secondsWhenQuizEnd) {
       dispatch(endQuiz());
     }
   }, [secondsToEndQuiz, dispatch]);
@@ -92,7 +94,7 @@ function Quiz() {
         {isQuizStarted ? (
           <Questions />
         ) : (
-          <div className='wrapper_before_start'>
+          <div className="wrapper_before_start">
             <div className="wrapper_start_quiz">
               <button
                 type="button"

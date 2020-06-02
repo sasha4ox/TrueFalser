@@ -92,7 +92,7 @@ function Quiz() {
         {isQuizStarted ? (
           <Questions />
         ) : (
-          <>
+          <div className='wrapper_before_start'>
             <div className="wrapper_start_quiz">
               <button
                 type="button"
@@ -110,7 +110,7 @@ function Quiz() {
               )}
             </div>
             <Questions />
-          </>
+          </div>
         )}
       </div>
     </>

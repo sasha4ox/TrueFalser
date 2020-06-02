@@ -8,7 +8,6 @@ import _toLower from "lodash/toLower";
 import get from "lodash/get";
 import isArray from "lodash/isArray";
 import classnames from "classnames";
-import screenfull from "screenfull";
 
 import "./Questions.scss";
 
@@ -17,20 +16,13 @@ import generateUniqueKey from "../../../../utils/generateUniqueKey";
 import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
-  const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
+
   useEffect(() => {
-    if (screenfull.isEnabled && isQuizStarted) {
-      screenfull.request();
-    }
     //for first getting question
     dispatch(nextQuestion({ id: 0 }));
-    if (isQuizFinished) {
-      return () => {
-        screenfull.exit();
-      };
-    }
-  }, [isQuizFinished, isQuizStarted]);
+  }, []);
+
   const dispatch = useDispatch();
   const UserId = useSelector(property("authorization.userData.id"));
   const testInfo = useSelector(property("quiz.test"));
@@ -52,19 +44,21 @@ function Questions() {
 
   const next = useCallback(
     (event) => {
-      let userAnswer;
-      if (!get(event, "target.name")) {
-        userAnswer = get(event, "code") === "ArrowRight" ? true : false;
-      } else {
-        userAnswer = get(event, "target.name") === "true" ? true : false;
-      }
+      const targetName = get(event, "target.name");
+      const targetArrowCode = get(event, "code");
+      const userAnswer =
+        targetName === "true" || targetArrowCode === "ArrowRight";
+      const TestId = get(testInfo, "id");
+      const LanguageId = get(selectedLanguage, "id");
+      const QuestionId = get(currentQuestion, "id");
+      const rightAnswer = get(currentQuestion, "result");
 
       const answerToServer = {
-        TestId: get(testInfo, "id"),
+        TestId,
         UserId,
-        LanguageId: get(selectedLanguage, "id"),
-        QuestionId: get(currentQuestion, "id"),
-        answer: get(currentQuestion, "result"),
+        LanguageId,
+        QuestionId,
+        answer: rightAnswer,
         userAnswer,
       };
 
@@ -79,6 +73,7 @@ function Questions() {
           ...answeredQuestionsId,
           ...questionsIsStateId,
         ].join();
+
         dispatch(getQuestions(selectedLanguage.id, excludeId));
       }
       dispatch(answer(answerToServer));
@@ -113,8 +108,6 @@ function Questions() {
         wrapper_questions: isQuizStarted,
         wrapper_questions_before_start: !isQuizStarted,
       })}
-
-      // "wrapper_questions"
     >
       <div className="wrapper_question">
         <div className="question">
@@ -166,6 +159,7 @@ function Questions() {
           type="button"
           className="button button_false"
           onClick={next}
+          disabled={!isQuizStarted}
         >
           False
         </button>
@@ -174,6 +168,7 @@ function Questions() {
           type="button"
           className="button button_true"
           onClick={next}
+          disabled={!isQuizStarted}
         >
           True
         </button>

@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import './CustomFieldRegistration.scss';
+import PropTypes from "prop-types";
+import React from "react";
+import style from "./CustomFieldRegistration.module.scss";
 
 export default function CustomFieldRegistration({
   input: { name, onBlur, onChange, onFocus },
@@ -9,7 +9,7 @@ export default function CustomFieldRegistration({
   meta: { touched, error },
 }) {
   return (
-    <div className="groupRegistration">
+    <div className={style.groupRegistration}>
       <input
         id={name}
         name={name}
@@ -20,7 +20,7 @@ export default function CustomFieldRegistration({
         type={type}
       />
       <label htmlFor={name}>{label}</label>
-      {touched && error && <div className="inputsError">{error}</div>}
+      {touched && error && <div className={style.inputsError}>{error}</div>}
     </div>
   );
 }
@@ -39,6 +39,6 @@ CustomFieldRegistration.propTypes = {
   type: PropTypes.string,
 };
 CustomFieldRegistration.defaultProps = {
-  label: 'input',
-  type: 'text',
+  label: "input",
+  type: "text",
 };

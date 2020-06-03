@@ -6,7 +6,7 @@ import get from "lodash/get";
 
 import { getResult, startQuizAgain } from "../../actions/quiz";
 
-import "./Result.scss";
+import style from "./Result.module.scss";
 import Header from "../Header/Header";
 
 function Result() {
@@ -24,12 +24,12 @@ function Result() {
   return (
     <>
       <Header />
-      <div className="result_wrapper">
+      <div className={style.result_wrapper}>
         <h1>Your result :</h1>
-        <p className="result_questions">
+        <p className={style.result_questions}>
           Questions: {get(testResult, "totalAnswersInTest")}
         </p>
-        <p className="result_questions_rigth">
+        <p className={style.result_questions_rigth}>
           Rigth answers: {get(testResult, "correctAnswersInTest")}
         </p>
         <NavLink to="/select-language" onClick={tryTestAgain}>

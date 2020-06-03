@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import userSvg from "../../assets/user.svg";
 import trueFalserLogo from "../../assets/true_falser_logo.png";
-import "./Header.scss";
+import style from "./Header.module.scss";
 import elifechLogo from "../../assets/eliftech.ico";
 
 function Header() {
@@ -34,36 +34,38 @@ function Header() {
   }, [currentWidth, getWindowWidth]);
 
   return (
-    <header ref={headerWidth} className="header">
-      <div className="appInfo">
-        <div className="headerLinks">
-          <h2 className="logo">
+    <header ref={headerWidth} className={style.header}>
+      <div className={style.appInfo}>
+        <div className={style.headerLinks}>
+          <h2 className={style.logo}>
             <Link to="/">
               <img alt="Logo" src={trueFalserLogo} />
             </Link>
           </h2>
-          <h2 className="logoText">
+          <h2 className={style.logoText}>
             <Link to="/">TrueFalsr</Link>
           </h2>
-          {/*<div className="statistic">*/}
+          {/* <div className="statistic">*/}
           {/*  <Link to="/statistic/all-languages-answers">Statistic</Link>*/}
-          {/*</div>*/}
+          {/*</div> */}
         </div>
-            <div className="descriptionContainerDiv">
-              <span>Code Readability Quiz</span>
-              {(isEmpty(currentUserName) && currentWidth <= mobileWidth)
-              || (currentWidth >= mobileWidth) ? (
-                  <div className="descriptionContainer">
-                    <span>made by  </span>
-                    <a href="https://www.eliftech.com/" target="_blank">
-                      <span>Eliftech  </span>
-                      <img alt="Eliftech" src={elifechLogo}/>
-                    </a>
-                  </div>
-              ) : <span />}
+        <div className={style.descriptionContainerDiv}>
+          <span>Code Readability Quiz</span>
+          {(isEmpty(currentUserName) && currentWidth <= mobileWidth) ||
+          currentWidth >= mobileWidth ? (
+            <div className={style.descriptionContainer}>
+              <span>made by </span>
+              <a href="https://www.eliftech.com/" target="_blank">
+                <span>Eliftech </span>
+                <img alt="Eliftech" src={elifechLogo} />
+              </a>
             </div>
+          ) : (
+            <span />
+          )}
+        </div>
       </div>
-      <div className="userDataContainer">
+      <div className={style.userDataContainer}>
         {!isEmpty(currentUserName) && currentWidth >= mobileWidth && (
           <img alt={currentUserName} src={userSvg} />
         )}

@@ -9,14 +9,13 @@ import {
   endQuiz,
   createTest,
   screenOrientation,
-  countdownTimerStart,
   countdownTimerTick,
   isShowingHeaderInQuiz,
 } from "../../actions/quiz";
 import CountdownTimer from "./components/CountdownTimer/CountdownTimer";
 import Header from "../Header/Header";
 
-import "./Quiz.scss";
+import style from "./Quiz.module.scss";
 
 let interval;
 
@@ -32,7 +31,6 @@ function Quiz() {
   const dispatch = useDispatch();
 
   const secondsWhenQuizEnd = 0;
-
   // countdown timer    ---- START
   useEffect(() => {
     if (isTimerStart) {
@@ -94,11 +92,11 @@ function Quiz() {
         {isQuizStarted ? (
           <Questions />
         ) : (
-          <div className="wrapper_before_start">
-            <div className="wrapper_start_quiz">
+          <div className={style.wrapper_before_start}>
+            <div className={style.wrapper_start_quiz}>
               <button
                 type="button"
-                className="start_button"
+                className={style.start_button}
                 onClick={startGame}
                 disabled={isNeedToRotate}
               >

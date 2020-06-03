@@ -3,7 +3,7 @@ import Circle from "react-circle";
 import { useSelector } from "react-redux";
 import property from "lodash/property";
 
-import "./CountdownTimer.scss";
+import style from "./CountdownTimer.module.scss";
 
 function CountdownTimer() {
   const secondsToEndQuiz =
@@ -15,9 +15,9 @@ function CountdownTimer() {
   );
 
   return (
-    <div className="wrapper_timer">
-      <div className="question_language"> {currentQuestionLanguage}</div>
-      <p className="timer_seconds">{secondsToEndQuiz}</p>
+    <div className={style.wrapper_timer}>
+      <div className={style.question_language}> {currentQuestionLanguage}</div>
+      <p className={style.timer_seconds}>{secondsToEndQuiz}</p>
       <Circle
         animate={true}
         animationDuration="1s"

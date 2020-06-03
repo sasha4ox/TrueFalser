@@ -12,7 +12,7 @@ import LoginRegistrationButton from "../login/components/LoginRegistrationButton
 import AuthorizationWith from "../AuthorizationWith";
 // import Footer from "../../../Footer/Footer";
 
-import "./Registration.scss";
+import style from "./Registration.module.scss";
 
 const validate = (value) => {
   const errors = {};
@@ -59,13 +59,15 @@ function Registration({ googleUrl, facebookUrl }) {
     [dispatch, registrationForm]
   );
   return (
-    <div className="containerRegistration">
+    <div className={style.containerRegistration}>
       {loginState.alert && (
         <Alert message={loginState.alert} view={loginState.view} />
       )}
-      <h1 className="textRegistration">Please register to get test result</h1>
-      <div className="formContainerRegistration">
-        <form className="RegistrationForm" onSubmit={registrationHandler}>
+      <h1 className={style.textRegistration}>
+        Please register to get test result
+      </h1>
+      <div className={style.formContainerRegistration}>
+        <form className={style.RegistrationForm} onSubmit={registrationHandler}>
           <Field
             component={CustomFieldRegistration}
             label="Name"
@@ -84,9 +86,9 @@ function Registration({ googleUrl, facebookUrl }) {
             name="password"
             type="password"
           />
-          <div className="wrapperForButton">
+          <div className={style.wrapperForButton}>
             <LoginRegistrationButton name="Registration" />
-            <div className="wrapperForLink">
+            <div className={style.wrapperForLink}>
               <Link className="link" to="/login">
                 Have an account? Click for Log in.
               </Link>

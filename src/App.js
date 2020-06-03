@@ -39,6 +39,7 @@ function App() {
             "/quiz",
             "/result",
             "/statistic/all-languages-answers",
+            "/statistic",
           ]}
           component={Main}
         />

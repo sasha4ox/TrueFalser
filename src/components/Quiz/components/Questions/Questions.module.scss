@@ -151,20 +151,3 @@ pre {
 .wrapper_startQuiz_questions {
   position: relative;
 }
-.start_button {
-  z-index: 10;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 150px;
-  height: 50px;
-  border-radius: 5px;
-  background: #2977c9;
-  color: white;
-  border: none;
-  outline: none;
-  &:disabled {
-    background-color: gray;
-  }
-}

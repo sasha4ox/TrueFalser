@@ -157,7 +157,7 @@ function Questions() {
           })}
         </div>
       </div>
-      <div className="wrapper_for_Button">
+      <div className={style.wrapper_for_Button}>
         <button
           name="false"
           type="button"

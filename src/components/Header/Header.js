@@ -45,15 +45,15 @@ function Header() {
           <h2 className={style.logoText}>
             <Link to="/">TrueFalsr</Link>
           </h2>
-          {/*<div className="statistic">*/}
+          {/* <div className="statistic">*/}
           {/*  <Link to="/statistic/all-languages-answers">Statistic</Link>*/}
-          {/*</div>*/}
+          {/*</div> */}
         </div>
         <div className={style.descriptionContainerDiv}>
           <span>Code Readability Quiz</span>
           {(isEmpty(currentUserName) && currentWidth <= mobileWidth) ||
           currentWidth >= mobileWidth ? (
-            <div className="descriptionContainer">
+            <div className={style.descriptionContainer}>
               <span>made by </span>
               <a href="https://www.eliftech.com/" target="_blank">
                 <span>Eliftech </span>

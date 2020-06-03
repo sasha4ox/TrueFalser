@@ -53,7 +53,6 @@ function Questions() {
       const LanguageId = get(selectedLanguage, "id");
       const QuestionId = get(currentQuestion, "id");
       const rightAnswer = get(currentQuestion, "result");
-      const tags = get(currentQuestion, "tags");
 
       const answerToServer = {
         TestId,
@@ -62,7 +61,6 @@ function Questions() {
         QuestionId,
         answer: rightAnswer,
         userAnswer,
-        tags,
       };
 
       if (questions.length === MIN_QUESTIONS_IN_STATE) {

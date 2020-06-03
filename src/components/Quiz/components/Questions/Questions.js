@@ -9,7 +9,7 @@ import get from "lodash/get";
 import isArray from "lodash/isArray";
 import classnames from "classnames";
 
-import "./Questions.scss";
+import style from "./Questions.module.scss";
 
 import splitCode from "../../../../utils/splitCode";
 import generateUniqueKey from "../../../../utils/generateUniqueKey";
@@ -17,7 +17,7 @@ import { nextQuestion, answer, getQuestions } from "../../../../actions/quiz";
 
 function Questions() {
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
-  const questionsLeftInState = 1;
+  const MIN_QUESTIONS_IN_STATE = 1;
 
   useEffect(() => {
     //for first getting question
@@ -53,6 +53,7 @@ function Questions() {
       const LanguageId = get(selectedLanguage, "id");
       const QuestionId = get(currentQuestion, "id");
       const rightAnswer = get(currentQuestion, "result");
+      const tags = get(currentQuestion, "tags");
 
       const answerToServer = {
         TestId,
@@ -61,9 +62,10 @@ function Questions() {
         QuestionId,
         answer: rightAnswer,
         userAnswer,
+        tags,
       };
-      console.log("before", questions.length);
-      if (questions.length === questionsLeftInState) {
+
+      if (questions.length === MIN_QUESTIONS_IN_STATE) {
         // get more questions
         const answeredQuestionsId = _map(
           answeredQuestions,
@@ -80,7 +82,6 @@ function Questions() {
       }
       dispatch(answer(answerToServer));
       dispatch(nextQuestion(currentQuestion));
-      console.log("after", questions.length);
     },
     [
       dispatch,
@@ -108,21 +109,21 @@ function Questions() {
   return (
     <div
       className={classnames({
-        wrapper_questions: isQuizStarted,
-        wrapper_questions_before_start: !isQuizStarted,
+        [style.wrapper_questions]: isQuizStarted,
+        [style.wrapper_questions_before_start]: !isQuizStarted,
       })}
     >
-      <div className="wrapper_question">
-        <div className="question">
+      <div className={style.wrapper_question}>
+        <div className={style.question}>
           {_map(convertedStrings, (itemCode, index) => {
             if (isArray(itemCode.code)) {
               return (
                 <div
                   key={generateUniqueKey(index)}
                   className={classnames({
-                    string_start: itemCode.isStartSeparated === true,
-                    string_finish: itemCode.isStartSeparated === false,
-                    divededOnOneline: itemCode.isBetweenStartFinish,
+                    [style.string_start]: itemCode.isStartSeparated === true,
+                    [style.string_finish]: itemCode.isStartSeparated === false,
+                    [style.divededOnOneline]: itemCode.isBetweenStartFinish,
                   })}
                 >
                   {_map(itemCode.code, (item, index) => {
@@ -141,7 +142,7 @@ function Questions() {
             } else {
               return (
                 <div
-                  className={itemCode.marked && "marked_string"}
+                  className={itemCode.marked && style.marked_string}
                   key={generateUniqueKey(index)}
                 >
                   <SyntaxHighlighter
@@ -160,7 +161,7 @@ function Questions() {
         <button
           name="false"
           type="button"
-          className="button button_false"
+          className={classnames(style.button, style.button_false)}
           onClick={next}
           disabled={!isQuizStarted}
         >
@@ -169,7 +170,7 @@ function Questions() {
         <button
           name="true"
           type="button"
-          className="button button_true"
+          className={classnames(style.button, style.button_true)}
           onClick={next}
           disabled={!isQuizStarted}
         >

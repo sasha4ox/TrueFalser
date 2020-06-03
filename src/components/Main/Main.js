@@ -9,7 +9,7 @@ import Quiz from "../Quiz/Quiz";
 import Result from "../Result/Result";
 import AllLanguagesAnswersStatistic from "../AllLanguagesAnswersStatistic";
 
-import "./Main.scss";
+import style from "./Main.module.scss";
 
 function Main() {
   const userData = useSelector(property("authorization.userData"));

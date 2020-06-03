@@ -15,7 +15,7 @@ import {
 import Spinner from "../Spinner";
 import Header from "../Header/Header";
 
-import "./ChooseLanguage.scss";
+import style from "./ChooseLanguage.module.scss";
 
 function ChooseLanguage() {
   const dispatch = useDispatch();
@@ -41,13 +41,13 @@ function ChooseLanguage() {
   return (
     <>
       <Header />
-      <main className="choose_main">
+      <main className={style.choose_main}>
         <h1>Select language for Quiz</h1>
         {isLanguageLoading && <Spinner />}
         {!isLanguageLoading &&
           _map(languages, (language) => {
             return (
-              <div key={language.id} className="choose_lang">
+              <div key={language.id} className={style.choose_lang}>
                 <Link to="/quiz" name={language.id} onClick={selectedLanguage}>
                   {language.name}
                 </Link>

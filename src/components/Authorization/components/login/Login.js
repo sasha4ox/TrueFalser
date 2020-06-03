@@ -13,9 +13,11 @@ import {
 } from "../../../../actions/authorization";
 import Alert from "./components/Alert/Alert";
 import AuthorizationWith from "../AuthorizationWith";
+import classnames from "classnames";
+
 // import Footer from "../../../Footer/Footer";
 
-import "./Login.scss";
+import style from "./Login.module.scss";
 
 const validate = (value) => {
   const errors = {};
@@ -58,18 +60,21 @@ function Login({ googleUrl, facebookUrl }) {
     dispatch(withoutRegistration());
   }, [dispatch]);
   return (
-    <div className="containerLogin">
+    <div className={style.containerLogin}>
       {loginState.alert && (
         <Alert message={loginState.alert} view={loginState.view} />
       )}
-      <h1 className="textLogin">Code Readability Quiz</h1>
-      <div className="formContainerLogin">
-        <div className="withoutRegistration">
-          <button className="btn btn-light" onClick={anonymousPass}>
+      <h1 className={style.textLogin}>Code Readability Quiz</h1>
+      <div className={style.formContainerLogin}>
+        <div className={style.withoutRegistration}>
+          <button
+            className={classnames(style.btn, style.btnLight)}
+            onClick={anonymousPass}
+          >
             Without registration
           </button>
         </div>
-        <form className="loginForm" onSubmit={loginHandler}>
+        <form className={style.loginForm} onSubmit={loginHandler}>
           <Field
             component={CustomFieldLogin}
             label="Email "
@@ -83,10 +88,10 @@ function Login({ googleUrl, facebookUrl }) {
             name="password"
             type="password"
           />
-          <div className="wrapperForButton">
+          <div className={style.wrapperForButton}>
             <LoginRegistrationButton name="login" />
-            <div className="wrapperForLink">
-              <Link className="link" to="/registration">
+            <div className={style.wrapperForLink}>
+              <Link className={style.link} to="/registration">
                 Don&apos;t have an account? Click for create.
               </Link>
               {/* <Link className={s.link} to="/password_reset"> */

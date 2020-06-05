@@ -7,6 +7,8 @@ import isEmpty from "lodash/isEmpty";
 import _toLower from "lodash/toLower";
 import _head from "lodash/head";
 import _map from "lodash/map";
+import _forEach from "lodash/map";
+import _reduce from "lodash/reduce";
 import style from "./SelectedStatistic.module.scss";
 
 function SelectedStatistic() {
@@ -17,6 +19,15 @@ function SelectedStatistic() {
   // );
   // const currentStatistic = useSelector(property(`statistic.data.${id}`));
   const currentStatistic = useSelector(property(`statistics.data.${id}`));
+  const allStatisticsAmountValue = _reduce(
+    currentStatistic,
+    (accumulator, item) => {
+      return accumulator + item[`${id}`];
+    },
+    0
+  );
+
+  console.log("AllStatisticsAmount", allStatisticsAmountValue);
   console.log("currentStatistic", currentStatistic);
   return (
     <>
@@ -48,9 +59,21 @@ function SelectedStatistic() {
             return (
               <div key={index} className={style.statisticItem}>
                 {item[`${id}`] && (
-                  <p>
-                    {item.name} <span>{item[`${id}`]}</span>
-                  </p>
+                  <>
+                    <p className={style.statisticText}>
+                      {item.name} <span>{item[`${id}`].toFixed(2)}</span>
+                    </p>
+                    <ul className={style.wrapperDiagram}>
+                      <li
+                        className={style.diagram}
+                        style={{
+                          width:
+                            item[`${id}`] / (allStatisticsAmountValue / 100) +
+                            "%",
+                        }}
+                      ></li>
+                    </ul>
+                  </>
                 )}
               </div>
             );

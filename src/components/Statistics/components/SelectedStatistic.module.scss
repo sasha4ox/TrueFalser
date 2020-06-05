@@ -5,3 +5,15 @@
 .statisticItem {
   display: flex;
 }
+.statisticText {
+  width: 400px;
+}
+.wrapperDiagram {
+  width: 100%;
+}
+.diagram {
+  display: flex;
+  border: 2px solid #5aa2f9;
+  background-color: rgba(90, 162, 249, 0.7);
+  height: 14px;
+}

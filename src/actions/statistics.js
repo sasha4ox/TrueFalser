@@ -8,6 +8,7 @@ import _map from "lodash/map";
 
 import fetchAsync from "../utils/fetch";
 import { apiUrl } from "../client-config";
+import convertStatisticsForClient from "../utils/convertStatisticsForClient";
 
 export function getStatisticsStart() {
   return {
@@ -36,52 +37,18 @@ export function getStatistics() {
       if (payload.status === "error") {
         return dispatch(getStatisticsFailure(payload.message));
       }
-      const averageTimeOfCorrectAnswers = _map(payload.data, (item) => {
-        return {
-          name: item.name,
-          averageTimeOfCorrectAnswers: item.averageTimeOfCorrectAnswers,
-        };
-      });
-      const averageTimeOfIncorrectAnswers = _map(payload.data, (item) => {
-        return {
-          name: item.name,
-          averageTimeOfIncorrectAnswers: item.averageTimeOfIncorrectAnswers,
-        };
-      });
-      const correctAnswers = _map(payload.data, (item) => {
-        return {
-          name: item.name,
-          correctAnswers: item.correctAnswers,
-        };
-      });
-      const percentile95OfCorrect = _map(payload.data, (item) => {
-        return {
-          name: item.name,
-          percentile95OfCorrect: item.percentile95OfCorrect,
-        };
-      });
-      const percentile95OfIncorrect = _map(payload.data, (item) => {
-        return {
-          name: item.name,
-          percentile95OfIncorrect: item.percentile95OfIncorrect,
-        };
-      });
-      const totalAnswers = _map(payload.data, (item, index) => {
-        return {
-          name: item.name,
-          totalAnswers: item.totalAnswers,
-        };
-      });
-      const array = {
-        averageTimeOfCorrectAnswers: [...averageTimeOfCorrectAnswers],
-        averageTimeOfIncorrectAnswers: [...averageTimeOfIncorrectAnswers],
-        correctAnswers: [...correctAnswers],
-        correctAnswers: [...correctAnswers],
-        percentile95OfCorrect: [...percentile95OfCorrect],
-        percentile95OfIncorrect: [...percentile95OfIncorrect],
-        totalAnswers: [...totalAnswers],
-      };
-      return dispatch(getStatisticsSuccess(array));
+      let convertedStatistic = convertStatisticsForClient(
+        payload.data,
+        "averageTimeOfCorrectAnswers",
+        "averageTimeOfIncorrectAnswers",
+        "correctAnswers",
+        "percentile95OfCorrect",
+        "percentile95OfIncorrect",
+        "totalAnswers"
+      );
+
+      console.log(convertedStatistic);
+      return dispatch(getStatisticsSuccess(convertedStatistic));
     } catch (error) {
       return dispatch(getStatisticsFailure(error.message));
     }

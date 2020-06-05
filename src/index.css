@@ -30,3 +30,8 @@ button:focus {
 a:hover {
   text-decoration: none;
 }
+
+button {
+  outline: none;
+  border: none;
+}

@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import './Alert.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+
+import style from "./Alert.module.scss";
 
 export default function AlertMessage({ message, view }) {
   let errorView;
-  if (view === 'error') {
-    errorView = 'danger';
+  if (view === "error") {
+    errorView = "danger";
   } else {
     errorView = view;
   }
@@ -14,8 +15,8 @@ export default function AlertMessage({ message, view }) {
     <div className="wrapperForAlert">
       <div
         className={classNames(`alert alert-${errorView}`, {
-          "error": view === 'error',
-          "success": view === 'success',
+          [`${style.error}`]: view === "error",
+          [`${style.success}`]: view === "success",
         })}
         role="alert"
       >
@@ -29,5 +30,5 @@ AlertMessage.propTypes = {
   view: PropTypes.string,
 };
 AlertMessage.defaultProps = {
-  view: 'success',
+  view: "success",
 };

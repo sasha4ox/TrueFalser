@@ -1,19 +1,30 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import _map from "lodash/map";
+import _toLower from "lodash/toLower";
+import _head from "lodash/head";
 import { NavLink } from "react-router-dom";
 import classnames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
 
 import style from "./Statistics.module.scss";
 import Header from "../Header/Header";
-
-const data = ["Hard", 2, 3, 4, 5, 6, 7];
+import { getStatistics } from "../../actions/statistics";
+import property from "lodash/property";
+import isEmpty from "lodash/isEmpty";
 
 function Statistics() {
+  const dispatch = useDispatch();
+  const statistics = useSelector(property("statistics.data"));
+  const statisticsMetric = !isEmpty(statistics) && Object.keys(statistics);
+  useEffect(() => {
+    dispatch(getStatistics());
+  }, []);
+
   return (
     <>
       <Header />
       <ul className={classnames("nav nav-tabs", style.nav)}>
-        {_map(data, (item, index) => {
+        {_map(statisticsMetric, (item, index) => {
           return (
             <li className="nav-item" key={index}>
               <NavLink
@@ -21,7 +32,12 @@ function Statistics() {
                 activeClassName={style.activeTab}
                 to={`/statistic/${item}`}
               >
-                {item}
+                {/* |([0-9])([A-Z]) */}
+                {item
+                  .replace(/([a-z])([A-Z])/g, "$1 $2")
+                  .replace(/([0-9])([A-Z])/g, "$1 $2")
+                  .toLowerCase()
+                  .replace(_head(item), _toLower(_head(item)))}
               </NavLink>
             </li>
           );

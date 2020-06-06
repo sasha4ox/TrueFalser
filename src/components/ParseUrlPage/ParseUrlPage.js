@@ -1,20 +1,20 @@
-import React, {memo, useCallback, useEffect} from 'react';
-import queryString from 'query-string';
-import isEmpty from 'lodash/isEmpty';
-import { useDispatch, useSelector } from 'react-redux';
-import property from 'lodash/property';
-import get from 'lodash/get';
-import { Link, Redirect } from 'react-router-dom';
+import React, { memo, useEffect } from "react";
+import queryString from "query-string";
+import isEmpty from "lodash/isEmpty";
+import { useDispatch, useSelector } from "react-redux";
+import property from "lodash/property";
+import get from "lodash/get";
+import { Redirect } from "react-router-dom";
 
 import {
   getUserDataFromGoogleCode,
-    getUserDataFromFacebookCode,
-} from '../../actions/authorization';
-import Spinner from '../Spinner';
+  getUserDataFromFacebookCode,
+} from "../../actions/authorization";
+import Spinner from "../Spinner";
 
-function ParseUrlPage( {chosenAuthorizationUrl} ) {
+function ParseUrlPage({ chosenAuthorizationUrl }) {
   const dispatch = useDispatch();
-  const userData = useSelector(property('authorization.userData'));
+  const userData = useSelector(property("authorization.userData"));
   // const chosenAuthorizationUrl = useSelector(
   //     property(
   //         'authorization.chosenAuthorizationUrl'
@@ -22,30 +22,29 @@ function ParseUrlPage( {chosenAuthorizationUrl} ) {
   // );
   const code = window.location.search;
   const parsedCode = queryString.parse(code);
-  console.info('ParseUrlPage!!!', code, parsedCode);
+  console.info("ParseUrlPage!!!", code, parsedCode);
   useEffect(() => {
     if (
-      !isEmpty(parsedCode)
-      && isEmpty(userData)
-      && chosenAuthorizationUrl === 'google'
+      !isEmpty(parsedCode) &&
+      isEmpty(userData) &&
+      chosenAuthorizationUrl === "google"
     ) {
-      dispatch(getUserDataFromGoogleCode(get(parsedCode, 'code')))
+      dispatch(getUserDataFromGoogleCode(get(parsedCode, "code")));
     }
     if (
-        !isEmpty(parsedCode)
-        && isEmpty(userData)
-        && chosenAuthorizationUrl === 'facebook'
+      !isEmpty(parsedCode) &&
+      isEmpty(userData) &&
+      chosenAuthorizationUrl === "facebook"
     ) {
-      dispatch(getUserDataFromFacebookCode(get(parsedCode, 'code')))
+      dispatch(getUserDataFromFacebookCode(get(parsedCode, "code")));
     }
-  }, [
-      chosenAuthorizationUrl,
-      dispatch,
-      parsedCode,
-      userData
-  ]);
-  return (
-      isEmpty(userData) ? <div><Spinner/></div> : <Redirect to="/select-language" />
+  }, [chosenAuthorizationUrl, dispatch, parsedCode, userData]);
+  return isEmpty(userData) ? (
+    <div>
+      <Spinner />
+    </div>
+  ) : (
+    <Redirect to="/select-language" />
   );
 }
 

@@ -17,7 +17,6 @@ function Header() {
   const [currentWidth, setCurrentWidth] = useState(initialWidth);
   const getWindowWidth = useCallback(() => {
     setCurrentWidth(headerWidth.current.offsetWidth);
-    console.info("currentWidth!!!!!", currentWidth);
   }, [currentWidth]);
 
   useEffect(() => {
@@ -65,6 +64,12 @@ function Header() {
           )}
         </div>
       </div>
+      <div className={style.links}>
+        <div className={style.statistic}>
+          <Link to="/statistic/averageTimeOfCorrectAnswers">Statistic</Link>
+        </div>
+      </div>
+
       <div className={style.userDataContainer}>
         {!isEmpty(currentUserName) && currentWidth >= mobileWidth && (
           <img alt={currentUserName} src={userSvg} />

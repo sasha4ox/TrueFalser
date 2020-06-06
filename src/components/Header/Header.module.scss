@@ -14,8 +14,15 @@
 
 .appInfo .headerLinks {
   display: flex;
+  align-items: center;
 }
-
+.links {
+  display: flex;
+  height: 100%;
+  margin-right: auto;
+  align-items: center;
+  padding: 0 25px;
+}
 .appInfo .headerLinks h2 {
   margin-top: 4px;
   margin-bottom: 0px;
@@ -51,14 +58,14 @@
   display: flex;
 }
 
-.descriptionContainer img{
+.descriptionContainer img {
   height: 1.5rem;
   margin-bottom: 1vh;
 }
 
 .header .statistic {
   color: white;
-  margin-top: 22px;
+  // margin-top: 22px;
 }
 
 .header .userDataContainer {
@@ -106,7 +113,7 @@
   padding: 10px;
 }
 
-@media screen and (max-width: 400px){
+@media screen and (max-width: 400px) {
   .header span {
     display: flex;
     margin-right: 10px;

@@ -9,7 +9,7 @@ import isNan from "lodash/isNaN";
 
 import Header from "../Header/Header";
 
-import "./AllLanguagesAnswersStatistic.scss";
+import style from "./AllLanguagesAnswersStatistic.module.scss";
 
 function AllLanguagesAnswersStatistic() {
   const allLanguagesAnswersStatistic = useSelector(
@@ -18,9 +18,9 @@ function AllLanguagesAnswersStatistic() {
   return (
     <>
       <Header />
-      <div className="allLanguagesAnswersStatistic">
+      <div className={style.allLanguagesAnswersStatistic}>
         <p>All languages correct answers statistic</p>
-        <div className="allLanguagesAnswersStatisticItems">
+        <div className={style.allLanguagesAnswersStatisticItems}>
           {!isEmpty(allLanguagesAnswersStatistic) ? (
             map(allLanguagesAnswersStatistic, (item) => {
               const correctAnswersInPercent = Math.round(

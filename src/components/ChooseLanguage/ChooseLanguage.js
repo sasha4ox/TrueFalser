@@ -16,6 +16,7 @@ import Spinner from "../Spinner";
 import Header from "../Header/Header";
 
 import style from "./ChooseLanguage.module.scss";
+import UserLanguages from "./components/UserLanguages";
 
 function ChooseLanguage() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function ChooseLanguage() {
   const isLanguageSelected = useSelector(
     property("quiz.language.selectedLanguage")
   );
+  const isLanguageSet = useSelector(property("authorization.isLanguageSet"));
   const selectedLanguage = useCallback(
     (event) => {
       const selectedLanguge = _filter(
@@ -38,23 +40,32 @@ function ChooseLanguage() {
     if (!_isNull(isLanguageSelected)) dispatch(startQuizAgain());
     dispatch(getLanguages());
   }, [dispatch, isLanguageSelected]);
+
+  console.log(isLanguageSet);
   return (
     <>
       <Header />
-      <main className={style.choose_main}>
-        <h1>Select language for Quiz</h1>
-        {isLanguageLoading && <Spinner />}
-        {!isLanguageLoading &&
-          _map(languages, (language) => {
-            return (
-              <div key={language.id} className={style.choose_lang}>
-                <Link to="/quiz" name={language.id} onClick={selectedLanguage}>
-                  {language.name}
-                </Link>
-              </div>
-            );
-          })}
-      </main>
+      {isLanguageSet && (
+        <main className={style.choose_main}>
+          <h1>Select language for Quiz</h1>
+          {isLanguageLoading && <Spinner />}
+          {!isLanguageLoading &&
+            _map(languages, (language) => {
+              return (
+                <div key={language.id} className={style.choose_lang}>
+                  <Link
+                    to="/quiz"
+                    name={language.id}
+                    onClick={selectedLanguage}
+                  >
+                    {language.name}
+                  </Link>
+                </div>
+              );
+            })}
+        </main>
+      )}
+      {!isLanguageSet && <UserLanguages />}
     </>
   );
 }

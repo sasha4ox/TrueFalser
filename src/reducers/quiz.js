@@ -19,7 +19,6 @@ import {
 
 import get from "lodash/get";
 import _filter from "lodash/filter";
-import _head from "lodash/head";
 import isEmpty from "lodash/isEmpty";
 const initialState = {
   language: {

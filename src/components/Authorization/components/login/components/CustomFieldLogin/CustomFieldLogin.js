@@ -1,6 +1,7 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import './CustomFieldLogin.scss';
+import PropTypes from "prop-types";
+import React from "react";
+
+import style from "./CustomFieldLogin.module.scss";
 
 export default function CustomFieldLogin({
   input: { name, onBlur, onChange, onFocus },
@@ -9,7 +10,7 @@ export default function CustomFieldLogin({
   meta: { touched, error },
 }) {
   return (
-    <div className="group">
+    <div className={style.group}>
       <input
         id={name}
         name={name}
@@ -20,7 +21,7 @@ export default function CustomFieldLogin({
         type={type}
       />
       <label htmlFor={name}>{label}</label>
-      {touched && error && <div className="inputsError">{error}</div>}
+      {touched && error && <div className={style.inputsError}>{error}</div>}
     </div>
   );
 }
@@ -39,6 +40,6 @@ CustomFieldLogin.propTypes = {
   type: PropTypes.string,
 };
 CustomFieldLogin.defaultProps = {
-  label: 'input',
-  type: 'text',
+  label: "input",
+  type: "text",
 };

@@ -11,6 +11,7 @@ import AllLanguagesAnswersStatistic from "../AllLanguagesAnswersStatistic";
 import Statistics from "../Statistics/Statistics";
 import style from "./Main.module.scss";
 import SelectedStatistic from "../Statistics/components/SelectedStatistic";
+import Profile from "../Profile/Profile";
 
 function Main() {
   const userData = useSelector(property("authorization.userData"));
@@ -21,6 +22,9 @@ function Main() {
       </Route>
       <Route path="/quiz">
         <Quiz />
+      </Route>
+      <Route path="/profile">
+        <Profile />
       </Route>
       <Route path="/result">
         <Result />

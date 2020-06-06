@@ -4,8 +4,6 @@ import {
   STATISTICS_GET_FAILURE,
 } from "../constants";
 
-import _map from "lodash/map";
-
 import fetchAsync from "../utils/fetch";
 import { apiUrl } from "../client-config";
 import convertStatisticsForClient from "../utils/convertStatisticsForClient";

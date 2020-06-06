@@ -16,7 +16,7 @@ import Spinner from "../Spinner";
 import Header from "../Header/Header";
 
 import style from "./ChooseLanguage.module.scss";
-import UserLanguages from "../Statistics/components/UserLanguages";
+import UserLanguages from "./components/UserLanguages";
 
 function ChooseLanguage() {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ function ChooseLanguage() {
   const isLanguageSelected = useSelector(
     property("quiz.language.selectedLanguage")
   );
+  const isLanguageSet = useSelector(property("authorization.isLanguageSet"));
   const selectedLanguage = useCallback(
     (event) => {
       const selectedLanguge = _filter(
@@ -40,11 +41,11 @@ function ChooseLanguage() {
     dispatch(getLanguages());
   }, [dispatch, isLanguageSelected]);
 
-  const mocha = false;
+  console.log(isLanguageSet);
   return (
     <>
       <Header />
-      {mocha && (
+      {isLanguageSet && (
         <main className={style.choose_main}>
           <h1>Select language for Quiz</h1>
           {isLanguageLoading && <Spinner />}
@@ -64,7 +65,7 @@ function ChooseLanguage() {
             })}
         </main>
       )}
-      {!mocha && <UserLanguages />}
+      {!isLanguageSet && <UserLanguages />}
     </>
   );
 }

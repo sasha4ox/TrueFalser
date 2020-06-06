@@ -23,21 +23,6 @@ function Statistics() {
   return (
     <>
       <Header />
-      {/* <ul className={classnames("nav nav-tabs", style.nav)}>
-        {_map(statistics, (item, index) => {
-          return (
-            <li className="nav-item" key={index}>
-              <NavLink
-                className="nav-link active"
-                activeClassName={style.activeTab}
-                to={`/statistic/${_toLower(item.name)}`}
-              >
-                {item.name}
-              </NavLink>
-            </li>
-          );
-        })}
-      </ul> */}
       <ul className={classnames("nav nav-tabs", style.nav)}>
         {_map(statisticsMetric, (item, index) => {
           return (
@@ -52,7 +37,7 @@ function Statistics() {
                   .replace(/([a-z])([A-Z])/g, "$1 $2")
                   .replace(/([0-9])([A-Z])/g, "$1 $2")
                   .toLowerCase()
-                  .replace(_head(item), _head(item).toUpperCase())}
+                  .replace(_head(item), _toLower(_head(item)))}
               </NavLink>
             </li>
           );

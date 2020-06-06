@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import property from "lodash/property";
@@ -40,6 +40,7 @@ function App() {
             "/result",
             "/statistic/all-languages-answers",
             "/statistic",
+            "/profile",
           ]}
           component={Main}
         />

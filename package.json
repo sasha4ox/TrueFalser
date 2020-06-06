@@ -14,7 +14,6 @@
     "node-fetch": "^2.6.0",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
-    "prismjs": "^1.20.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
@@ -27,8 +26,7 @@
     "react-syntax-highlighter": "^12.2.1",
     "redux": "^4.0.5",
     "redux-form": "^8.3.5",
-    "redux-thunk": "^2.3.0",
-    "screenfull": "^5.0.2"
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-plugin-prismjs": "^2.0.1",

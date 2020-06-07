@@ -6,6 +6,7 @@ import get from "lodash/get";
 import _forEach from "lodash/forEach";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash/isEqual";
 
 import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguageFieldSelect";
 
@@ -13,6 +14,7 @@ import style from "../../ChooseLanguage/components/UserLanguages.module.scss";
 import {
   setUserLanguages,
   setUserLanguagesSkip,
+  updateUserLanguages,
 } from "../../../actions/authorization";
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
@@ -22,7 +24,11 @@ function ProfileLanguages() {
   const languages = useSelector(property("quiz.language.languages"));
   const languagesIsLoading = useSelector(property("quiz.language.loading"));
   const formValue = useSelector(property("form.language.values"));
+  const formValueInitial = useSelector(property("form.language.initial"));
   const userId = useSelector(property("authorization.userData.id"));
+  const userLanguages = useSelector(
+    property("authorization.userData.userLanguages")
+  );
 
   const dispatch = useDispatch();
 
@@ -30,27 +36,32 @@ function ProfileLanguages() {
     dispatch(getLanguages());
   }, [dispatch]);
 
-  const skipButton = useCallback(() => {
-    dispatch(setUserLanguagesSkip());
-  }, [dispatch]);
-
   const submitForm = useCallback(
     (event) => {
       event.preventDefault();
-      const userLanguages = _map(languages, (language) => {
-        return {
-          LanguageId: language.id,
+      if (!isEqual(formValue, formValueInitial)) {
+        const setUserLanguages = _map(userLanguages, (language) => {
+          console.log(language);
+          return {
+            LanguageId: get(
+              formValueInitial,
+              `${get(language, "Language.name")}.LanguageId`
+            ),
+            UserId: get(language, "UserId"),
+            id: get(language, "id"),
+            myAssessment: get(formValue, `${language.Language.name}.value`),
+          };
+        });
+        const answerToServer = {
           UserId: userId,
-          myAssessment: get(formValue, `${language.name}.value`) || null,
+          userLanguages: setUserLanguages,
         };
-      });
-      const answerToServer = {
-        UserId: userId,
-        userLanguages,
-      };
-      dispatch(setUserLanguages(answerToServer));
+        // dispatch(setUserLanguages(answerToServer));
+        dispatch(updateUserLanguages(answerToServer));
+        console.log(answerToServer);
+      }
     },
-    [formValue, userId, dispatch]
+    [formValue, userId, dispatch, userLanguages]
   );
 
   return (
@@ -83,7 +94,7 @@ function ProfileLanguages() {
               className={style.button}
               disabled={isEmpty(formValue)}
             >
-              Save
+              Change
             </button>
           </div>
         </>
@@ -95,11 +106,13 @@ function ProfileLanguages() {
 const mapStateToProps = (state) => {
   let initialValues = {};
   _forEach(get(state, "authorization.userData.userLanguages"), (language) => {
-    initialValues[`${language.Language.name}`] = {
+    initialValues[`${get(language, "Language.name")}`] = {
       value: language.myAssessment,
       label: options.filter(
         (option) => option.value === language.myAssessment
       )[0].label,
+      id: language.id,
+      LanguageId: get(language, "Language.id"),
     };
   });
   return { initialValues };

@@ -21,6 +21,9 @@ import {
   SET_USER_LANGUAGES_FAILURE,
   SET_USER_LANGUAGES_SUCCESS,
   SET_USER_LANGUAGES_SKIP,
+  UPDATE_USER_LANGUAGES_START,
+  UPDATE_USER_LANGUAGES_SUCCESS,
+  UPDATE_USER_LANGUAGES_FAILURE,
 } from "../constants";
 
 import fetchAsync from "../utils/fetch";
@@ -311,6 +314,45 @@ export function setUserLanguages(userSetLanguages) {
       return dispatch(setUserLanguagesSuccess(payload.data));
     } catch (error) {
       return dispatch(setUserLanguagesFailure(error.message));
+    }
+  };
+}
+
+export function updateUserLanguagesStart() {
+  return {
+    type: UPDATE_USER_LANGUAGES_START,
+  };
+}
+
+export function updateUserLanguagesFailure(message) {
+  return {
+    type: UPDATE_USER_LANGUAGES_FAILURE,
+    message,
+  };
+}
+
+export function updateUserLanguagesSuccess(payload) {
+  return {
+    type: UPDATE_USER_LANGUAGES_SUCCESS,
+    payload,
+  };
+}
+
+export function updateUserLanguages(userUpdatedLanguages) {
+  return async (dispatch) => {
+    try {
+      dispatch(updateUserLanguagesStart());
+      const payload = await fetchAsync(
+        `${apiUrl}/user/languages-update`,
+        "PATCH",
+        userUpdatedLanguages
+      );
+      if (payload.status === "error") {
+        return dispatch(updateUserLanguagesFailure(payload.message));
+      }
+      return dispatch(updateUserLanguagesSuccess(payload.data));
+    } catch (error) {
+      return dispatch(updateUserLanguagesFailure(error.message));
     }
   };
 }

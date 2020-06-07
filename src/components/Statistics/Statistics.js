@@ -2,15 +2,17 @@ import React, { memo, useEffect } from "react";
 import _map from "lodash/map";
 import _toLower from "lodash/toLower";
 import _head from "lodash/head";
-import { NavLink } from "react-router-dom";
+import property from "lodash/property";
+import isEmpty from "lodash/isEmpty";
+import { NavLink, Switch, Route } from "react-router-dom";
 import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 
 import style from "./Statistics.module.scss";
+
 import Header from "../Header/Header";
 import { getStatistics } from "../../actions/statistics";
-import property from "lodash/property";
-import isEmpty from "lodash/isEmpty";
+import SelectedStatistic from "./components/SelectedStatistic";
 
 function Statistics() {
   const dispatch = useDispatch();
@@ -43,6 +45,9 @@ function Statistics() {
           );
         })}
       </ul>
+      <Switch>
+        <Route path="/statistic/:id" component={SelectedStatistic} />
+      </Switch>
     </>
   );
 }

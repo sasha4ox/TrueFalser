@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, connect } from "react-redux";
 import _map from "lodash/map";
 import get from "lodash/get";
+import _forEach from "lodash/forEach";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 
@@ -22,6 +23,7 @@ function ProfileLanguages() {
   const languagesIsLoading = useSelector(property("quiz.language.loading"));
   const formValue = useSelector(property("form.language.values"));
   const userId = useSelector(property("authorization.userData.id"));
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,12 +33,14 @@ function ProfileLanguages() {
   const skipButton = useCallback(() => {
     dispatch(setUserLanguagesSkip());
   }, [dispatch]);
+
   const submitForm = useCallback(
     (event) => {
       event.preventDefault();
       const userLanguages = _map(languages, (language) => {
         return {
           LanguageId: language.id,
+          UserId: userId,
           myAssessment: get(formValue, `${language.name}.value`) || null,
         };
       });
@@ -73,9 +77,6 @@ function ProfileLanguages() {
             </div>
           </form>
           <div className={style.wrapperButtons}>
-            <button type="button" className={style.button} onClick={skipButton}>
-              Skip it. I'm don't want to provide it for now.
-            </button>
             <button
               type="submit"
               form="languages"
@@ -91,6 +92,24 @@ function ProfileLanguages() {
   );
 }
 
-export default reduxForm({
-  form: "language",
-})(ProfileLanguages);
+const mapStateToProps = (state) => {
+  let initialValues = {};
+  _forEach(get(state, "authorization.userData.userLanguages"), (language) => {
+    initialValues[`${language.Language.name}`] = {
+      value: language.myAssessment,
+      label: options.filter(
+        (option) => option.value === language.myAssessment
+      )[0].label,
+    };
+  });
+  return { initialValues };
+};
+
+export default connect(mapStateToProps)(
+  reduxForm(
+    {
+      form: "language",
+    },
+    mapStateToProps
+  )(ProfileLanguages)
+);

@@ -24,6 +24,9 @@ import {
   UPDATE_USER_LANGUAGES_START,
   UPDATE_USER_LANGUAGES_SUCCESS,
   UPDATE_USER_LANGUAGES_FAILURE,
+  GET_USER_LANGUAGES_START,
+  GET_USER_LANGUAGES_FAILURE,
+  GET_USER_LANGUAGES_SUCCESS,
 } from "../constants";
 
 import fetchAsync from "../utils/fetch";
@@ -353,6 +356,41 @@ export function updateUserLanguages(userUpdatedLanguages) {
       return dispatch(updateUserLanguagesSuccess(payload.data));
     } catch (error) {
       return dispatch(updateUserLanguagesFailure(error.message));
+    }
+  };
+}
+
+export function getUserLanguagesStart() {
+  return {
+    type: GET_USER_LANGUAGES_START,
+  };
+}
+
+export function getUserLanguagesFailure(message) {
+  return {
+    type: GET_USER_LANGUAGES_FAILURE,
+    message,
+  };
+}
+
+export function getUserLanguagesSuccess(payload) {
+  return {
+    type: GET_USER_LANGUAGES_SUCCESS,
+    payload,
+  };
+}
+
+export function getUserLanguages(userId) {
+  return async (dispatch) => {
+    try {
+      dispatch(getUserLanguagesStart());
+      const payload = await fetchAsync(`${apiUrl}/user/languages/${userId}`);
+      if (payload.status === "error") {
+        return dispatch(getUserLanguagesFailure(payload.message));
+      }
+      return dispatch(getUserLanguagesSuccess(payload.data));
+    } catch (error) {
+      return dispatch(getUserLanguagesFailure(error.message));
     }
   };
 }

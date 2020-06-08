@@ -12,9 +12,8 @@ import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguag
 
 import style from "../../ChooseLanguage/components/UserLanguages.module.scss";
 import {
-  setUserLanguages,
-  setUserLanguagesSkip,
   updateUserLanguages,
+  getUserLanguages,
 } from "../../../actions/authorization";
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
@@ -37,11 +36,10 @@ function ProfileLanguages() {
   }, [dispatch]);
 
   const submitForm = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
       if (!isEqual(formValue, formValueInitial)) {
         const setUserLanguages = _map(userLanguages, (language) => {
-          console.log(language);
           return {
             LanguageId: get(
               formValueInitial,
@@ -56,12 +54,11 @@ function ProfileLanguages() {
           UserId: userId,
           userLanguages: setUserLanguages,
         };
-        // dispatch(setUserLanguages(answerToServer));
-        dispatch(updateUserLanguages(answerToServer));
-        console.log(answerToServer);
+        await dispatch(updateUserLanguages(answerToServer));
+        dispatch(getUserLanguages(userId));
       }
     },
-    [formValue, userId, dispatch, userLanguages]
+    [formValue, userId, dispatch, userLanguages, formValueInitial]
   );
 
   return (

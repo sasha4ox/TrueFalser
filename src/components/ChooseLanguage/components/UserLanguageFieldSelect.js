@@ -18,6 +18,7 @@ function UserLanguageFieldSelect({ input, options, label, name }) {
         options={options}
         onChange={(value) => input.onChange(value)}
         onBlur={(event) => event.preventDefault()}
+        inputProps={{ readOnly: true }}
       />
 
       <label htmlFor={name}>{label}</label>

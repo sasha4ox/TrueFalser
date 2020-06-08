@@ -17,6 +17,9 @@ import {
   UPDATE_USER_LANGUAGES_START,
   UPDATE_USER_LANGUAGES_FAILURE,
   UPDATE_USER_LANGUAGES_SUCCESS,
+  GET_USER_LANGUAGES_START,
+  GET_USER_LANGUAGES_FAILURE,
+  GET_USER_LANGUAGES_SUCCESS,
 } from "../constants";
 import get from "lodash/get";
 
@@ -133,6 +136,26 @@ export default function authorization(state = initialState, action) {
           userLanguages: [...action.payload],
         },
         updateUserLanguagesIsLoading: false,
+      };
+    case GET_USER_LANGUAGES_START:
+      return {
+        ...state,
+        getUserLanguagesIsLoading: true,
+      };
+    case GET_USER_LANGUAGES_FAILURE:
+      return {
+        ...state,
+        getUserLanguagesIsLoading: false,
+        getUserLanguageError: action.message,
+      };
+    case GET_USER_LANGUAGES_SUCCESS:
+      return {
+        ...state,
+        getUserLanguagesIsLoading: false,
+        userData: {
+          ...state.userData,
+          userLanguages: [...action.payload],
+        },
       };
     default:
       return state;

@@ -12,7 +12,6 @@ import ChooseLanguage from "./components/ChooseLanguage/ChooseLanguage";
 import Quiz from "./components/Quiz/Quiz";
 import Result from "./components/Result/Result";
 import Statistics from "./components/Statistics/Statistics";
-import SelectedStatistic from "./components/Statistics/components/SelectedStatistic";
 import Profile from "./components/Profile/Profile";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 

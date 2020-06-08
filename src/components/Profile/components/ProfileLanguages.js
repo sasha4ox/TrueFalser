@@ -4,6 +4,8 @@ import { useSelector, useDispatch, connect } from "react-redux";
 import _map from "lodash/map";
 import get from "lodash/get";
 import _forEach from "lodash/forEach";
+import _filter from "lodash/filter";
+import _head from "lodash/head";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
@@ -34,7 +36,7 @@ function ProfileLanguages() {
 
   useEffect(() => {
     dispatch(getLanguages());
-  }, [dispatch]);
+  }, []);
 
   const submitForm = useCallback(
     async (event) => {
@@ -59,7 +61,7 @@ function ProfileLanguages() {
                 formValueInitial,
                 `${get(language, "Language.name")}.LanguageId`
               ),
-              UserId: get(language, "UserId"),
+              UserId: userId,
               id: get(language, "id"),
               myAssessment: get(formValue, `${language.Language.name}.value`),
             };
@@ -119,11 +121,14 @@ const mapStateToProps = (state) => {
   let initialValues = {};
   _forEach(get(state, "authorization.userData.userLanguages"), (language) => {
     initialValues[`${get(language, "Language.name")}`] = {
-      value: language.myAssessment,
-      label: options.filter(
-        (option) => option.value === language.myAssessment
-      )[0].label,
-      id: language.id,
+      value: get(language, "myAssessment"),
+      label: get(
+        _head(
+          _filter(options, (option) => option.value === language.myAssessment)
+        ),
+        "label"
+      ),
+      id: get(language, "id"),
       LanguageId: get(language, "Language.id"),
     };
   });

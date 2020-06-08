@@ -18,7 +18,7 @@ function Profile() {
   return (
     <>
       <Header />
-      {!userLanguagesIsLoading && <ProfileLanguages />}
+      <ProfileLanguages />
     </>
   );
 }

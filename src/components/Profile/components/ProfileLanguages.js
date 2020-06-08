@@ -14,6 +14,7 @@ import style from "../../ChooseLanguage/components/UserLanguages.module.scss";
 import {
   updateUserLanguages,
   getUserLanguages,
+  setUserLanguages,
 } from "../../../actions/authorization";
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
@@ -38,24 +39,38 @@ function ProfileLanguages() {
   const submitForm = useCallback(
     async (event) => {
       event.preventDefault();
-      if (!isEqual(formValue, formValueInitial)) {
-        const setUserLanguages = _map(userLanguages, (language) => {
+      if (isEmpty(userLanguages)) {
+        const userLanguages = _map(languages, (language) => {
           return {
-            LanguageId: get(
-              formValueInitial,
-              `${get(language, "Language.name")}.LanguageId`
-            ),
-            UserId: get(language, "UserId"),
-            id: get(language, "id"),
-            myAssessment: get(formValue, `${language.Language.name}.value`),
+            LanguageId: language.id,
+            myAssessment: get(formValue, `${language.name}.value`) || null,
           };
         });
         const answerToServer = {
           UserId: userId,
-          userLanguages: setUserLanguages,
+          userLanguages,
         };
-        await dispatch(updateUserLanguages(answerToServer));
-        dispatch(getUserLanguages(userId));
+        dispatch(setUserLanguages(answerToServer));
+      } else {
+        if (!isEqual(formValue, formValueInitial)) {
+          const setUserLanguages = _map(userLanguages, (language) => {
+            return {
+              LanguageId: get(
+                formValueInitial,
+                `${get(language, "Language.name")}.LanguageId`
+              ),
+              UserId: get(language, "UserId"),
+              id: get(language, "id"),
+              myAssessment: get(formValue, `${language.Language.name}.value`),
+            };
+          });
+          const answerToServer = {
+            UserId: userId,
+            userLanguages: setUserLanguages,
+          };
+          await dispatch(updateUserLanguages(answerToServer));
+          dispatch(getUserLanguages(userId));
+        }
       }
     },
     [formValue, userId, dispatch, userLanguages, formValueInitial]

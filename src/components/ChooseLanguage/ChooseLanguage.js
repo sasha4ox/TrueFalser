@@ -93,8 +93,12 @@ function ChooseLanguage() {
           <h1>Select language for Quiz</h1>
           {_map(userLanguages, (language) => {
             return (
-              <div key={language.id} className={style.choose_lang}>
-                <Link to="/quiz" name={language.id} onClick={selectedLanguage}>
+              <div key={language.LanguageId} className={style.choose_lang}>
+                <Link
+                  to="/quiz"
+                  name={language.LanguageId}
+                  onClick={selectedLanguage}
+                >
                   {language.Language.name}
                 </Link>
               </div>

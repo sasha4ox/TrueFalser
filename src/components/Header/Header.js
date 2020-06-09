@@ -70,12 +70,12 @@ function Header() {
         </div>
       </div>
 
-      <div className={style.userDataContainer}>
+      <Link to="/profile" className={style.userDataContainer}>
         {!isEmpty(currentUserName) && currentWidth >= mobileWidth && (
           <img alt={currentUserName} src={userSvg} />
         )}
         {!isEmpty(currentUserName) && <span>{currentUserName}</span>}
-      </div>
+      </Link>
     </header>
   );
 }

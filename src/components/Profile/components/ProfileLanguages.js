@@ -1,52 +1,84 @@
 import React, { useCallback, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, connect } from "react-redux";
 import _map from "lodash/map";
 import get from "lodash/get";
+import _forEach from "lodash/forEach";
+import _filter from "lodash/filter";
+import _head from "lodash/head";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash/isEqual";
 
-import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguageFieldSelect";
+import style from "./ProfileLanguages.module.scss";
 
-import style from "../../ChooseLanguage/components/UserLanguages.module.scss";
 import {
+  updateUserLanguages,
+  getUserLanguages,
   setUserLanguages,
-  setUserLanguagesSkip,
 } from "../../../actions/authorization";
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
 import { getLanguages } from "../../../actions/quiz";
+import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguageFieldSelect";
 
 function ProfileLanguages() {
-  const languages = useSelector(property("quiz.language.languages"));
+  const languages = _filter(
+    useSelector(property("quiz.language.languages")),
+    (language) => language.id !== 1000
+  );
   const languagesIsLoading = useSelector(property("quiz.language.loading"));
   const formValue = useSelector(property("form.language.values"));
+  const formValueInitial = useSelector(property("form.language.initial"));
   const userId = useSelector(property("authorization.userData.id"));
+  const userLanguages = useSelector(
+    property("authorization.userData.userLanguages")
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getLanguages());
-  }, [dispatch]);
+  }, []);
 
-  const skipButton = useCallback(() => {
-    dispatch(setUserLanguagesSkip());
-  }, [dispatch]);
   const submitForm = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
-      const userLanguages = _map(languages, (language) => {
-        return {
-          LanguageId: language.id,
-          myAssessment: get(formValue, `${language.name}.value`) || null,
+      if (isEmpty(userLanguages)) {
+        const userLanguages = _map(languages, (language) => {
+          return {
+            LanguageId: language.id,
+            myAssessment: get(formValue, `${language.name}.value`) || null,
+          };
+        });
+        const answerToServer = {
+          UserId: userId,
+          userLanguages,
         };
-      });
-      const answerToServer = {
-        UserId: userId,
-        userLanguages,
-      };
-      dispatch(setUserLanguages(answerToServer));
+        dispatch(setUserLanguages(answerToServer));
+      } else {
+        if (!isEqual(formValue, formValueInitial)) {
+          const setUserLanguages = _map(userLanguages, (language) => {
+            return {
+              LanguageId: get(
+                formValueInitial,
+                `${get(language, "Language.name")}.LanguageId`
+              ),
+              UserId: userId,
+              id: get(language, "id"),
+              myAssessment: get(formValue, `${language.Language.name}.value`),
+            };
+          });
+          const answerToServer = {
+            UserId: userId,
+            userLanguages: setUserLanguages,
+          };
+          await dispatch(updateUserLanguages(answerToServer));
+          dispatch(getUserLanguages(userId));
+        }
+      }
     },
-    [formValue, userId, dispatch]
+    [formValue, userId, dispatch, userLanguages, formValueInitial, languages]
   );
 
   return (
@@ -73,16 +105,13 @@ function ProfileLanguages() {
             </div>
           </form>
           <div className={style.wrapperButtons}>
-            <button type="button" className={style.button} onClick={skipButton}>
-              Skip it. I'm don't want to provide it for now.
-            </button>
             <button
               type="submit"
               form="languages"
               className={style.button}
               disabled={isEmpty(formValue)}
             >
-              Save
+              Change
             </button>
           </div>
         </>
@@ -91,6 +120,29 @@ function ProfileLanguages() {
   );
 }
 
-export default reduxForm({
-  form: "language",
-})(ProfileLanguages);
+const mapStateToProps = (state) => {
+  let initialValues = {};
+  _forEach(get(state, "authorization.userData.userLanguages"), (language) => {
+    initialValues[`${get(language, "Language.name")}`] = {
+      value: get(language, "myAssessment"),
+      label: get(
+        _head(
+          _filter(options, (option) => option.value === language.myAssessment)
+        ),
+        "label"
+      ),
+      id: get(language, "id"),
+      LanguageId: get(language, "Language.id"),
+    };
+  });
+  return { initialValues };
+};
+
+export default connect(mapStateToProps)(
+  reduxForm(
+    {
+      form: "language",
+    },
+    mapStateToProps
+  )(ProfileLanguages)
+);

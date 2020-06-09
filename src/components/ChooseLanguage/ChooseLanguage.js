@@ -40,8 +40,6 @@ function ChooseLanguage() {
     if (!_isNull(isLanguageSelected)) dispatch(startQuizAgain());
     dispatch(getLanguages());
   }, [dispatch, isLanguageSelected]);
-
-  console.log(isLanguageSet);
   return (
     <>
       <Header />

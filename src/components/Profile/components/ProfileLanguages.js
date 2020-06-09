@@ -20,7 +20,7 @@ import {
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
 import { getLanguages } from "../../../actions/quiz";
-import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguageFieldSelect";
+import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguages/UserLanguageFieldSelect";
 
 function ProfileLanguages() {
   const languages = _filter(

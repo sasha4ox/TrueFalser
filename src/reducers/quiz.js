@@ -15,6 +15,8 @@ import {
   COUNTDOWN_TIMER_TICK,
   COUNTDOWN_TIMER_START,
   SHOW_HEADER_IN_QUIZ,
+  SHOW_ALL_LANGUAGES,
+  SHOW_MY_LANGUAGES,
 } from "../constants";
 
 import get from "lodash/get";
@@ -39,6 +41,7 @@ const initialState = {
     isTimerStart: false,
     secondsToEnd: null,
   },
+  isShowMylanguages: false,
 };
 export default function quiz(state = initialState, action) {
   switch (action.type) {
@@ -171,6 +174,16 @@ export default function quiz(state = initialState, action) {
           questions: [...questionsWithoutCurrentQuestion],
           currentQuestion,
         },
+      };
+    case SHOW_ALL_LANGUAGES:
+      return {
+        ...state,
+        isShowMylanguages: false,
+      };
+    case SHOW_MY_LANGUAGES:
+      return {
+        ...state,
+        isShowMylanguages: true,
       };
     default:
       return state;

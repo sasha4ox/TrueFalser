@@ -134,7 +134,6 @@ export function chosenAuthorizationUrl(url) {
 }
 
 function getGoogleUrl(data) {
-  console.info("getGoogleUrl!!!", data);
   // history.push(`${data}`);
   return {
     type: GET_GOOGLE_URL,
@@ -143,7 +142,6 @@ function getGoogleUrl(data) {
 }
 
 function getFacebookUrl(data) {
-  console.info("getFacebookUrl!!!", data);
   // history.push(`${data}`);
   return {
     type: GET_FACEBOOK_URL,
@@ -151,12 +149,13 @@ function getFacebookUrl(data) {
   };
 }
 
-function getUserData(data) {
+function getUserData(data, isRegistration) {
   history.push("/");
   //  history.replace('/main');
   return {
     type: AUTHORIZATION_SUCCESS,
     data: data,
+    isLanguageSet: !isRegistration || true,
   };
 }
 
@@ -183,7 +182,6 @@ export function login(loginValue) {
         },
       });
       const data = await response.json();
-      console.info("Login response", data);
       if (response.status === "error") {
         dispatch(alertCreator(response.message, response.status));
         return dispatch(loginFailure(response));
@@ -205,10 +203,8 @@ export function getGoogleAuthorizationUrl() {
         method: "get",
       });
       const data = await response.json();
-      console.info("googleAuthorizationUrl!!", data);
       return dispatch(getGoogleUrl(data.data));
     } catch (error) {
-      console.info("googleAuthorization!!", error);
       return dispatch(fetchDataFailure(error));
     }
   };
@@ -225,8 +221,12 @@ export function getUserDataFromGoogleCode(code) {
         }
       );
       const data = await response.json();
-      console.info("getUserDataFromGoogleCode!!", data);
-      return dispatch(getUserData(data.data));
+      return dispatch(
+        getUserData(
+          get(data, "data.userData"),
+          get(data, "data.isRegistration")
+        )
+      );
     } catch (error) {
       return dispatch(fetchDataFailure(error));
     }
@@ -252,10 +252,8 @@ export function getFacebookAuthorizationUrl() {
         method: "get",
       });
       const data = await response.json();
-      console.info("facebookAuthorizationUrl!!", data);
       return dispatch(getFacebookUrl(data.data));
     } catch (error) {
-      console.info("facebookAuthorization ERRR!!", error);
       return dispatch(fetchDataFailure(error));
     }
   };
@@ -272,8 +270,12 @@ export function getUserDataFromFacebookCode(code) {
         }
       );
       const data = await response.json();
-      console.info("getUserDataFromFacebookCode!!", data);
-      return dispatch(getUserData(data.data));
+      return dispatch(
+        getUserData(
+          get(data, "data.userData"),
+          get(data, "data.isRegistration")
+        )
+      );
     } catch (error) {
       return dispatch(fetchDataFailure(error));
     }

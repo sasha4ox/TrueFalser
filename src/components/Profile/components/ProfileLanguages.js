@@ -10,9 +10,8 @@ import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
 
-import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguageFieldSelect";
+import style from "./ProfileLanguages.module.scss";
 
-import style from "../../ChooseLanguage/components/UserLanguages.module.scss";
 import {
   updateUserLanguages,
   getUserLanguages,
@@ -21,9 +20,13 @@ import {
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
 import { getLanguages } from "../../../actions/quiz";
+import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguageFieldSelect";
 
 function ProfileLanguages() {
-  const languages = useSelector(property("quiz.language.languages"));
+  const languages = _filter(
+    useSelector(property("quiz.language.languages")),
+    (language) => language.id !== 1000
+  );
   const languagesIsLoading = useSelector(property("quiz.language.loading"));
   const formValue = useSelector(property("form.language.values"));
   const formValueInitial = useSelector(property("form.language.initial"));
@@ -75,7 +78,7 @@ function ProfileLanguages() {
         }
       }
     },
-    [formValue, userId, dispatch, userLanguages, formValueInitial]
+    [formValue, userId, dispatch, userLanguages, formValueInitial, languages]
   );
 
   return (

@@ -34,6 +34,7 @@ export default function authorization(state = initialState, action) {
       return {
         ...state,
         userData: action.data,
+        isLanguageSet: true,
       };
     case LOGIN_START:
       return {

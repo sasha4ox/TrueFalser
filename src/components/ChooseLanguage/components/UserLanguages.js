@@ -5,6 +5,7 @@ import _map from "lodash/map";
 import get from "lodash/get";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
+import _filter from "lodash/filter";
 
 import UserLanguageFieldSelect from "./UserLanguageFieldSelect";
 
@@ -17,7 +18,10 @@ import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
 
 function UserLanguages() {
-  const languages = useSelector(property("quiz.language.languages"));
+  const languages = _filter(
+    useSelector(property("quiz.language.languages")),
+    (language) => language.id !== 1000
+  );
   const languagesIsLoading = useSelector(property("quiz.language.loading"));
   const formValue = useSelector(property("form.language.values"));
   const userId = useSelector(property("authorization.userData.id"));

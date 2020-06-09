@@ -145,12 +145,13 @@ function getFacebookUrl(data) {
   };
 }
 
-function getUserData(data) {
+function getUserData(data,  isRegistration) {
   history.push("/");
   //  history.replace('/main');
   return {
     type: AUTHORIZATION_SUCCESS,
     data: data,
+    isLanguageSet: !isRegistration || true,
   };
 }
 
@@ -220,7 +221,12 @@ export function getUserDataFromGoogleCode(code) {
       );
       const data = await response.json();
       console.info("getUserDataFromGoogleCode!!", data);
-      return dispatch(getUserData(data.data));
+      return dispatch(
+          getUserData(
+              get(data, 'data.userData'),
+              get(data, 'data.isRegistration'),
+              )
+      );
     } catch (error) {
       return dispatch(fetchDataFailure(error));
     }
@@ -267,7 +273,12 @@ export function getUserDataFromFacebookCode(code) {
       );
       const data = await response.json();
       console.info("getUserDataFromFacebookCode!!", data);
-      return dispatch(getUserData(data.data));
+      return dispatch(
+          getUserData(
+              get(data, 'data.userData'),
+              get(data, 'data.isRegistration'),
+              )
+      );
     } catch (error) {
       return dispatch(fetchDataFailure(error));
     }

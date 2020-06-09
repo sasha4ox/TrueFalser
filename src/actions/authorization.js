@@ -155,7 +155,7 @@ function getUserData(data, isRegistration) {
   return {
     type: AUTHORIZATION_SUCCESS,
     data: data,
-    isLanguageSet: !isRegistration || true,
+    isLanguageSet: !isRegistration,
   };
 }
 

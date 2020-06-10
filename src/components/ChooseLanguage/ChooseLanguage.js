@@ -62,65 +62,70 @@ function ChooseLanguage() {
   return (
     <>
       <Header />
-      {!isEmpty(userLanguages) && (
-        <form>
-          <label>
-            <input
-              type="checkbox"
-              name="showMyLanguages"
-              onChange={handleChange}
-            />
-            Show only my languages
-          </label>
-        </form>
-      )}
-      {isLanguageSet && !isShowMyLanguages && (
-        <main className={style.choose_main}>
-          <h1>Select language for Quiz</h1>
-          {isLanguageLoading && <Spinner />}
-          {!isLanguageLoading &&
-            _map(languages, (language) => {
-              return (
-                <div key={language.id} className={style.choose_lang}>
+      {isLanguageSet && (
+        <>
+          <main className={style.choose_main}>
+            <h1>Select language for Quiz</h1>
+            <div className={style.choose_lang}>
+              {!isEmpty(userLanguages) && (
+                <form className={style.formLanguagesChange}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="showMyLanguages"
+                      onChange={handleChange}
+                    />
+                    Show all languages
+                  </label>
+                </form>
+              )}
+              {isShowMyLanguages && (
+                <>
+                  {isLanguageLoading && <Spinner />}
+                  {!isLanguageLoading &&
+                    _map(languages, (language) => {
+                      return (
+                        <Link
+                          key={language.id}
+                          to="/quiz"
+                          name={language.name}
+                          onClick={selectedLanguage}
+                        >
+                          {language.name}
+                        </Link>
+                      );
+                    })}
+                </>
+              )}
+
+              {!isShowMyLanguages && (
+                <>
+                  {_map(userLanguages, (language) => {
+                    return (
+                      <Link
+                        key={language.LanguageId}
+                        to="/quiz"
+                        name={language.Language.name}
+                        onClick={selectedLanguage}
+                      >
+                        {language.Language.name}
+                      </Link>
+                    );
+                  })}
                   <Link
                     to="/quiz"
-                    name={language.name}
+                    name={userLanguages
+                      .map((language) => language.Language.name)
+                      .join(" ")}
                     onClick={selectedLanguage}
                   >
-                    {language.name}
+                    All My languages
                   </Link>
-                </div>
-              );
-            })}
-        </main>
-      )}
-      {isLanguageSet && isShowMyLanguages && (
-        <main className={style.choose_main}>
-          <h1>Select language for Quiz</h1>
-          <div className={style.choose_lang}>
-            {_map(userLanguages, (language) => {
-              return (
-                <Link
-                  key={language.LanguageId}
-                  to="/quiz"
-                  name={language.Language.name}
-                  onClick={selectedLanguage}
-                >
-                  {language.Language.name}
-                </Link>
-              );
-            })}
-            <Link
-              to="/quiz"
-              name={userLanguages
-                .map((language) => language.Language.name)
-                .join(" ")}
-              onClick={selectedLanguage}
-            >
-              All My languages
-            </Link>
-          </div>
-        </main>
+                </>
+              )}
+            </div>
+          </main>
+        </>
       )}
       {!isLanguageSet && <UserLanguages />}
     </>

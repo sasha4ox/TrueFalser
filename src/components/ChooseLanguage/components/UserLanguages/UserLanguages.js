@@ -83,15 +83,14 @@ function UserLanguages() {
             })}
           </form>
           <div className={style.wrapperButtons}>
-            <button type="button" className={style.button} onClick={skipButton}>
+            <button
+              type="button"
+              className={style.buttonSkip}
+              onClick={skipButton}
+            >
               Skip it. I'm don't want to provide it for now.
             </button>
-            <button
-              type="submit"
-              form="languages"
-              className={style.button}
-              disabled={isEmpty(formValue)}
-            >
+            <button type="submit" form="languages" className={style.buttonSave}>
               Save
             </button>
           </div>

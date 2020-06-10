@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import style from "./UserLanguagesFieldRadio.module.scss";
 
 const Radio = ({ input: { name }, label, options }) => {
-  //   console.log(input:{name});
   const renderRadioButtons = (key, index) => {
     return (
       <label

@@ -9,12 +9,14 @@
   display: flex;
   justify-content: space-around;
 }
-.button {
+.buttonSkip,
+.wrapperButtons {
   display: block;
   background: #2977c9;
   color: white;
   padding: 15px;
   border-radius: 5px;
+  min-width: 300px;
   &:hover {
     background: green;
   }

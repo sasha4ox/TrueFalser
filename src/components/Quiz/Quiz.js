@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import property from "lodash/property";
 import throttle from "lodash/throttle";
+import _map from "lodash/map";
 
 import Questions from "./components/Questions/Questions";
 import {
@@ -23,7 +24,10 @@ function Quiz() {
   const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
   const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
   const userId = useSelector(property("authorization.userData.id"));
-  const languageId = useSelector(property("quiz.language.selectedLanguage.id"));
+  const languageIds = _map(
+    useSelector(property("quiz.language.selectedLanguage")),
+    (language) => language.id
+  );
   const isNeedToRotate = useSelector(property("quiz.isNeedToRotate"));
   const secondsToEndQuiz = useSelector(property("quiz.timer.secondsToEnd"));
   const isTimerStart = useSelector(property("quiz.timer.isTimerStart"));
@@ -54,8 +58,8 @@ function Quiz() {
   // countdown timer    ---- END
 
   const startGame = useCallback(() => {
-    dispatch(createTest(userId, languageId));
-  }, [dispatch, userId, languageId]);
+    dispatch(createTest(userId, languageIds));
+  }, [dispatch, userId, languageIds]);
 
   const checkWidth = () => {
     const orientation = window.matchMedia("(orientation: portrait)");

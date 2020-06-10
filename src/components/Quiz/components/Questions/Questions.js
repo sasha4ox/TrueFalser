@@ -29,8 +29,9 @@ function Questions() {
   const testInfo = useSelector(property("quiz.test"));
   const questions = useSelector(property("quiz.allQuestions.questions"));
   const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
-  const selectedLanguage = useSelector(
-    property("quiz.language.selectedLanguage")
+  const selectedLanguage = _map(
+    useSelector(property("quiz.language.selectedLanguage")),
+    (language) => language.id
   );
   const currentQuestion = useSelector(
     property("quiz.allQuestions.currentQuestion[0]")
@@ -50,7 +51,7 @@ function Questions() {
       const userAnswer =
         targetName === "true" || targetArrowCode === "ArrowRight";
       const TestId = get(testInfo, "id");
-      const LanguageId = get(selectedLanguage, "id");
+      const LanguageId = get(currentQuestion, "LanguageId");
       const QuestionId = get(currentQuestion, "id");
       const rightAnswer = get(currentQuestion, "result");
 
@@ -76,7 +77,7 @@ function Questions() {
           QuestionId,
         ].join();
 
-        dispatch(getQuestions(selectedLanguage.id, excludeQuestionsId));
+        dispatch(getQuestions(selectedLanguage, excludeQuestionsId));
       }
       dispatch(answer(answerToServer));
       dispatch(nextQuestion(currentQuestion));

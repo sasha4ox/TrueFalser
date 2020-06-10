@@ -20,7 +20,7 @@ import {
 import Spinner from "../../Spinner";
 import options from "../../../constants/optionsForSelectLanguage";
 import { getLanguages } from "../../../actions/quiz";
-import UserLanguageFieldSelect from "../../ChooseLanguage/components/UserLanguages/UserLanguageFieldSelect";
+import Radio from "../../ChooseLanguage/components/UserLanguages/UserLanguagesFieldRadio";
 
 function ProfileLanguages() {
   const languages = _filter(
@@ -48,7 +48,7 @@ function ProfileLanguages() {
         const userLanguages = _map(languages, (language) => {
           return {
             LanguageId: language.id,
-            myAssessment: get(formValue, `${language.name}.value`) || null,
+            myAssessment: get(formValue, `${language.name}`) || null,
           };
         });
         const answerToServer = {
@@ -60,13 +60,15 @@ function ProfileLanguages() {
         if (!isEqual(formValue, formValueInitial)) {
           const setUserLanguages = _map(userLanguages, (language) => {
             return {
-              LanguageId: get(
-                formValueInitial,
-                `${get(language, "Language.name")}.LanguageId`
-              ),
+              LanguageId: _head(
+                _filter(
+                  languages,
+                  (lang) => lang.name === get(language, "Language.name")
+                )
+              ).id,
               UserId: userId,
               id: get(language, "id"),
-              myAssessment: get(formValue, `${language.Language.name}.value`),
+              myAssessment: get(formValue, `${language.Language.name}`),
             };
           });
           const answerToServer = {
@@ -90,19 +92,17 @@ function ProfileLanguages() {
       {!languagesIsLoading && (
         <>
           <form id="languages" className={style.form} onSubmit={submitForm}>
-            <div>
-              {_map(languages, (language) => {
-                return (
-                  <Field
-                    key={language.id}
-                    name={language.name}
-                    label={language.name}
-                    options={options}
-                    component={UserLanguageFieldSelect}
-                  />
-                );
-              })}
-            </div>
+            {_map(languages, (language) => {
+              return (
+                <Field
+                  key={language.id}
+                  name={language.name}
+                  label={language.name}
+                  component={Radio}
+                  options={options}
+                />
+              );
+            })}
           </form>
           <div className={style.wrapperButtons}>
             <button
@@ -123,17 +123,10 @@ function ProfileLanguages() {
 const mapStateToProps = (state) => {
   let initialValues = {};
   _forEach(get(state, "authorization.userData.userLanguages"), (language) => {
-    initialValues[`${get(language, "Language.name")}`] = {
-      value: get(language, "myAssessment"),
-      label: get(
-        _head(
-          _filter(options, (option) => option.value === language.myAssessment)
-        ),
-        "label"
-      ),
-      id: get(language, "id"),
-      LanguageId: get(language, "Language.id"),
-    };
+    initialValues[`${get(language, "Language.name")}`] = get(
+      language,
+      "myAssessment"
+    ).toString();
   });
   return { initialValues };
 };

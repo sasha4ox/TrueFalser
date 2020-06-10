@@ -22,6 +22,8 @@ import {
   COUNTDOWN_TIMER_START,
   COUNTDOWN_TIMER_TICK,
   SHOW_HEADER_IN_QUIZ,
+  SHOW_MY_LANGUAGES,
+  SHOW_ALL_LANGUAGES,
 } from "../constants/index";
 
 import fetchAsync from "../utils/fetch";
@@ -242,4 +244,14 @@ export function getResult(testId) {
       return dispatch(getQuizResultFailure(error.message));
     }
   };
+}
+
+export function showLanguages(isMyLanguage) {
+  const showMyLanguages = {
+    type: SHOW_MY_LANGUAGES,
+  };
+  const showAllLanguages = {
+    type: SHOW_ALL_LANGUAGES,
+  };
+  return isMyLanguage ? showMyLanguages : showAllLanguages;
 }

@@ -13,9 +13,9 @@ import style from "./UserLanguages.module.scss";
 import {
   setUserLanguages,
   setUserLanguagesSkip,
-} from "../../../actions/authorization";
-import Spinner from "../../Spinner";
-import options from "../../../constants/optionsForSelectLanguage";
+} from "../../../../actions/authorization";
+import Spinner from "../../../Spinner";
+import options from "../../../../constants/optionsForSelectLanguage";
 
 function UserLanguages() {
   const languages = _filter(

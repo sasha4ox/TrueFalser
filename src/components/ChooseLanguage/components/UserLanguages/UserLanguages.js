@@ -57,19 +57,6 @@ function UserLanguages() {
       {!languagesIsLoading && (
         <>
           <form id="languages" className={style.form} onSubmit={submitForm}>
-            {/* <div>
-              {_map(languages, (language) => {
-                return (
-                  <Field
-                    key={language.id}
-                    name={language.name}
-                    label={language.name}
-                    options={options}
-                    component={UserLanguageFieldSelect}
-                  />
-                );
-              })}
-            </div> */}
             {_map(languages, (language) => {
               return (
                 <Field

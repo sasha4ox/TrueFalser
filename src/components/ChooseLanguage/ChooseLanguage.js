@@ -34,24 +34,30 @@ function ChooseLanguage() {
     property("quiz.language.selectedLanguage")
   );
   const isLanguageSet = useSelector(property("authorization.isLanguageSet"));
+
   const selectedLanguage = useCallback(
     (event) => {
-      const selectedLanguge = _filter(
-        languages,
-        (language) => language.id === Number(get(event, "target.name"))
+      const selectedLanguge = _filter(languages, (language) =>
+        get(event, "target.name") === "All languages"
+          ? true
+          : get(event, "target.name").includes(language.name)
       );
-      dispatch(selectLanguage(...selectedLanguge));
+      dispatch(selectLanguage(selectedLanguge));
     },
     [dispatch, languages]
   );
+
   useEffect(() => {
     if (!_isNull(isLanguageSelected)) dispatch(startQuizAgain());
     dispatch(getLanguages());
   }, [dispatch, isLanguageSelected]);
 
-  const handleChange = useCallback((event) => {
-    dispatch(showLanguages(event.target.checked));
-  });
+  const handleChange = useCallback(
+    (event) => {
+      dispatch(showLanguages(event.target.checked));
+    },
+    [dispatch]
+  );
 
   return (
     <>
@@ -78,7 +84,7 @@ function ChooseLanguage() {
                 <div key={language.id} className={style.choose_lang}>
                   <Link
                     to="/quiz"
-                    name={language.id}
+                    name={language.name}
                     onClick={selectedLanguage}
                   >
                     {language.name}
@@ -91,19 +97,29 @@ function ChooseLanguage() {
       {isLanguageSet && isShowMyLanguages && (
         <main className={style.choose_main}>
           <h1>Select language for Quiz</h1>
-          {_map(userLanguages, (language) => {
-            return (
-              <div key={language.LanguageId} className={style.choose_lang}>
+          <div className={style.choose_lang}>
+            {_map(userLanguages, (language) => {
+              return (
                 <Link
+                  key={language.LanguageId}
                   to="/quiz"
-                  name={language.LanguageId}
+                  name={language.Language.name}
                   onClick={selectedLanguage}
                 >
                   {language.Language.name}
                 </Link>
-              </div>
-            );
-          })}
+              );
+            })}
+            <Link
+              to="/quiz"
+              name={userLanguages
+                .map((language) => language.Language.name)
+                .join(" ")}
+              onClick={selectedLanguage}
+            >
+              All My languages
+            </Link>
+          </div>
         </main>
       )}
       {!isLanguageSet && <UserLanguages />}

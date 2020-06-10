@@ -26,8 +26,12 @@ import {
   SHOW_ALL_LANGUAGES,
 } from "../constants/index";
 
+import _head from "lodash/head";
+
 import fetchAsync from "../utils/fetch";
 import { apiUrl } from "../client-config";
+
+const MIN_ID_SIZE = 1;
 
 export function isShowingHeaderInQuiz(isShowHeader) {
   return {
@@ -126,14 +130,15 @@ export function createTestFailure(data) {
     payload: data,
   };
 }
-export function getQuestions(LanguageId, excludedquestions) {
+export function getQuestions(LanguageIds, excludedquestions) {
   return async (dispatch) => {
     dispatch(getQuestionsStart());
+    const languageId = LanguageIds.length > MIN_ID_SIZE ? [1000] : LanguageIds;
     try {
       const payload = await fetchAsync(
-        `${apiUrl}/questions/?id=${LanguageId}&excludedquestions=${
+        `${apiUrl}/questions/?id=${_head(languageId)}&excludedquestions=${
           excludedquestions ? excludedquestions : 0
-        }`
+        }&userlanguages=${LanguageIds.join()}`
       );
       if (payload.status === "error") {
         return dispatch(getQuestionsFailure(payload.message));
@@ -144,20 +149,20 @@ export function getQuestions(LanguageId, excludedquestions) {
     }
   };
 }
-export function createTest(UserId, LanguageId) {
+export function createTest(UserId, LanguageIds) {
   return async (dispatch) => {
     dispatch(createTestStat());
     try {
       const payload = await fetchAsync(`${apiUrl}/test`, "POST", {
         UserId,
-        LanguageId,
+        LanguageId: _head(LanguageIds),
       });
       if (payload.status === "error") {
         return dispatch(createTestFailure(payload.message));
       }
       dispatch(createTestSuccess(payload.data));
       dispatch(countdownTimerStart(60));
-      return dispatch(getQuestions(LanguageId));
+      return dispatch(getQuestions(LanguageIds));
     } catch (error) {
       return dispatch(createTestFailure(error.message));
     }

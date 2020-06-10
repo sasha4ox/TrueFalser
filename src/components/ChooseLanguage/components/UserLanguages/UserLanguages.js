@@ -7,7 +7,7 @@ import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import _filter from "lodash/filter";
 
-import UserLanguageFieldSelect from "./UserLanguageFieldSelect";
+import Radio from "./UserLanguagesFieldRadio";
 
 import style from "./UserLanguages.module.scss";
 import {
@@ -36,7 +36,7 @@ function UserLanguages() {
       const userLanguages = _map(languages, (language) => {
         return {
           LanguageId: language.id,
-          myAssessment: get(formValue, `${language.name}.value`) || null,
+          myAssessment: get(formValue, `${language.name}`) || null,
         };
       });
       const answerToServer = {
@@ -57,7 +57,7 @@ function UserLanguages() {
       {!languagesIsLoading && (
         <>
           <form id="languages" className={style.form} onSubmit={submitForm}>
-            <div>
+            {/* <div>
               {_map(languages, (language) => {
                 return (
                   <Field
@@ -69,7 +69,18 @@ function UserLanguages() {
                   />
                 );
               })}
-            </div>
+            </div> */}
+            {_map(languages, (language) => {
+              return (
+                <Field
+                  key={language.id}
+                  name={language.name}
+                  label={language.name}
+                  component={Radio}
+                  options={options}
+                />
+              );
+            })}
           </form>
           <div className={style.wrapperButtons}>
             <button type="button" className={style.button} onClick={skipButton}>

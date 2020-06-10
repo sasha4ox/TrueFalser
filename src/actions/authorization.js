@@ -14,7 +14,7 @@ import {
   REGISTRATION_FAILURE,
   AUTHORIZATION_SUCCESS,
   GET_GOOGLE_URL,
-  WITHOUT_REGISTRATION,
+  // WITHOUT_REGISTRATION,
   GET_FACEBOOK_URL,
   CHOSEN_AUTHORIZATION_URL,
   SET_USER_LANGUAGES_START,
@@ -233,16 +233,16 @@ export function getUserDataFromGoogleCode(code) {
   };
 }
 
-export function withoutRegistration() {
-  const anonymousUser = {
-    id: 1000,
-    name: "Anonymous",
-  };
-  return {
-    type: WITHOUT_REGISTRATION,
-    data: anonymousUser,
-  };
-}
+// export function withoutRegistration() {
+//   const anonymousUser = {
+//     id: 1000,
+//     name: "Anonymous",
+//   };
+//   return {
+//     type: WITHOUT_REGISTRATION,
+//     data: anonymousUser,
+//   };
+// }
 
 export function getFacebookAuthorizationUrl() {
   return async (dispatch) => {

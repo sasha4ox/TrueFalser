@@ -9,7 +9,8 @@ import LoginRegistrationButton from "./components/LoginRegistrationButton/LoginR
 import {
   login,
   alertCreator,
-  withoutRegistration,
+  // withoutRegistration,
+  registration,
 } from "../../../../actions/authorization";
 import Alert from "./components/Alert/Alert";
 import AuthorizationWith from "../AuthorizationWith";
@@ -57,7 +58,13 @@ function Login({ googleUrl, facebookUrl }) {
     [dispatch, formLoginValue, formLoginState]
   );
   const anonymousPass = useCallback(() => {
-    dispatch(withoutRegistration());
+    const randomValue = Math.round(Math.random()*100000000);
+    const anonymousUserData = {
+      name: "Anonymous",
+      login: `Anonymous-${randomValue}`,
+      password: `Anonymous-${randomValue}`,
+    };
+    dispatch(registration(anonymousUserData));
   }, [dispatch]);
   return (
     <div className={style.containerLogin}>

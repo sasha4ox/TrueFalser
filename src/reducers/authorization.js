@@ -7,7 +7,7 @@ import {
   REGISTRATION_FAILURE,
   GET_GOOGLE_URL,
   AUTHORIZATION_SUCCESS,
-  WITHOUT_REGISTRATION,
+  // WITHOUT_REGISTRATION,
   GET_FACEBOOK_URL,
   CHOSEN_AUTHORIZATION_URL,
   SET_USER_LANGUAGES_START,
@@ -30,12 +30,12 @@ const initialState = {
 
 export default function authorization(state = initialState, action) {
   switch (action.type) {
-    case WITHOUT_REGISTRATION:
-      return {
-        ...state,
-        userData: action.data,
-        isLanguageSet: true,
-      };
+    // case WITHOUT_REGISTRATION:
+    //   return {
+    //     ...state,
+    //     userData: action.data,
+    //     isLanguageSet: true,
+    //   };
     case LOGIN_START:
       return {
         ...state,

@@ -26,7 +26,7 @@ const Radio = ({ input: { name }, label, options }) => {
   return (
     <>
       <h2 className={style.languageName}>{label}</h2>
-      <div className={style.wrapperForLaels}>
+      <div className={style.wrapperForLabels}>
         {options && Object.keys(options).map(renderRadioButtons)}
       </div>
     </>

@@ -48,7 +48,7 @@ function App() {
         <PrivateRoute path="/quiz" component={Quiz} />
         <PrivateRoute path="/profile" component={Profile} />
         <PrivateRoute path="/result" component={Result} />
-        <PrivateRoute path="/statistic" component={Statistics} />
+        <Route path="/statistic" component={Statistics}></Route>
 
         <Route
           path="/"

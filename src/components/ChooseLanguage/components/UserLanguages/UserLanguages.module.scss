@@ -1,5 +1,7 @@
 .form {
-  margin-top: 25px;
+  margin: 25px auto;
+  width: 30%;
+  min-width: 320px;
 }
 .selectLanguageText {
   text-align: center;
@@ -9,8 +11,18 @@
   display: flex;
   justify-content: space-around;
 }
+@media screen and(max-width: 632px) {
+  .wrapperButtons {
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+    button {
+      margin: 5px;
+    }
+  }
+}
 .buttonSkip,
-.wrapperButtons {
+.buttonSave {
   display: block;
   background: #2977c9;
   color: white;
@@ -23,6 +35,9 @@
   &:disabled {
     background: grey;
   }
+}
+.buttonSkip {
+  background: grey;
 }
 @media screen and (max-width: 435px) {
   .wrapperButtons {

@@ -5,6 +5,7 @@ import quiz from "./quiz";
 import authorization from "./authorization";
 import statistic from "./statistic";
 import statistics from "./statistics";
+import mobile from "./mobile";
 
 export default combineReducers({
   authorization,
@@ -12,4 +13,5 @@ export default combineReducers({
   quiz,
   statistic,
   statistics,
+  mobile,
 });

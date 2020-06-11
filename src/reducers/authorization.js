@@ -20,6 +20,7 @@ import {
   GET_USER_LANGUAGES_START,
   GET_USER_LANGUAGES_FAILURE,
   GET_USER_LANGUAGES_SUCCESS,
+  LOG_OUT,
 } from "../constants";
 import get from "lodash/get";
 
@@ -157,6 +158,10 @@ export default function authorization(state = initialState, action) {
           ...state.userData,
           userLanguages: [...action.payload],
         },
+      };
+    case LOG_OUT:
+      return {
+        ...initialState,
       };
     default:
       return state;

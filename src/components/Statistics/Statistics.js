@@ -1,7 +1,5 @@
 import React, { memo, useEffect } from "react";
 import _map from "lodash/map";
-import _toLower from "lodash/toLower";
-import _head from "lodash/head";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import { NavLink, Switch, Route } from "react-router-dom";
@@ -34,12 +32,10 @@ function Statistics() {
                 activeClassName={style.activeTab}
                 to={`/statistic/${item}`}
               >
-                {/* |([0-9])([A-Z]) */}
                 {item
                   .replace(/([a-z])([A-Z])/g, "$1 $2")
                   .replace(/([0-9])([A-Z])/g, "$1 $2")
-                  .toLowerCase()
-                  .replace(_head(item), _toLower(_head(item)))}
+                  .toLowerCase()}
               </NavLink>
             </li>
           );

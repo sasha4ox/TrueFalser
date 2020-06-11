@@ -102,7 +102,7 @@ function Quiz() {
                 type="button"
                 className={style.start_button}
                 onClick={startGame}
-                disabled={isNeedToRotate}
+                // disabled={isNeedToRotate}
               >
                 START QUIZ
               </button>

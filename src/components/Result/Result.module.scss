@@ -5,4 +5,10 @@
   h1 {
     text-align: center;
   }
+  a {
+    color: #007bff;
+    &:hover {
+      color: #007bff;
+    }
+  }
 }

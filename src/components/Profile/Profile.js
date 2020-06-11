@@ -7,9 +7,6 @@ import { getUserLanguages } from "../../actions/authorization";
 
 function Profile() {
   const userId = useSelector(property("authorization.userData.id"));
-  const userLanguagesIsLoading = useSelector(
-    property("authorization.getUserLanguagesIsLoading")
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {

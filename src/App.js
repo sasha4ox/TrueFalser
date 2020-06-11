@@ -2,7 +2,7 @@ import React, { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import property from "lodash/property";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
 import { getAllLanguagesStatistic } from "./actions/statistic";
 import Authorization from "./components/Authorization";
@@ -16,8 +16,10 @@ import Profile from "./components/Profile/Profile";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 import "./App.scss";
+import { toggleMenu } from "./actions/mobile";
 
 function App() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const userData = useSelector(property("authorization.userData"));
   const allLanguagesStatistic = useSelector(
@@ -30,6 +32,9 @@ function App() {
     }
   }, [allLanguagesStatistic, dispatch]);
 
+  useEffect(() => {
+    dispatch(toggleMenu(false));
+  }, [location]);
   return (
     <div className="app">
       <Switch>

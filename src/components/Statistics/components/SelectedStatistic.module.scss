@@ -17,3 +17,9 @@
   background-color: rgba(90, 162, 249, 0.7);
   height: 14px;
 }
+@media screen and(max-width:770px) {
+  .statistic {
+    width: 95%;
+    margin: 0 auto;
+  }
+}

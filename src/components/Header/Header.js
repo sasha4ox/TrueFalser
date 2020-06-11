@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef, useState } from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
@@ -46,13 +46,18 @@ function Header() {
           <div className={style.descriptionContainerDiv}>
             <p>
               Code Readability Quiz made by
-              <a href="https://www.eliftech.com/" target="_blank">
+              <a
+                href="https://www.eliftech.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Eliftech
               </a>
             </p>
             <a
               href="https://www.eliftech.com/"
               target="_blank"
+              rel="noopener noreferrer"
               className={style.elifechLink}
             >
               <img

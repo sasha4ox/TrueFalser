@@ -67,18 +67,17 @@ function ChooseLanguage() {
           <main className={style.choose_main}>
             <h1>Select language for Quiz</h1>
             <div className={style.choose_lang}>
-              {!isEmpty(userLanguages) && (
-                <form className={style.formLanguagesChange}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="showMyLanguages"
-                      onChange={handleChange}
-                    />
-                    Show all languages
-                  </label>
-                </form>
-              )}
+              <form className={style.formLanguagesChange}>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="showMyLanguages"
+                    onChange={handleChange}
+                  />
+                  Show all languages
+                </label>
+              </form>
+
               {isShowMyLanguages && (
                 <>
                   {isLanguageLoading && <Spinner />}
@@ -98,7 +97,7 @@ function ChooseLanguage() {
                 </>
               )}
 
-              {!isShowMyLanguages && (
+              {!isShowMyLanguages && !isEmpty(userLanguages) && (
                 <>
                   {_map(userLanguages, (language) => {
                     return (

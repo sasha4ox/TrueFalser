@@ -27,6 +27,7 @@ import {
   GET_USER_LANGUAGES_START,
   GET_USER_LANGUAGES_FAILURE,
   GET_USER_LANGUAGES_SUCCESS,
+  LOG_OUT,
 } from "../constants";
 
 import fetchAsync from "../utils/fetch";
@@ -394,5 +395,11 @@ export function getUserLanguages(userId) {
     } catch (error) {
       return dispatch(getUserLanguagesFailure(error.message));
     }
+  };
+}
+
+export function LogOut() {
+  return {
+    type: LOG_OUT,
   };
 }

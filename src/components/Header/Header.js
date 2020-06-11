@@ -1,81 +1,112 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
 
 import userSvg from "../../assets/user.svg";
 import trueFalserLogo from "../../assets/true_falser_logo.png";
 import style from "./Header.module.scss";
 import elifechLogo from "../../assets/eliftech.ico";
+import { LogOut } from "../../actions/authorization";
+import { toggleMenu } from "../../actions/mobile";
 
 function Header() {
+  const dispatch = useDispatch();
   const currentUserName = useSelector(property("authorization.userData.name"));
-  const headerWidth = useRef();
-  const initialWidth = null;
-  const mobileWidth = 450;
-  const [currentWidth, setCurrentWidth] = useState(initialWidth);
-  const getWindowWidth = useCallback(() => {
-    setCurrentWidth(headerWidth.current.offsetWidth);
-  }, [currentWidth]);
+  const isMenuOpen = useSelector(property("mobile.isMenuOpen"));
 
-  useEffect(() => {
-    if (currentWidth === initialWidth) {
-      getWindowWidth();
-    }
-    headerWidth.current.addEventListener("headerWidth", getWindowWidth);
-    const currentHeaderWidth = headerWidth.current;
-    return function removeHeaderWidthListener() {
-      if (currentWidth === headerWidth.current.offsetWidth) {
-        currentHeaderWidth.removeEventListener("headerWidth", getWindowWidth);
-      }
-    };
-  }, [currentWidth, getWindowWidth]);
+  const menuToggleHandler = useCallback(() => {
+    dispatch(toggleMenu(!isMenuOpen));
+  }, [dispatch, isMenuOpen]);
+
+  const logOutHandler = useCallback(() => {
+    dispatch(LogOut());
+  }, [dispatch]);
 
   return (
-    <header ref={headerWidth} className={style.header}>
-      <div className={style.appInfo}>
-        <div className={style.headerLinks}>
-          <h2 className={style.logo}>
-            <Link to="/">
+    <header className={style.header}>
+      <nav
+        className={classnames(
+          "navbar navbar-expand-lg navbar-dark bg-primary",
+          style.bgPrimary
+        )}
+      >
+        <div className={style.infoWrapper}>
+          <div className={style.wrapperLogo}>
+            <Link to="/" className={style.logo}>
               <img alt="Logo" src={trueFalserLogo} />
             </Link>
-          </h2>
-          <h2 className={style.logoText}>
-            <Link to="/">TrueFalsr</Link>
-          </h2>
-          {/* <div className="statistic">*/}
-          {/*  <Link to="/statistic/all-languages-answers">Statistic</Link>*/}
-          {/*</div> */}
-        </div>
-        <div className={style.descriptionContainerDiv}>
-          <span>Code Readability Quiz</span>
-          {(isEmpty(currentUserName) && currentWidth <= mobileWidth) ||
-          currentWidth >= mobileWidth ? (
-            <div className={style.descriptionContainer}>
-              <span>made by </span>
+
+            <Link to="/" className={style.home}>
+              TrueFalsr
+            </Link>
+          </div>
+          <div className={style.descriptionContainerDiv}>
+            <p>
+              Code Readability Quiz made by
               <a href="https://www.eliftech.com/" target="_blank">
-                <span>Eliftech </span>
-                <img alt="Eliftech" src={elifechLogo} />
+                Eliftech
               </a>
+            </p>
+            <a
+              href="https://www.eliftech.com/"
+              target="_blank"
+              className={style.elifechLink}
+            >
+              <img
+                alt="Eliftech"
+                src={elifechLogo}
+                className={style.elifechLogo}
+              />
+            </a>
+          </div>
+        </div>
+        <button
+          className={classnames("navbar-toggler", {
+            [`collapsed`]: !isMenuOpen,
+          })}
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          onClick={menuToggleHandler}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          className={classnames("collapse navbar-collapse", {
+            [`show`]: isMenuOpen,
+          })}
+          id="navbarSupportedContent"
+        >
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item active">
+              <Link
+                to="/statistic/averageTimeOfCorrectAnswers"
+                className="nav-link"
+              >
+                Statistic <span className="sr-only">(current)</span>
+              </Link>
+            </li>
+          </ul>
+          {!isEmpty(currentUserName) && (
+            <div className={style.wrapperUserLogo}>
+              <button type="button" onClick={logOutHandler}>
+                Log out
+              </button>
+              <Link to="/profile" className={style.userDataContainer}>
+                <img alt={currentUserName} src={userSvg} />
+
+                <span>{currentUserName}</span>
+              </Link>
             </div>
-          ) : (
-            <span />
           )}
         </div>
-      </div>
-      <div className={style.links}>
-        <div className={style.statistic}>
-          <Link to="/statistic/averageTimeOfCorrectAnswers">Statistic</Link>
-        </div>
-      </div>
-
-      <Link to="/profile" className={style.userDataContainer}>
-        {!isEmpty(currentUserName) && currentWidth >= mobileWidth && (
-          <img alt={currentUserName} src={userSvg} />
-        )}
-        {!isEmpty(currentUserName) && <span>{currentUserName}</span>}
-      </Link>
+      </nav>
     </header>
   );
 }

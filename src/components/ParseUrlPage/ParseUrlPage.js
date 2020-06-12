@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from "react";
 import queryString from "query-string";
 import isEmpty from "lodash/isEmpty";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import property from "lodash/property";
 import get from "lodash/get";
 import { Redirect } from "react-router-dom";
@@ -14,12 +14,10 @@ import Spinner from "../Spinner";
 
 function ParseUrlPage({ chosenAuthorizationUrl }) {
   const dispatch = useDispatch();
-  const userData = useSelector(property("authorization.userData"));
-  // const chosenAuthorizationUrl = useSelector(
-  //     property(
-  //         'authorization.chosenAuthorizationUrl'
-  //     )
-  // );
+  const userData = useSelector(
+    property("authorization.userData"),
+    shallowEqual
+  );
   const code = window.location.search;
   const parsedCode = queryString.parse(code);
   console.info("ParseUrlPage!!!", code, parsedCode);

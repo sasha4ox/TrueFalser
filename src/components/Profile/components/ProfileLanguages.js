@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useSelector, useDispatch, connect } from "react-redux";
+import { useSelector, useDispatch, connect, shallowEqual } from "react-redux";
 import _map from "lodash/map";
 import get from "lodash/get";
 import _forEach from "lodash/forEach";
@@ -27,12 +27,22 @@ function ProfileLanguages() {
     useSelector(property("quiz.language.languages")),
     (language) => language.id !== 1000
   );
-  const languagesIsLoading = useSelector(property("quiz.language.loading"));
-  const formValue = useSelector(property("form.language.values"));
-  const formValueInitial = useSelector(property("form.language.initial"));
-  const userId = useSelector(property("authorization.userData.id"));
+  const languagesIsLoading = useSelector(
+    property("quiz.language.loading"),
+    shallowEqual
+  );
+  const formValue = useSelector(property("form.language.values"), shallowEqual);
+  const formValueInitial = useSelector(
+    property("form.language.initial"),
+    shallowEqual
+  );
+  const userId = useSelector(
+    property("authorization.userData.id"),
+    shallowEqual
+  );
   const userLanguages = useSelector(
-    property("authorization.userData.userLanguages")
+    property("authorization.userData.userLanguages"),
+    shallowEqual
   );
 
   const dispatch = useDispatch();

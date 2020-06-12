@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { Redirect } from "react-router-dom";
 import property from "lodash/property";
 import throttle from "lodash/throttle";
@@ -21,17 +21,35 @@ import style from "./Quiz.module.scss";
 let interval;
 
 function Quiz() {
-  const isQuizFinished = useSelector(property("quiz.isQuizFinished"));
-  const isQuizStarted = useSelector(property("quiz.isQuizStarted"));
-  const userId = useSelector(property("authorization.userData.id"));
+  const isQuizFinished = useSelector(
+    property("quiz.isQuizFinished"),
+    shallowEqual
+  );
+  const isQuizStarted = useSelector(
+    property("quiz.isQuizStarted"),
+    shallowEqual
+  );
+  const userId = useSelector(
+    property("authorization.userData.id"),
+    shallowEqual
+  );
   const languageIds = _map(
-    useSelector(property("quiz.language.selectedLanguage")),
+    useSelector(property("quiz.language.selectedLanguage"), shallowEqual),
     (language) => language.id
   );
-  const isNeedToRotate = useSelector(property("quiz.isNeedToRotate"));
-  const secondsToEndQuiz = useSelector(property("quiz.timer.secondsToEnd"));
-  const isTimerStart = useSelector(property("quiz.timer.isTimerStart"));
-  const isShowHeader = useSelector(property("quiz.isShowHeader"));
+  const isNeedToRotate = useSelector(
+    property("quiz.isNeedToRotate"),
+    shallowEqual
+  );
+  const secondsToEndQuiz = useSelector(
+    property("quiz.timer.secondsToEnd"),
+    shallowEqual
+  );
+  const isTimerStart = useSelector(
+    property("quiz.timer.isTimerStart"),
+    shallowEqual
+  );
+  const isShowHeader = useSelector(property("quiz.isShowHeader"), shallowEqual);
   const dispatch = useDispatch();
 
   const secondsWhenQuizEnd = 0;

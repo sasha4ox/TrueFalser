@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import _map from "lodash/map";
 import get from "lodash/get";
 import property from "lodash/property";
-import isEmpty from "lodash/isEmpty";
 import _filter from "lodash/filter";
 
 import Radio from "./UserLanguagesFieldRadio";
@@ -19,12 +18,18 @@ import options from "../../../../constants/optionsForSelectLanguage";
 
 function UserLanguages() {
   const languages = _filter(
-    useSelector(property("quiz.language.languages")),
+    useSelector(property("quiz.language.languages"), shallowEqual),
     (language) => language.id !== 1000
   );
-  const languagesIsLoading = useSelector(property("quiz.language.loading"));
-  const formValue = useSelector(property("form.language.values"));
-  const userId = useSelector(property("authorization.userData.id"));
+  const languagesIsLoading = useSelector(
+    property("quiz.language.loading"),
+    shallowEqual
+  );
+  const formValue = useSelector(property("form.language.values"), shallowEqual);
+  const userId = useSelector(
+    property("authorization.userData.id"),
+    shallowEqual
+  );
   const dispatch = useDispatch();
 
   const skipButton = useCallback(() => {

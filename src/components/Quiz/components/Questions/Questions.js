@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import property from "lodash/property";
 import _map from "lodash/map";
 import _toLower from "lodash/toLower";
@@ -25,23 +25,37 @@ function Questions() {
   }, []);
 
   const dispatch = useDispatch();
-  const UserId = useSelector(property("authorization.userData.id"));
-  const testInfo = useSelector(property("quiz.test"));
-  const questions = useSelector(property("quiz.allQuestions.questions"));
-  const answeredQuestions = useSelector(property("quiz.allQuestions.answered"));
+  const UserId = useSelector(
+    property("authorization.userData.id"),
+    shallowEqual
+  );
+  const testInfo = useSelector(property("quiz.test"), shallowEqual);
+  const questions = useSelector(
+    property("quiz.allQuestions.questions"),
+    shallowEqual
+  );
+  const answeredQuestions = useSelector(
+    property("quiz.allQuestions.answered"),
+    shallowEqual
+  );
   const selectedLanguage = _map(
-    useSelector(property("quiz.language.selectedLanguage")),
+    useSelector(property("quiz.language.selectedLanguage"), shallowEqual),
     (language) => language.id
   );
   const currentQuestion = useSelector(
-    property("quiz.allQuestions.currentQuestion[0]")
+    property("quiz.allQuestions.currentQuestion[0]"),
+    shallowEqual
   );
   const currentQuestionText = useSelector(
-    property("quiz.allQuestions.currentQuestion[0].text")
+    property("quiz.allQuestions.currentQuestion[0].text"),
+    shallowEqual
   );
   const convertedStrings = splitCode(currentQuestionText);
   const currentQuestionLanguage = _toLower(
-    useSelector(property("quiz.allQuestions.currentQuestion[0].Language.name"))
+    useSelector(
+      property("quiz.allQuestions.currentQuestion[0].Language.name"),
+      shallowEqual
+    )
   );
 
   const next = useCallback(

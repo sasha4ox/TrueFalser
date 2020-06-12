@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import { Link } from "react-router-dom";
@@ -14,8 +14,11 @@ import { toggleMenu } from "../../actions/mobile";
 
 function Header() {
   const dispatch = useDispatch();
-  const currentUserName = useSelector(property("authorization.userData.name"));
-  const isMenuOpen = useSelector(property("mobile.isMenuOpen"));
+  const currentUserName = useSelector(
+    property("authorization.userData.name"),
+    shallowEqual
+  );
+  const isMenuOpen = useSelector(property("mobile.isMenuOpen"), shallowEqual);
 
   const menuToggleHandler = useCallback(() => {
     dispatch(toggleMenu(!isMenuOpen));

@@ -4,7 +4,7 @@ import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
 import { NavLink, Switch, Route } from "react-router-dom";
 import classnames from "classnames";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import style from "./Statistics.module.scss";
 
@@ -14,7 +14,7 @@ import SelectedStatistic from "./components/SelectedStatistic";
 
 function Statistics() {
   const dispatch = useDispatch();
-  const statistics = useSelector(property("statistics.data"));
+  const statistics = useSelector(property("statistics.data"), shallowEqual);
   const statisticsMetric = !isEmpty(statistics) && Object.keys(statistics);
   useEffect(() => {
     dispatch(getStatistics());

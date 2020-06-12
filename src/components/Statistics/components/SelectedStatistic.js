@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import property from "lodash/property";
 import _map from "lodash/map";
 import _reduce from "lodash/reduce";
@@ -8,7 +8,10 @@ import style from "./SelectedStatistic.module.scss";
 
 function SelectedStatistic() {
   const { id } = useParams();
-  const currentStatistic = useSelector(property(`statistics.data.${id}`));
+  const currentStatistic = useSelector(
+    property(`statistics.data.${id}`),
+    shallowEqual
+  );
   const allStatisticsAmountValue = _reduce(
     currentStatistic,
     (accumulator, item) => {

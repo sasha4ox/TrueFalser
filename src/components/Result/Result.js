@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import property from "lodash/property";
 import get from "lodash/get";
 
@@ -11,8 +11,8 @@ import Header from "../Header/Header";
 
 function Result() {
   const dispatch = useDispatch();
-  const testId = useSelector(property("quiz.test.id"));
-  const testResult = useSelector(property("quiz.result"));
+  const testId = useSelector(property("quiz.test.id"), shallowEqual);
+  const testResult = useSelector(property("quiz.result"), shallowEqual);
 
   useEffect(() => {
     dispatch(getResult(testId));

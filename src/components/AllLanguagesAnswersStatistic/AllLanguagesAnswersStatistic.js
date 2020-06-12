@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import Circle from "react-circle";
 import isEmpty from "lodash/isEmpty";
 import map from "lodash/map";
@@ -13,7 +13,8 @@ import style from "./AllLanguagesAnswersStatistic.module.scss";
 
 function AllLanguagesAnswersStatistic() {
   const allLanguagesAnswersStatistic = useSelector(
-    property("statistic.allLanguagesAnswersStatistic")
+    property("statistic.allLanguagesAnswersStatistic"),
+    shallowEqual
   );
   return (
     <>

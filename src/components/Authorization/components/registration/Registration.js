@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Field, reduxForm } from "redux-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { Link } from "react-router-dom";
 import property from "lodash/property";
 import get from "lodash/get";
@@ -44,8 +44,11 @@ const validate = (value) => {
 };
 function Registration({ googleUrl, facebookUrl }) {
   const dispatch = useDispatch();
-  const registrationForm = useSelector(property("form.Registration"));
-  const loginState = useSelector(property("authorization"));
+  const registrationForm = useSelector(
+    property("form.Registration"),
+    shallowEqual
+  );
+  const loginState = useSelector(property("authorization"), shallowEqual);
   const registrationHandler = useCallback(
     (event) => {
       event.preventDefault();

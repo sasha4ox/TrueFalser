@@ -1,15 +1,20 @@
 import React, { memo } from "react";
 import Circle from "react-circle";
-import { useSelector } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import property from "lodash/property";
 
 import style from "./CountdownTimer.module.scss";
 
 function CountdownTimer() {
-  const secondsToEndQuiz =
-    useSelector(property("quiz.timer.secondsToEnd")) || 60;
   const startSeconds = 60;
-  const percentage = Math.floor(secondsToEndQuiz / (startSeconds / 100));
+  const oneHundredPercent = 100;
+  const twentyFivePercent = 25;
+  const secondsToEndQuiz =
+    useSelector(property("quiz.timer.secondsToEnd"), shallowEqual) ||
+    startSeconds;
+  const percentage = Math.floor(
+    secondsToEndQuiz / (startSeconds / oneHundredPercent)
+  );
   const currentQuestionLanguage = useSelector(
     property("quiz.allQuestions.currentQuestion[0].Language.name")
   );
@@ -25,7 +30,9 @@ function CountdownTimer() {
         size={150}
         lineWidth={30}
         progress={percentage}
-        progressColor={percentage > 25 ? "cornflowerblue" : "red"}
+        progressColor={
+          percentage > twentyFivePercent ? "cornflowerblue" : "red"
+        }
         bgColor="whitesmoke"
         showPercentage={false}
         showPercentageSymbol={false}

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import property from "lodash/property";
 import isEmpty from "lodash/isEmpty";
@@ -14,9 +14,18 @@ import Header from "../Header/Header";
 
 function Authorization() {
   const dispatch = useDispatch();
-  const userData = useSelector(property("authorization.userData"));
-  const googleUrl = useSelector(property("authorization.googleUrl"));
-  const facebookUrl = useSelector(property("authorization.facebookUrl"));
+  const userData = useSelector(
+    property("authorization.userData"),
+    shallowEqual
+  );
+  const googleUrl = useSelector(
+    property("authorization.googleUrl"),
+    shallowEqual
+  );
+  const facebookUrl = useSelector(
+    property("authorization.facebookUrl"),
+    shallowEqual
+  );
   useEffect(() => {
     if (isEmpty(googleUrl)) {
       dispatch(getGoogleAuthorizationUrl());

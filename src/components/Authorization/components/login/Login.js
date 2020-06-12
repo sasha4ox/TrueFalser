@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Link } from "react-router-dom";
 import property from "lodash/property";
@@ -42,9 +42,12 @@ const validate = (value) => {
 };
 
 function Login({ googleUrl, facebookUrl }) {
-  const formLoginState = useSelector(property("form.Login"));
-  const formLoginValue = useSelector(property("form.Login.values"));
-  const loginState = useSelector(property("authorization"));
+  const formLoginState = useSelector(property("form.Login"), shallowEqual);
+  const formLoginValue = useSelector(
+    property("form.Login.values"),
+    shallowEqual
+  );
+  const loginState = useSelector(property("authorization"), shallowEqual);
   const dispatch = useDispatch();
   const loginHandler = useCallback(
     (event) => {
@@ -58,7 +61,7 @@ function Login({ googleUrl, facebookUrl }) {
     [dispatch, formLoginValue, formLoginState]
   );
   const anonymousPass = useCallback(() => {
-    const randomValue = Math.round(Math.random()*100000000);
+    const randomValue = Math.round(Math.random() * 100000000);
     const anonymousUserData = {
       name: "Anonymous",
       login: `Anonymous-${randomValue}`,
